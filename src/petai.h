@@ -13,6 +13,7 @@ public:
 signals:
 private:
     QString petGreeting;
+
 };
 
 #endif // PETAI_H
