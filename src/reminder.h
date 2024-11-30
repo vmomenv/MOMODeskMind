@@ -2,14 +2,18 @@
 #define REMINDER_H
 
 #include <QObject>
+#include <QStringListModel>
 
 class Reminder : public QObject
 {
     Q_OBJECT
+
 public:
     explicit Reminder(QObject *parent = nullptr);
+    QStringListModel* getReminders();
 
-signals:
+private:
+    QStringList reminders;
 };
 
 #endif // REMINDER_H

@@ -24,5 +24,8 @@ private:
     PetAI *petAI;
     WeatherAPI *weatherAPI;
     Reminder *reminder;
+
+private slots:
+    void onAskButtonClicked();
 };
 #endif // MAINWINDOW_H
