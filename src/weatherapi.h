@@ -8,7 +8,7 @@ class WeatherAPI : public QObject
     Q_OBJECT
 public:
     explicit WeatherAPI(QObject *parent = nullptr);
-
+    QString getCurrentWeather();
 signals:
 };
 

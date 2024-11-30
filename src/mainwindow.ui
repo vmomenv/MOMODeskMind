@@ -19,12 +19,25 @@
      <rect>
       <x>100</x>
       <y>120</y>
-      <width>141</width>
+      <width>331</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>【问候语】</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weatherLabel">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>210</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>天气控件</string>
     </property>
    </widget>
   </widget>

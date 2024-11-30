@@ -10,6 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
     petAI = new PetAI(this);
     ui->petDisplay->setText(petAI->getPetGreeting());
 
+    weatherAPI = new WeatherAPI(this);
+    ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
+
 
 }
 
