@@ -23,6 +23,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(src
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        petai.h petai.cpp
+        weatherapi.h weatherapi.cpp
+        reminder.h reminder.cpp
+        settings.h settings.cpp
+        setting.cpp
+        resources.qrc
+        settings.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET src APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
