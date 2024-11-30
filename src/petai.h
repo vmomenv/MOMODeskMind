@@ -3,13 +3,16 @@
 
 #include <QObject>
 
-class petai : public QObject
+class PetAI : public QObject
 {
     Q_OBJECT
 public:
-    explicit petai(QObject *parent = nullptr);
-
+    explicit PetAI (QObject *parent = nullptr);
+    QString getPetGreeting();
+    QString getResponse(const QString &question);
 signals:
+private:
+    QString petGreeting;
 };
 
 #endif // PETAI_H

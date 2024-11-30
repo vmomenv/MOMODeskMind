@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "petai.h"
+#include "weatherapi.h"
+#include "reminder.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -19,5 +21,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    PetAI *petAI;
+    WeatherAPI *weatherAPI;
+    Reminder *reminder;
 };
 #endif // MAINWINDOW_H

@@ -3,11 +3,11 @@
 
 #include <QObject>
 
-class weatherapi : public QObject
+class WeatherAPI : public QObject
 {
     Q_OBJECT
 public:
-    explicit weatherapi(QObject *parent = nullptr);
+    explicit WeatherAPI(QObject *parent = nullptr);
 
 signals:
 };

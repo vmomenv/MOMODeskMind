@@ -1,5 +1,5 @@
 #include "weatherapi.h"
 
-weatherapi::weatherapi(QObject *parent)
+WeatherAPI::WeatherAPI(QObject *parent)
     : QObject{parent}
 {}

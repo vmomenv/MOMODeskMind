@@ -3,11 +3,11 @@
 
 #include <QObject>
 
-class reminder : public QObject
+class Reminder : public QObject
 {
     Q_OBJECT
 public:
-    explicit reminder(QObject *parent = nullptr);
+    explicit Reminder(QObject *parent = nullptr);
 
 signals:
 };

@@ -1,5 +1,5 @@
 #include "reminder.h"
 
-reminder::reminder(QObject *parent)
+Reminder::Reminder(QObject *parent)
     : QObject{parent}
 {}
