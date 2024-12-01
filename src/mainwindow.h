@@ -27,5 +27,7 @@ private:
 
 private slots:
     void onAskButtonClicked();
+    void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
+
 };
 #endif // MAINWINDOW_H

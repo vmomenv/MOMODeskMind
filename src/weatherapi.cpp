@@ -61,19 +61,18 @@ void WeatherAPI::parseWeatherResponse(QNetworkReply* reply)
     double tempC = jsonObj["current"].toObject()["temp_c"].toDouble();
     QString condition = jsonObj["current"].toObject()["condition"].toObject()["text"].toString();
 
-    qDebug() << "Location:" << location;
-    qDebug() << "Temperature:" << tempC << "°C";
-    qDebug() << "Condition:" << condition;
+    emit weatherDataUpdated(location, tempC, condition);
+
 }
 
 QString WeatherAPI::getCurrentWeather()
 {
 
     QString location = "auto:ip";
+
     QNetworkRequest request(QUrl(buildApiUrl(location)));
     networkManager->get(request);
-
+    qDebug()<<QUrl(buildApiUrl(location));
     return "获取天气中...";
 }
-
 

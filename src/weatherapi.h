@@ -24,7 +24,11 @@ private:
 
     QString readApiKeyFromConfig();  // 从配置文件读取API Key
     QString buildApiUrl(const QString &location);  // 构建API请求URL
+private slots:
     void parseWeatherResponse(QNetworkReply* reply); // 处理网络请求的响应
+signals:
+    void weatherDataUpdated(const QString &location, double tempC, const QString &condition);
+
 };
 
 #endif // WEATHERAPI_H
