@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "petai.h"
-
+#include <QMessageBox>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     // 初始化日程提醒
     reminder = new Reminder(this);
     ui->reminderList->setModel(reminder->getReminders());
+    connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::onAddReminderButtonClicked);
+    connect(ui->removeReminderButton, &QPushButton::clicked, this, &MainWindow::onRemoveReminderButtonClicked);
+    connect(reminder, &Reminder::reminderTriggered, this, &MainWindow::onReminderTriggered);
 
     connect(ui->askButton, &QPushButton::clicked, this, &MainWindow::onAskButtonClicked);
 }
@@ -42,7 +45,37 @@ void MainWindow::updateWeatherDisplay(const QString &location, double tempC, con
                               .arg(condition);
     ui->weatherLabel->setText(weatherText);
 }
+void MainWindow::onAddReminderButtonClicked()
+{
+    QString time = ui->timeInput->text();
+    QString content = ui->contentInput->text();
 
+    if (time.isEmpty() || content.isEmpty()) {
+        QMessageBox::warning(this, "输入错误", "时间和内容不能为空！");
+        return;
+    }
+
+    reminder->addReminder(time, content);
+
+    // 清空输入框
+    ui->timeInput->clear();
+    ui->contentInput->clear();
+}
+
+void MainWindow::onRemoveReminderButtonClicked()
+{
+    QModelIndex index = ui->reminderList->currentIndex();
+    if (index.isValid()) {
+        reminder->removeReminder(index.row());
+    } else {
+        QMessageBox::warning(this, "操作错误", "请先选择一个提醒！");
+    }
+}
+
+void MainWindow::onReminderTriggered(const QString &content)
+{
+    QMessageBox::information(this, "提醒", content);
+}
 MainWindow::~MainWindow()
 {
     delete ui;

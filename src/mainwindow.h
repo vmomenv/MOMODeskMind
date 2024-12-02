@@ -28,6 +28,10 @@ private:
 private slots:
     void onAskButtonClicked();
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
+    void onAddReminderButtonClicked();
+    void onRemoveReminderButtonClicked();
+    void onReminderTriggered(const QString &content);
+private:
 
 };
 #endif // MAINWINDOW_H
