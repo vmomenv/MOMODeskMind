@@ -1,2 +1,4 @@
 config/weather-config.json
 .vscode
+build
+.cache
