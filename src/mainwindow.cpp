@@ -47,29 +47,32 @@ void MainWindow::updateWeatherDisplay(const QString &location, double tempC, con
 }
 void MainWindow::onAddReminderButtonClicked()
 {
-    QString time = ui->timeInput->text();
-    QString content = ui->contentInput->text();
+    QString reminderTime = ui->reminderTimeInput->text();
+    QString reminderContent = ui->reminderContentInput->text();
+    QString reminderText = reminderTime + " - " + reminderContent;
 
-    if (time.isEmpty() || content.isEmpty()) {
-        QMessageBox::warning(this, "输入错误", "时间和内容不能为空！");
-        return;
-    }
+    // 调用 Reminder 类的添加方法
+    reminder->addReminder(reminderText);  // 这里直接使用 reminder 对象
 
-    reminder->addReminder(time, content);
-
-    // 清空输入框
-    ui->timeInput->clear();
-    ui->contentInput->clear();
+    // 更新 UI
+    ui->reminderList->setModel(reminder->getReminders());
 }
 
 void MainWindow::onRemoveReminderButtonClicked()
 {
-    QModelIndex index = ui->reminderList->currentIndex();
-    if (index.isValid()) {
-        reminder->removeReminder(index.row());
-    } else {
-        QMessageBox::warning(this, "操作错误", "请先选择一个提醒！");
+    // 获取选中的提醒项
+    QModelIndex selectedIndex = ui->reminderList->selectionModel()->currentIndex();
+    if (!selectedIndex.isValid()) {
+        return;  // 如果没有选中任何项，则返回
     }
+
+    QString reminderText = selectedIndex.data(Qt::DisplayRole).toString();
+
+    // 调用 Reminder 类的删除方法
+    reminder->removeReminder(reminderText);
+
+    // 更新 UI
+    ui->reminderList->setModel(reminder->getReminders());
 }
 
 void MainWindow::onReminderTriggered(const QString &content)
