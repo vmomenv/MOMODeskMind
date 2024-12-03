@@ -13,7 +13,7 @@ Reminder::Reminder(QObject *parent)
     // 加载数据库中的提醒数据
     loadReminders();
     connect(checkTimer, &QTimer::timeout, this, &Reminder::checkReminders);
-    checkTimer->start(1000); // 每秒检查一次
+    checkTimer->start(60000);
 }
 
 Reminder::~Reminder()

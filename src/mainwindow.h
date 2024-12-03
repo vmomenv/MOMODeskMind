@@ -5,6 +5,7 @@
 #include "petai.h"
 #include "weatherapi.h"
 #include "reminder.h"
+#include <QMouseEvent>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,11 @@ private:
     WeatherAPI *weatherAPI;
     Reminder *reminder;
 
+    QPoint offset;  // 鼠标按下时的偏移量，用于拖动窗口
+protected:
+    // 鼠标事件
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 private slots:
     void onAskButtonClicked();
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);

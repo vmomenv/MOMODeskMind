@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    setWindowFlags(Qt::FramelessWindowHint);
+    setStyleSheet("background-color: #F3F4F6;");
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
     // 连接天气API的信号到updateWeatherDisplay槽函数
@@ -78,6 +79,22 @@ void MainWindow::onRemoveReminderButtonClicked()
 void MainWindow::onReminderTriggered(const QString &content)
 {
     QMessageBox::information(this, "提醒", content);
+}
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        // 获取鼠标按下的位置
+        offset = event->globalPos() - frameGeometry().topLeft();
+    }
+}
+
+// 处理鼠标移动事件
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton) {
+        // 根据鼠标的移动更新窗口的位置
+        move(event->globalPos() - offset);
+    }
 }
 MainWindow::~MainWindow()
 {
