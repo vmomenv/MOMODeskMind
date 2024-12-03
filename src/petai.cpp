@@ -3,7 +3,7 @@
 PetAI ::PetAI (QObject *parent)
     : QObject{parent}
 {
-    petGreeting = "你好，有任何问题我都可以帮你解答。";
+    petGreeting = "你好!有什么可以帮你的吗?";
 
 }
 QString PetAI::getPetGreeting()

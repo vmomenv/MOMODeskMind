@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 创建宠物AI对象
     petAI = new PetAI(this);
-    ui->petDisplay->setText(petAI->getPetGreeting());
+    ui->answerLabel->setText(petAI->getPetGreeting());
 
     // 初始化天气API并请求天气数据
     ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
