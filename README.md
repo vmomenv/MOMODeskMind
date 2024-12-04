@@ -20,7 +20,7 @@
 ### 4. 安装与运行
 #### 4.1 环境准备
 - **操作系统支持**：现仅支持windows系统
-- **依赖软件**：Qt6 SDK, CMake, GCC/G++
+- **依赖软件**：Qt6 SDK（额外下载Qt6WebEngineWidgets）, CMake, GCC/G++
 
 #### 4.2 安装步骤
 1. 克隆项目仓库：
