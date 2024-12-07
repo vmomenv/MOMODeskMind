@@ -2,6 +2,8 @@
 #include "./ui_mainwindow.h"
 #include "petai.h"
 #include <QMessageBox>
+#include <QPainter>
+#include <QImage>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -103,7 +105,22 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 void MainWindow::loadAvatar(){
     QPixmap avatar(":/momen.jpg");
     if(!avatar.isNull()){
-        ui->avatarLabel->setPixmap(avatar.scaled(128,128,Qt::KeepAspectRatio));
+        QPixmap circularAvatar = avatar.scaled(100, 100, Qt::KeepAspectRatio); // 调整头像大小
+        QBitmap mask(circularAvatar.size());
+        mask.fill(Qt::color0);  // 填充为透明
+        QPainter painter(&mask);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setBrush(Qt::color1);  // 用黑色填充圆形区域
+        painter.setPen(Qt::NoPen);
+        painter.drawEllipse(0, 0, circularAvatar.width(), circularAvatar.height());
+        painter.end();
+
+        // 使用遮罩将头像裁剪成圆形
+        circularAvatar.setMask(mask);
+
+        ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
+        ui->avatarLabel->move(128, 16);
+
     }else{
         qWarning()<<"头像加载失败！";
     }
