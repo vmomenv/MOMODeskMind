@@ -151,7 +151,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="avatar">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -169,6 +169,9 @@
     <property name="text">
      <string>头像</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -177,7 +180,7 @@
      <x>0</x>
      <y>0</y>
      <width>384</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

@@ -6,5 +6,6 @@
         <file>settings_pages/settings.htm</file>
         <file>settings_pages/tailwind-config.min.js</file>
         <file>settings_pages/tailwind-custom.css</file>
+        <file>momen.jpg</file>
     </qresource>
 </RCC>
