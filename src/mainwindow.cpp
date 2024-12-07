@@ -11,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     setStyleSheet("background-color: #F3F4F6;");
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
+
+    loadAvatar();
+    // connect(ui->changeAvatarButton, &QPushButton::clicked, this, &MainWindow::onChangeAvatarButtonClicked);
+
     // 连接天气API的信号到updateWeatherDisplay槽函数
     connect(weatherAPI, &WeatherAPI::weatherDataUpdated, this, &MainWindow::updateWeatherDisplay);
 
@@ -94,6 +98,14 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() & Qt::LeftButton) {
         // 根据鼠标的移动更新窗口的位置
         move(event->globalPos() - offset);
+    }
+}
+void MainWindow::loadAvatar(){
+    QPixmap avatar(":/momen.jpg");
+    if(!avatar.isNull()){
+        ui->avatarLabel->setPixmap(avatar.scaled(128,128,Qt::KeepAspectRatio));
+    }else{
+        qWarning()<<"头像加载失败！";
     }
 }
 MainWindow::~MainWindow()

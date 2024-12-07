@@ -151,7 +151,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="avatar">
+   <widget class="QLabel" name="avatarLabel">
     <property name="geometry">
      <rect>
       <x>110</x>

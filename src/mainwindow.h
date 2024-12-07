@@ -25,7 +25,8 @@ private:
     PetAI *petAI;
     WeatherAPI *weatherAPI;
     Reminder *reminder;
-
+    void loadAvatar();
+    QString avatarFilePath;
     QPoint offset;  // 鼠标按下时的偏移量，用于拖动窗口
 protected:
     // 鼠标事件
@@ -37,6 +38,7 @@ private slots:
     void onAddReminderButtonClicked();
     void onRemoveReminderButtonClicked();
     void onReminderTriggered(const QString &content);
+    // void onChangeAvatarButtonClicked();
 private:
 
 };
