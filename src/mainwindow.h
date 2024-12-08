@@ -38,6 +38,7 @@ private slots:
     void onAddReminderButtonClicked();
     void onRemoveReminderButtonClicked();
     void onReminderTriggered(const QString &content);
+    void openSettingsDialog();
     // void onChangeAvatarButtonClicked();
 private:
 

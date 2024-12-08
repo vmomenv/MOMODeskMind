@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <QImage>
+#include "settings.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 连接天气API的信号到updateWeatherDisplay槽函数
     connect(weatherAPI, &WeatherAPI::weatherDataUpdated, this, &MainWindow::updateWeatherDisplay);
+    connect(ui->settingsButton, &QPushButton::clicked, this, &MainWindow::openSettingsDialog);
 
     // 创建宠物AI对象
     petAI = new PetAI(this);
@@ -103,7 +105,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 void MainWindow::loadAvatar(){
-    QPixmap avatar(":/momen.jpg");
+    QPixmap avatar(":/img/momen.jpg");
     if(!avatar.isNull()){
         QPixmap circularAvatar = avatar.scaled(100, 100, Qt::KeepAspectRatio); // 调整头像大小
         QBitmap mask(circularAvatar.size());
@@ -124,6 +126,11 @@ void MainWindow::loadAvatar(){
     }else{
         qWarning()<<"头像加载失败！";
     }
+}
+void MainWindow::openSettingsDialog() {
+    // 创建 Settings 对话框并显示
+    Settings *settingsDialog = new Settings(this);
+    settingsDialog->exec();  // 使用 exec() 打开模态对话框
 }
 MainWindow::~MainWindow()
 {
