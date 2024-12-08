@@ -1,11 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>config/weather-config.json</file>
-        <file>settings_pages/3.4.5</file>
-        <file>settings_pages/all.min.css</file>
-        <file>settings_pages/settings.htm</file>
-        <file>settings_pages/tailwind-config.min.js</file>
-        <file>settings_pages/tailwind-custom.css</file>
-        <file>momen.jpg</file>
+        <file>img/momen.jpg</file>
+        <file>img/setting_button.png</file>
     </qresource>
 </RCC>
