@@ -3,7 +3,7 @@
 
 build
 weather-config.json
-
+settings.json
 *~
 *.autosave
 *.a

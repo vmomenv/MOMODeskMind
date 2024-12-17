@@ -176,14 +176,14 @@
    <widget class="QPushButton" name="settingsButton">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>30</y>
-      <width>75</width>
-      <height>23</height>
+      <x>310</x>
+      <y>20</y>
+      <width>51</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>设置</string>
     </property>
    </widget>
   </widget>
