@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QBitmap>
 #include <QFileDialog>
-
+#include <QSettings>
 Settings::Settings(QWidget *parent)
     : QDialog(parent)  // 构造函数改为 QDialog
     , ui(new Ui::Settings)
@@ -22,20 +22,35 @@ void Settings::onChangeAvatarButtonClicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "选择头像", "", "图片文件 (*.png *.jpg *.bmp)");
     if (!filePath.isEmpty()) {
-        QPixmap avatar(filePath);
+        QDir avatarDir(QCoreApplication::applicationDirPath() + "/img/avatars");
+        if (!avatarDir.exists()) {
+            avatarDir.mkpath(".");
+        }
+
+        QFileInfo fileInfo(filePath);
+        QString newAvatarPath = avatarDir.absoluteFilePath(fileInfo.fileName());
+        if (filePath != newAvatarPath) {
+            QFile::copy(filePath, newAvatarPath);
+        }
+        QPixmap avatar(newAvatarPath);
         if (!avatar.isNull()) {
-            QPixmap circularAvatar = avatar.scaled(100, 100, Qt::KeepAspectRatio);  // 调整头像大小
+            QPixmap circularAvatar = avatar.scaled(100, 100, Qt::KeepAspectRatio);
             QBitmap mask(circularAvatar.size());
-            mask.fill(Qt::color0);  // 填充为透明
+            mask.fill(Qt::color0);
             QPainter painter(&mask);
             painter.setRenderHint(QPainter::Antialiasing);
-            painter.setBrush(Qt::color1);  // 用黑色填充圆形区域
+            painter.setBrush(Qt::color1);
             painter.setPen(Qt::NoPen);
             painter.drawEllipse(0, 0, circularAvatar.width(), circularAvatar.height());
             painter.end();
 
             circularAvatar.setMask(mask);
-            ui->avatarLabel->setPixmap(circularAvatar);  // 设置头像
+            ui->avatarLabel->setPixmap(circularAvatar);
         }
+
+        // 保存头像路径到配置文件
+        QSettings settings("momodesk-mind", "settings");
+        qDebug() << "Settings file location:" << settings.fileName();
+        settings.setValue("avatarPath", newAvatarPath);
     }
 }
