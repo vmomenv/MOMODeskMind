@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QImage>
 #include "settings.h"
+#include <QSettings>
+#include <QFile>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -105,27 +107,33 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     }
 }
 void MainWindow::loadAvatar(){
-    QPixmap avatar(":/img/momen.jpg");
-    if(!avatar.isNull()){
-        QPixmap circularAvatar = avatar.scaled(100, 100, Qt::KeepAspectRatio); // 调整头像大小
-        QBitmap mask(circularAvatar.size());
-        mask.fill(Qt::color0);  // 填充为透明
-        QPainter painter(&mask);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.setBrush(Qt::color1);  // 用黑色填充圆形区域
-        painter.setPen(Qt::NoPen);
-        painter.drawEllipse(0, 0, circularAvatar.width(), circularAvatar.height());
-        painter.end();
+    QSettings settings;
+    QString avatarPath = settings.value("avatarPath").toString();
+    qDebug()<<avatarPath;
+    QPixmap avatar;
+    if (!avatarPath.isEmpty() && QFile::exists(avatarPath)) {
+        // 如果头像文件存在，加载头像
 
-        // 使用遮罩将头像裁剪成圆形
-        circularAvatar.setMask(mask);
-
-        ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
-        ui->avatarLabel->move(128, 16);
-
-    }else{
-        qWarning()<<"头像加载失败！";
+        avatar.load(avatarPath);
+    } else {
+        // 如果没有设置头像，则使用默认头像
+        qDebug()<<"未加载";
+        avatar.load(":/img/momen.jpg");
     }
+
+    QPixmap circularAvatar = avatar.scaled(128, 128, Qt::KeepAspectRatio); // 调整头像大小
+    QBitmap mask(circularAvatar.size());
+    mask.fill(Qt::color0);  // 填充为透明
+    QPainter painter(&mask);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setBrush(Qt::color1);  // 用黑色填充圆形区域
+    painter.setPen(Qt::NoPen);
+    painter.drawEllipse(0, 0, circularAvatar.width(), circularAvatar.height());
+    painter.end();
+    // 使用遮罩将头像裁剪成圆形
+    circularAvatar.setMask(mask);
+    ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
+    ui->avatarLabel->move(128, 16);
 }
 void MainWindow::openSettingsDialog() {
     // 创建 Settings 对话框并显示

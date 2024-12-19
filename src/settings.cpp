@@ -34,23 +34,14 @@ void Settings::onChangeAvatarButtonClicked()
         }
         QPixmap avatar(newAvatarPath);
         if (!avatar.isNull()) {
-            QPixmap circularAvatar = avatar.scaled(100, 100, Qt::KeepAspectRatio);
-            QBitmap mask(circularAvatar.size());
-            mask.fill(Qt::color0);
-            QPainter painter(&mask);
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.setBrush(Qt::color1);
-            painter.setPen(Qt::NoPen);
-            painter.drawEllipse(0, 0, circularAvatar.width(), circularAvatar.height());
-            painter.end();
+            ui->avatarLabel->setPixmap(avatar.scaled(128,128,Qt::KeepAspectRatio));
 
-            circularAvatar.setMask(mask);
-            ui->avatarLabel->setPixmap(circularAvatar);
         }
 
         // 保存头像路径到配置文件
         QSettings settings("momodesk-mind", "settings");
         qDebug() << "Settings file location:" << settings.fileName();
         settings.setValue("avatarPath", newAvatarPath);
+
     }
 }
