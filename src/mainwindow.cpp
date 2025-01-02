@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 初始化日程提醒
     reminder = new Reminder(this);
-    ui->reminderList->setModel(reminder->getReminders());
+    // ui->reminderList->setModel(reminder->getReminders());
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::onAddReminderButtonClicked);
 
     connect(reminder, &Reminder::reminderTriggered, this, &MainWindow::onReminderTriggered);
@@ -64,7 +64,7 @@ void MainWindow::onAddReminderButtonClicked()
     // reminder->addReminder(reminderText);  // 这里直接使用 reminder 对象
 
     // 更新 UI
-    ui->reminderList->setModel(reminder->getReminders());
+    // ui->reminderList->setModel(reminder->getReminders());
 }
 
 void MainWindow::onRemoveReminderButtonClicked()
@@ -78,10 +78,10 @@ void MainWindow::onRemoveReminderButtonClicked()
     QString reminderText = selectedIndex.data(Qt::DisplayRole).toString();
 
     // 调用 Reminder 类的删除方法
-    reminder->removeReminder(reminderText);
+    // reminder->removeReminder(reminderText);
 
     // 更新 UI
-    ui->reminderList->setModel(reminder->getReminders());
+    // ui->reminderList->setModel(reminder->getReminders());
 }
 
 void MainWindow::onReminderTriggered(const QString &content)
