@@ -44,7 +44,14 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QComboBox" name="comboBox_2"/>
+      <widget class="QComboBox" name="comboBox_2">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="currentText">
+        <string>选择知识库</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QTextEdit" name="answerLabel"/>
@@ -94,7 +101,7 @@
           </size>
          </property>
          <property name="text">
-          <string>askButton</string>
+          <string>发送</string>
          </property>
         </widget>
        </item>
@@ -119,20 +126,14 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QListView" name="reminderList"/>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLineEdit" name="reminderTimeInput"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="reminderContentInput"/>
-       </item>
-      </layout>
-     </item>
-     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>待办事项</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="addReminderButton">
          <property name="text">
@@ -141,13 +142,19 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="removeReminderButton">
+        <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>删除提醒</string>
+          <string>N/A项待办</string>
          </property>
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QListView" name="reminderList"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3"/>
      </item>
     </layout>
    </widget>
