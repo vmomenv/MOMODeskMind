@@ -92,7 +92,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         // 获取鼠标按下的位置
-        // offset = event->globalPos() - frameGeometry().topLeft();
+        offset = event->globalPos() - frameGeometry().topLeft();
     }
 }
 
@@ -101,7 +101,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
         // 根据鼠标的移动更新窗口的位置
-        // move(event->globalPos() - offset);
+        move(event->globalPos() - offset);
     }
 }
 void MainWindow::loadAvatar(){
