@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     reminder = new Reminder(this);
     ui->reminderList->setModel(reminder->getReminders());
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::onAddReminderButtonClicked);
-    connect(ui->removeReminderButton, &QPushButton::clicked, this, &MainWindow::onRemoveReminderButtonClicked);
+
     connect(reminder, &Reminder::reminderTriggered, this, &MainWindow::onReminderTriggered);
 
     connect(ui->askButton, &QPushButton::clicked, this, &MainWindow::onAskButtonClicked);
@@ -58,12 +58,10 @@ void MainWindow::updateWeatherDisplay(const QString &location, double tempC, con
 }
 void MainWindow::onAddReminderButtonClicked()
 {
-    QString reminderTime = ui->reminderTimeInput->text();
-    QString reminderContent = ui->reminderContentInput->text();
-    QString reminderText = reminderTime + " - " + reminderContent;
+    // QString reminderText = reminderTime + " - " + reminderContent;
 
     // 调用 Reminder 类的添加方法
-    reminder->addReminder(reminderText);  // 这里直接使用 reminder 对象
+    // reminder->addReminder(reminderText);  // 这里直接使用 reminder 对象
 
     // 更新 UI
     ui->reminderList->setModel(reminder->getReminders());
@@ -94,7 +92,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         // 获取鼠标按下的位置
-        offset = event->globalPos() - frameGeometry().topLeft();
+        // offset = event->globalPos() - frameGeometry().topLeft();
     }
 }
 
@@ -103,7 +101,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
         // 根据鼠标的移动更新窗口的位置
-        move(event->globalPos() - offset);
+        // move(event->globalPos() - offset);
     }
 }
 void MainWindow::loadAvatar(){
