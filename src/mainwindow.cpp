@@ -104,21 +104,24 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos() - offset);
     }
 }
-void MainWindow::loadAvatar(){
-    QSettings settings;
+void MainWindow::loadAvatar()
+{
+    // 获取配置文件中的头像路径
+    QSettings settings("momodesk-mind", "settings");
     QString avatarPath = settings.value("avatarPath").toString();
-    qDebug()<<avatarPath;
+    qDebug() << "Avatar path from settings:" << avatarPath;
+
     QPixmap avatar;
     if (!avatarPath.isEmpty() && QFile::exists(avatarPath)) {
-        // 如果头像文件存在，加载头像
-
+        // 如果头像路径有效，加载头像
         avatar.load(avatarPath);
     } else {
-        // 如果没有设置头像，则使用默认头像
-        qDebug()<<"未加载";
+        // 如果头像路径无效，则加载默认头像
+        qDebug() << "Failed to load avatar. Loading default avatar.";
         avatar.load(":/img/momen.jpg");
     }
 
+    // 将头像裁剪为圆形
     QPixmap circularAvatar = avatar.scaled(128, 128, Qt::KeepAspectRatio); // 调整头像大小
     QBitmap mask(circularAvatar.size());
     mask.fill(Qt::color0);  // 填充为透明
@@ -128,14 +131,17 @@ void MainWindow::loadAvatar(){
     painter.setPen(Qt::NoPen);
     painter.drawEllipse(0, 0, circularAvatar.width(), circularAvatar.height());
     painter.end();
+
     // 使用遮罩将头像裁剪成圆形
     circularAvatar.setMask(mask);
     ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
-    ui->avatarLabel->move(128, 16);
+    ui->avatarLabel->move(128, 16);  // 设置头像的位置
 }
+
 void MainWindow::openSettingsDialog() {
     // 创建 Settings 对话框并显示
     Settings *settingsDialog = new Settings(this);
+    connect(settingsDialog,&Settings::avatarUpdated,this,&MainWindow::loadAvatar);
     settingsDialog->exec();  // 使用 exec() 打开模态对话框
 }
 MainWindow::~MainWindow()
