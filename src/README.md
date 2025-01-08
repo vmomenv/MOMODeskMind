@@ -26,3 +26,27 @@ MOMODeskMind/
 ├── PetAIProject.pro         # Qt项目文件
 └── README.md                # 项目说明文件
 ```
+### 项目说明
+
+#### 编译与运行
+
+1. **请选择 Qt 6.8 版本** 来进行编译与运行，以确保项目的兼容性。
+
+2. 在编译和运行之前，您需要**申请一个天气 API 接口**。可以通过以下步骤获取您的 API 密钥：
+
+   - 访问天气 API 提供商的网站（[weatherprovider](https://api.weatherprovider.com)）。
+   - 注册并申请 API 密钥。
+
+3. 获取到您的 API 密钥后，您需要进行如下配置：
+
+   - 打开文件 `~/momodesk-mind/src/config/weather-config.json`。
+   - 在文件中修改 API 配置，填写您的 API 密钥。
+
+   例如：
+
+   ```json
+    {
+        "WEATHER_API_KEY": "your-api-key-here",
+        "API_URL": "https://api.weatherapi.com/v1/current.json"
+    }
+    ```
