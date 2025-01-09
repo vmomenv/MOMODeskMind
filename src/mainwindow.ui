@@ -37,9 +37,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>680</y>
+      <y>660</y>
       <width>351</width>
-      <height>151</height>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -114,8 +114,8 @@
      <rect>
       <x>10</x>
       <y>380</y>
-      <width>351</width>
-      <height>277</height>
+      <width>352</width>
+      <height>212</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -124,39 +124,86 @@
       <verstretch>5</verstretch>
      </sizepolicy>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>待办事项</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="addReminderButton">
-         <property name="text">
-          <string>添加提醒</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>N/A项待办</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QListView" name="reminderList"/>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-     </item>
-    </layout>
+    <property name="minimumSize">
+     <size>
+      <width>352</width>
+      <height>212</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>352</width>
+      <height>212</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="widget_3" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>351</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="widget_4" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>351</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>351</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>351</width>
+       <height>41</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>待办事项</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="addReminderButton">
+        <property name="text">
+         <string>添加提醒</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>N/A项待办</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QLabel" name="avatarLabel">
     <property name="geometry">

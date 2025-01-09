@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     // 初始化天气API并请求天气数据
     ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
 
+
     // 初始化日程提醒
     reminder = new Reminder(this);
     // ui->reminderList->setModel(reminder->getReminders());
@@ -58,30 +59,12 @@ void MainWindow::updateWeatherDisplay(const QString &location, double tempC, con
 }
 void MainWindow::onAddReminderButtonClicked()
 {
-    // QString reminderText = reminderTime + " - " + reminderContent;
 
-    // 调用 Reminder 类的添加方法
-    // reminder->addReminder(reminderText);  // 这里直接使用 reminder 对象
-
-    // 更新 UI
-    // ui->reminderList->setModel(reminder->getReminders());
 }
 
 void MainWindow::onRemoveReminderButtonClicked()
 {
-    // 获取选中的提醒项
-    QModelIndex selectedIndex = ui->reminderList->selectionModel()->currentIndex();
-    if (!selectedIndex.isValid()) {
-        return;  // 如果没有选中任何项，则返回
-    }
 
-    QString reminderText = selectedIndex.data(Qt::DisplayRole).toString();
-
-    // 调用 Reminder 类的删除方法
-    // reminder->removeReminder(reminderText);
-
-    // 更新 UI
-    // ui->reminderList->setModel(reminder->getReminders());
 }
 
 void MainWindow::onReminderTriggered(const QString &content)
