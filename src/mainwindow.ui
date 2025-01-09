@@ -109,7 +109,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="widget_2" native="true">
+   <widget class="QWidget" name="reminderWidget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>

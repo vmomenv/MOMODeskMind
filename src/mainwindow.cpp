@@ -7,16 +7,21 @@
 #include "settings.h"
 #include <QSettings>
 #include <QFile>
+#include <QStyle>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::FramelessWindowHint);
-    setStyleSheet("background-color: #F3F4F6;");
+    this->setAttribute(Qt::WA_TranslucentBackground);
+    this->setWindowFlags(Qt::FramelessWindowHint); // 移除边框
+    this->setStyleSheet(
+        "background-color: #F3F4F6;"
+        "border-radius: 8px;"
+        );
+
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
-
     loadAvatar();
     // connect(ui->changeAvatarButton, &QPushButton::clicked, this, &MainWindow::onChangeAvatarButtonClicked);
 
@@ -34,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 初始化日程提醒
     reminder = new Reminder(this);
+    ui->reminderWidget->setStyleSheet(
+        "background-color: #ffffff;"
+        "border-radius: 8px;"
+        );
     // ui->reminderList->setModel(reminder->getReminders());
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::onAddReminderButtonClicked);
 
