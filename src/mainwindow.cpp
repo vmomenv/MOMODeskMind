@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
+    ui->weatherLabel->setStyleSheet(
+        "background-color: #ffffff;"
+        "border-radius: 8px;"
+        );
     loadAvatar();
     // connect(ui->changeAvatarButton, &QPushButton::clicked, this, &MainWindow::onChangeAvatarButtonClicked);
 
@@ -31,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 创建宠物AI对象
     petAI = new PetAI(this);
+    ui->dialogueWidget->setStyleSheet(
+        "background-color: #ffffff;"
+        "border-radius: 8px;"
+        );
     ui->answerLabel->setText(petAI->getPetGreeting());
 
     // 初始化天气API并请求天气数据
