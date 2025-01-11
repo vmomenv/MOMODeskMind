@@ -52,6 +52,23 @@ MainWindow::MainWindow(QWidget *parent)
         "border-radius: 8px;"
         );
     // ui->reminderList->setModel(reminder->getReminders());
+    ui->addReminderButton->setStyleSheet("QPushButton {"
+                                         "background-color: #000000;"
+                                         "color: #FFFFFF;"
+                                         "border-radius: 8px;"
+                                         "border: none;"
+                                         "padding: 0px;}"
+                                         );
+    ui->addReminderButton->setFixedSize(68,28);
+    ui->countLabel->setStyleSheet("QLabel {"
+                                         "background-color: #000000;"
+                                         "color: #FFFFFF;"
+                                         "border-radius: 8px;"
+                                         "border: none;"
+                                         "padding: 0px;}"
+                                         );
+    ui->countLabel->setFixedSize(68,28);
+    ui->countLabel->setAlignment(Qt::AlignCenter);
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::onAddReminderButtonClicked);
 
     connect(reminder, &Reminder::reminderTriggered, this, &MainWindow::onReminderTriggered);

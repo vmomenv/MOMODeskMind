@@ -188,7 +188,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QLabel" name="countLabel">
          <property name="text">
           <string>N/A项待办</string>
          </property>
