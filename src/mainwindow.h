@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "petai.h"
 #include "weatherapi.h"
-#include "reminder.h"
 #include <QMouseEvent>
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,7 +23,6 @@ private:
     Ui::MainWindow *ui;
     PetAI *petAI;
     WeatherAPI *weatherAPI;
-    Reminder *reminder;
     void loadAvatar();
     QString avatarFilePath;
     QPoint offset;  // 鼠标按下时的偏移量，用于拖动窗口

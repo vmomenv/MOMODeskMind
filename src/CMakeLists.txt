@@ -25,7 +25,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         petai.h petai.cpp
         weatherapi.h weatherapi.cpp
-        reminder.h reminder.cpp
+
 
 
         resources.qrc

@@ -46,17 +46,28 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // 初始化日程提醒
-    reminder = new Reminder(this);
     ui->reminderWidget->setStyleSheet(
         "background-color: #ffffff;"
         "border-radius: 8px;"
         );
-    // ui->reminderList->setModel(reminder->getReminders());
-    connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::onAddReminderButtonClicked);
+    ui->addReminderButton->setStyleSheet("QPushButton {"
+                                         "background-color: #000000;"
+                                         "color: #FFFFFF;"
+                                         "border-radius: 8px;"
+                                         "border: none;"
+                                         "padding: 0px;}"
+                                         );
+    ui->addReminderButton->setFixedSize(68,28);
+    ui->countLabel->setStyleSheet("QLabel {"
+                                  "background-color: #000000;"
+                                  "color: #FFFFFF;"
+                                  "border-radius: 8px;"
+                                  "border: none;"
+                                  "padding: 0px;}"
+                                  );
+    ui->countLabel->setFixedSize(68,28);
+    ui->countLabel->setAlignment(Qt::AlignCenter);
 
-    connect(reminder, &Reminder::reminderTriggered, this, &MainWindow::onReminderTriggered);
-
-    connect(ui->askButton, &QPushButton::clicked, this, &MainWindow::onAskButtonClicked);
 }
 
 void MainWindow::onAskButtonClicked(){
