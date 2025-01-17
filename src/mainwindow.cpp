@@ -8,6 +8,9 @@
 #include <QSettings>
 #include <QFile>
 #include <QStyle>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -67,8 +70,46 @@ MainWindow::MainWindow(QWidget *parent)
                                   );
     ui->countLabel->setFixedSize(68,28);
     ui->countLabel->setAlignment(Qt::AlignCenter);
+    QWidget *reminderWidget=new QWidget(this);
+    QVBoxLayout *reminderLayout=new QVBoxLayout(reminderWidget);
+    reminderLoadJsonData("reminderdata.json");
+
 
 }
+void MainWindow::reminderLoadJsonData(const QString &filePath){
+    QFile file(filePath);
+    if(!file.open(QIODevice::ReadOnly)){
+        qWarning() << "Failed to open file!";
+        return;
+    }
+    // 读取文件内容并解析JSON
+    QByteArray jsonData = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+    if (doc.isNull()) {
+        qWarning() << "Invalid JSON data!";
+        return;
+    }
+
+    // 获取JSON数组并展示每一条消息
+    QJsonArray jsonArray = doc.array();
+    for (const QJsonValue &value : jsonArray) {
+        if (value.isObject()) {
+            QJsonObject jsonObj = value.toObject();
+            QString message = jsonObj["message"].toString();  // 假设每条信息的键为 "message"
+            QString priority = jsonObj["priority"].toString();  // 紧急程度（urgent、high、non-urgent）
+            displayMessage(message, priority);
+        }
+    }
+}
+void MainWindow::displayMessage(const QString &message, const QString &priority)
+{
+    MessageWidget *widget = new MessageWidget(message, priority, reminderWidget);
+    // reminderWidget(layout->count() - 1, widget);  // 插入到“添加”按钮前
+
+    // 连接删除信号
+    // connect(widget, &MessageWidget::deleteClicked, this, &MainWindow::onMessageWidgetDeleted);
+}
+
 
 void MainWindow::onAskButtonClicked(){
     QString userQuestion = ui->questionInput->text();
