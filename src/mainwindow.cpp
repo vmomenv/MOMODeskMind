@@ -97,7 +97,8 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
             QJsonObject jsonObj = value.toObject();
             QString message = jsonObj["message"].toString();  // 假设每条信息的键为 "message"
             QString priority = jsonObj["priority"].toString();  // 紧急程度（urgent、high、non-urgent）
-            displayMessage(message, priority);
+            // displayMessage(message, priority);
+            qDebug()<<message<<priority;
         }
     }
 }
