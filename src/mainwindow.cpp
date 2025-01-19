@@ -70,8 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
                                   );
     ui->countLabel->setFixedSize(68,28);
     ui->countLabel->setAlignment(Qt::AlignCenter);
-    QWidget *reminderWidget=new QWidget(this);
-    QVBoxLayout *reminderLayout=new QVBoxLayout(reminderWidget);
+    QVBoxLayout *reminderLayout=new QVBoxLayout(ui->messageWidget);
     reminderLoadJsonData("reminderdata.json");
 
 
@@ -97,14 +96,14 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
             QJsonObject jsonObj = value.toObject();
             QString message = jsonObj["message"].toString();  // 假设每条信息的键为 "message"
             QString priority = jsonObj["priority"].toString();  // 紧急程度（urgent、high、non-urgent）
-            // displayMessage(message, priority);
+            displayMessage(message, priority);
             qDebug()<<message<<priority;
         }
     }
 }
 void MainWindow::displayMessage(const QString &message, const QString &priority)
 {
-    MessageWidget *widget = new MessageWidget(message, priority, reminderWidget);
+    MessageWidget *widget = new MessageWidget(message, priority, ui->messageWidget);
     // reminderWidget(layout->count() - 1, widget);  // 插入到“添加”按钮前
 
     // 连接删除信号

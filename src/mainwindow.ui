@@ -128,7 +128,7 @@
        <height>212</height>
       </size>
      </property>
-     <widget class="QWidget" name="widget_3" native="true">
+     <widget class="QWidget" name="messageWidget" native="true">
       <property name="geometry">
        <rect>
         <x>0</x>
