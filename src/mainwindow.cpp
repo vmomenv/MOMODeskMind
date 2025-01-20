@@ -70,8 +70,30 @@ MainWindow::MainWindow(QWidget *parent)
                                   );
     ui->countLabel->setFixedSize(68,28);
     ui->countLabel->setAlignment(Qt::AlignCenter);
-    messageWidgetLayout=new QVBoxLayout();
-    ui->messageWidget->setLayout(messageWidgetLayout);
+
+
+
+    // 设置日程提醒滚动区域
+    ui->reminderScrollArea->setFixedSize(328, 144);
+    ui->reminderScrollArea->setWidgetResizable(false); // 必须关闭
+    ui->reminderScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->reminderScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // 创建内容容器
+    reminderWidget = new QWidget();
+    reminderWidget->setMinimumWidth(328); // 关键：固定内容宽度
+    reminderWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
+    // 设置垂直布局
+    reminderWidgetLayout = new QVBoxLayout(reminderWidget);
+    reminderWidgetLayout->setAlignment(Qt::AlignTop);
+    reminderWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    reminderWidgetLayout->setSpacing(4);
+
+    // 必须显式设置widget
+    ui->reminderScrollArea->setWidget(reminderWidget);
+
+
     reminderLoadJsonData("reminderdata.json");
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
@@ -102,12 +124,13 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
 }
 void MainWindow::displayMessage(const QString &message, const QString &priority)
 {
-    MessageWidget *widget = new MessageWidget(message, priority, ui->messageWidget);
-    messageWidgetLayout->insertWidget(messageWidgetLayout->count() - 1, widget); // 插入到“添加”按钮前
+    MessageWidget *widget = new MessageWidget(message, priority);
+    widget->setFixedHeight(30); // 确保每个条目固定高度
+    reminderWidgetLayout->addWidget(widget);
 
-    messageWidgetLayout->addWidget(widget);
-    // 连接删除信号
-    // connect(widget, &MessageWidget::deleteClicked, this, &MainWindow::onMessageWidgetDeleted);
+    // 动态调整内容区域高度
+    int contentHeight = reminderWidgetLayout->count() * 34; // 30+4=34
+    reminderWidget->setMinimumHeight(contentHeight);
 }
 
 

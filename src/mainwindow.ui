@@ -128,16 +128,6 @@
        <height>212</height>
       </size>
      </property>
-     <widget class="QWidget" name="messageWidget" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>40</y>
-        <width>351</width>
-        <height>171</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QWidget" name="widget_4" native="true">
       <property name="geometry">
        <rect>
@@ -182,6 +172,29 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QScrollArea" name="reminderScrollArea">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>328</width>
+        <height>144</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>326</width>
+         <height>142</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="dialogueWidget" native="true">

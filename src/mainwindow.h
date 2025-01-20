@@ -28,7 +28,9 @@ private:
     void loadAvatar();
     QString avatarFilePath;
     QPoint offset;  // 鼠标按下时的偏移量，用于拖动窗口
-    QVBoxLayout *messageWidgetLayout;
+
+    QWidget *reminderWidget;
+    QVBoxLayout *reminderWidgetLayout;
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &priority);
 protected:
