@@ -90,6 +90,18 @@ MainWindow::MainWindow(QWidget *parent)
     reminderWidgetLayout->setContentsMargins(0, 0, 0, 0);
     reminderWidgetLayout->setSpacing(4);
 
+    ui->reminderScrollArea->setStyleSheet(
+        "QScrollArea { border: none; }"
+        "QScrollBar:vertical {"
+        "    width: 6px;"
+        "    background: #F3F4F6;"
+        "}"
+        "QScrollBar::handle:vertical {"
+        "    background: #D1D5DB;"
+        "    border-radius: 3px;"
+        "}"
+        );
+
     // 必须显式设置widget
     ui->reminderScrollArea->setWidget(reminderWidget);
 
