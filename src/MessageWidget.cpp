@@ -20,8 +20,13 @@ MessageWidget::MessageWidget(const QString &message, const QString &priority, QW
     // 连接删除按钮
     connect(deleteButton, &QPushButton::clicked, this, &MessageWidget::onDeleteClicked);
 
+    // 设置MessageWidget的大小策略，使它能适应父布局
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    setMinimumHeight(50);  // 设置最小高度
+
     setLayout(layout);
 }
+
 
 MessageWidget::~MessageWidget()
 {

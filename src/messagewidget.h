@@ -7,15 +7,17 @@
 #include <QHBoxLayout>
 #include <QWidget>
 
-
 class MessageWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit MessageWidget(const QString &message, const QString &priority="non-urgent" ,QWidget *parent = nullptr);
+    explicit MessageWidget(const QString &message, const QString &priority = "non-urgent", QWidget *parent = nullptr);
     ~MessageWidget();
+
 signals:
     void deleteClicked(MessageWidget *widget);
+
 private slots:
     void onDeleteClicked();
 

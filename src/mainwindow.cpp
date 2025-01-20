@@ -70,10 +70,9 @@ MainWindow::MainWindow(QWidget *parent)
                                   );
     ui->countLabel->setFixedSize(68,28);
     ui->countLabel->setAlignment(Qt::AlignCenter);
-    QVBoxLayout *reminderLayout=new QVBoxLayout(ui->messageWidget);
+    messageWidgetLayout=new QVBoxLayout();
+    ui->messageWidget->setLayout(messageWidgetLayout);
     reminderLoadJsonData("reminderdata.json");
-
-
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
@@ -104,8 +103,9 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
 void MainWindow::displayMessage(const QString &message, const QString &priority)
 {
     MessageWidget *widget = new MessageWidget(message, priority, ui->messageWidget);
-    // reminderWidget(layout->count() - 1, widget);  // 插入到“添加”按钮前
+    messageWidgetLayout->insertWidget(messageWidgetLayout->count() - 1, widget); // 插入到“添加”按钮前
 
+    messageWidgetLayout->addWidget(widget);
     // 连接删除信号
     // connect(widget, &MessageWidget::deleteClicked, this, &MainWindow::onMessageWidgetDeleted);
 }
