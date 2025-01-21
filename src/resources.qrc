@@ -2,8 +2,8 @@
     <qresource prefix="/">
         <file>config/weather-config.json</file>
         <file>img/momen.jpg</file>
-        <file>img/setting_button.png</file>
-        <file>img/calendarButton.png</file>
-        <file>img/deleteButton.png</file>
+        <file>img/calendar.svg</file>
+        <file>img/settings.svg</file>
+        <file>img/trash.svg</file>
     </qresource>
 </RCC>

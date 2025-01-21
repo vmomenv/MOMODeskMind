@@ -42,7 +42,7 @@ MessageWidget::MessageWidget(const QString &message,
     priorityIndicator->setStyleSheet("border-radius: 5px;");
 
     // 日历图标（需要资源文件支持）
-    iconLabel->setPixmap(QIcon(":/img/calendarButton.png").pixmap(14, 16));
+    iconLabel->setPixmap(QIcon(":/img/calendar.svg").pixmap(14, 16));
     // iconLabel->setStyleSheet("color: #6B7280;");
 
     // 消息文本样式
@@ -56,7 +56,7 @@ MessageWidget::MessageWidget(const QString &message,
     messageLabel->setWordWrap(true);
 
     // 删除按钮样式
-    deleteButton->setIcon(QIcon(":/img/deleteButton.png"));
+    deleteButton->setIcon(QIcon(":/img/trash.svg"));
     deleteButton->setIconSize(QSize(14, 16));
     deleteButton->setStyleSheet(R"(
         QPushButton {
