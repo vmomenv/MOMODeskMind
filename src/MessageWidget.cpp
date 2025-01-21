@@ -1,57 +1,125 @@
+// MessageWidget.cpp
 #include "MessageWidget.h"
-#include <QDebug>
-#include <QColor>
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QIcon>
+#include <QGraphicsDropShadowEffect>
 
-MessageWidget::MessageWidget(const QString &message, const QString &priority, QWidget *parent)
+MessageWidget::MessageWidget(const QString &message,
+                             const QString &priority,
+                             QWidget *parent)
     : QWidget(parent),
+    priorityIndicator(new QWidget(this)),
+    iconLabel(new QLabel(this)),
     messageLabel(new QLabel(message, this)),
-    deleteButton(new QPushButton("删除", this)),
-    priorityIndicator(new QWidget(this)),  // 新增颜色点
+    deleteButton(new QPushButton(this)),
     layout(new QHBoxLayout(this))
 {
-    messageLabel->setWordWrap(true);  // 自动换行
-    layout->addWidget(priorityIndicator);  // 将颜色点加入布局
-    layout->addWidget(messageLabel);
-    layout->addWidget(deleteButton);
+    // 基本样式设置
+    setAttribute(Qt::WA_StyledBackground); // 启用样式表继承
+    setMinimumHeight(40);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    // 设置颜色点的背景色
+    // 容器样式
+    setStyleSheet(R"(
+        MessageWidget {
+            background-color: #F9FAFB;
+            border-radius: 8px;
+            padding: 8px;
+        }
+    )");
+
+    // 添加阴影效果
+    auto shadowEffect = new QGraphicsDropShadowEffect(this);
+    shadowEffect->setBlurRadius(8);
+    shadowEffect->setOffset(0, 2);
+    shadowEffect->setColor(QColor(0, 0, 0, 10));
+    setGraphicsEffect(shadowEffect);
+
+    // 优先级指示点
+    priorityIndicator->setFixedSize(10, 10);
+    priorityIndicator->setStyleSheet("border-radius: 5px;");
+
+    // 日历图标（需要资源文件支持）
+    iconLabel->setPixmap(QIcon(":/img/calendarButton.png").pixmap(14, 16));
+    // iconLabel->setStyleSheet("color: #6B7280;");
+
+    // 消息文本样式
+    messageLabel->setStyleSheet(R"(
+        QLabel {
+            color: #374151;
+            font-size: 16px;
+            margin-left: 0px;
+        }
+    )");
+    messageLabel->setWordWrap(true);
+
+    // 删除按钮样式
+    deleteButton->setIcon(QIcon(":/img/deleteButton.png"));
+    deleteButton->setIconSize(QSize(14, 16));
+    deleteButton->setStyleSheet(R"(
+        QPushButton {
+            background: transparent;
+            border: none;
+            padding: 4px;
+            min-width: 14px;
+            min-height: 24px;
+            border-radius: 1px;
+            color: #EF4444;
+        }
+        QPushButton:hover {
+            background-color: #FEE2E2;
+            color: #DC2626;
+        }
+    )");
+
+    // 构建左侧内容布局
+    QWidget* leftContainer = new QWidget(this);
+    QHBoxLayout* leftLayout = new QHBoxLayout(leftContainer);
+    leftLayout->setContentsMargins(0, 0, 0, 0);
+    leftLayout->setSpacing(12);
+    leftLayout->addWidget(priorityIndicator);
+    leftLayout->addWidget(iconLabel);
+    leftLayout->addWidget(messageLabel);
+    leftContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+    // 主布局配置
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(16);
+    layout->addWidget(leftContainer);
+    layout->addWidget(deleteButton, 0, Qt::AlignRight);
+
+    // 设置优先级颜色
     setPriorityColor(priority);
 
-    // 连接删除按钮
+    // 连接信号槽
     connect(deleteButton, &QPushButton::clicked, this, &MessageWidget::onDeleteClicked);
-
-    // 设置MessageWidget的大小策略，使它能适应父布局
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    setMinimumHeight(50);  // 设置最小高度
-
-    setLayout(layout);
-}
-
-
-MessageWidget::~MessageWidget()
-{
-}
-
-void MessageWidget::onDeleteClicked()
-{
-    // 发射删除信号，通知主窗口删除此 widget
-    qDebug()<<"删除"<<this->messageLabel->text();
-    emit deleteClicked(this);
 }
 
 void MessageWidget::setPriorityColor(const QString &priority)
 {
-    // 设置颜色点的背景色
-    QColor color;
+    QString colorCode;
     if (priority == "urgent") {
-        color = QColor("#EF4444");  // 紧急：红色
+        colorCode = "#EF4444";  // 红色
     } else if (priority == "high") {
-        color = QColor("#EAB308");  // 较紧急：黄色
-    } else {
-        color = QColor("#22C55E");  // 非紧急：绿色
+        colorCode = "#EAB308";  // 黄色
+    } else {  // 默认非紧急
+        colorCode = "#22C55E";  // 绿色
     }
 
-    // 设置颜色点的大小和颜色
-    priorityIndicator->setFixedSize(15, 15);  // 设置颜色点的尺寸
-    priorityIndicator->setStyleSheet("background-color: " + color.name() + "; border-radius: 7px;");  // 圆形背景
+    priorityIndicator->setStyleSheet(
+        QString("background-color: %1; border-radius: 5px;").arg(colorCode)
+        );
+}
+
+void MessageWidget::onDeleteClicked()
+{
+    qDebug() << "请求删除项目:" << messageLabel->text();
+    emit deleteClicked(this);  // 传递自身指针
+}
+
+MessageWidget::~MessageWidget()
+{
+    // 自动释放子组件（Qt对象树机制）
 }
