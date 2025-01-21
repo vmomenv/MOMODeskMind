@@ -144,6 +144,18 @@ void MainWindow::displayMessage(const QString &message, const QString &time,cons
     // 动态调整内容区域高度
     int contentHeight = reminderWidgetLayout->count() * 34; // 30+4=34
     reminderWidget->setMinimumHeight(contentHeight);
+    connect(widget, &MessageWidget::deleteClicked, this, [=]{
+        // 从布局中移除控件
+        reminderWidgetLayout->removeWidget(widget);
+        // 安全删除对象
+        widget->deleteLater();
+        // 重新计算内容高度
+        int contentHeight = reminderWidgetLayout->count() * 34;
+        reminderWidget->setMinimumHeight(contentHeight);
+        // 强制刷新布局
+        reminderWidget->adjustSize();
+        ui->reminderScrollArea->updateGeometry();
+    });
 }
 
 
@@ -167,10 +179,7 @@ void MainWindow::onAddReminderButtonClicked()
 
 }
 
-void MainWindow::onRemoveReminderButtonClicked()
-{
 
-}
 
 void MainWindow::onReminderTriggered(const QString &content)
 {
