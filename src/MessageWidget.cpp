@@ -35,6 +35,7 @@ MessageWidget::~MessageWidget()
 void MessageWidget::onDeleteClicked()
 {
     // 发射删除信号，通知主窗口删除此 widget
+    qDebug()<<"删除"<<this->messageLabel->text();
     emit deleteClicked(this);
 }
 
