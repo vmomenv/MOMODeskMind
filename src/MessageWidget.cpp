@@ -61,9 +61,9 @@ MessageWidget::MessageWidget(const QString &message,
     timeLabel->setStyleSheet(R"(
         QLabel {
             background: transparent;
-            color: #6B7280;
+            color: #000000;
             font-size: 14px;
-            min-width: 48px;
+            max-width: 48px;
             margin-left: 8px;
         }
     )");
@@ -73,9 +73,9 @@ MessageWidget::MessageWidget(const QString &message,
     messageLabel->setStyleSheet(R"(
         QLabel {
             background: transparent;
-            color: #374151;
+            color: #000000;
             font-size: 14px;
-            margin-left: 12px;
+            margin-left: 5px;
             line-height: 1.5;
             max-width: 200px;
         }
