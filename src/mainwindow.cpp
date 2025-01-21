@@ -128,15 +128,16 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
         if (value.isObject()) {
             QJsonObject jsonObj = value.toObject();
             QString message = jsonObj["message"].toString();  // 假设每条信息的键为 "message"
+            QString time = jsonObj["time"].toString();  // 假设每条信息的键为 "message"
             QString priority = jsonObj["priority"].toString();  // 紧急程度（urgent、high、non-urgent）
-            displayMessage(message, priority);
-            qDebug()<<message<<priority;
+            displayMessage(message,time, priority);
+            qDebug()<<message<<time<<priority;
         }
     }
 }
-void MainWindow::displayMessage(const QString &message, const QString &priority)
+void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
 {
-    MessageWidget *widget = new MessageWidget(message, priority);
+    MessageWidget *widget = new MessageWidget(message, time,priority);
     widget->setFixedHeight(30); // 确保每个条目固定高度
     reminderWidgetLayout->addWidget(widget);
 

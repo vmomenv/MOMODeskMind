@@ -32,7 +32,7 @@ private:
     QWidget *reminderWidget;
     QVBoxLayout *reminderWidgetLayout;
     void reminderLoadJsonData(const QString &filePath);
-    void displayMessage(const QString &message, const QString &priority);
+    void displayMessage(const QString &message, const QString &time,const QString &priority);
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;

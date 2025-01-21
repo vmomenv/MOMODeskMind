@@ -5,121 +5,154 @@
 #include <QPushButton>
 #include <QIcon>
 #include <QGraphicsDropShadowEffect>
+#include <QFontMetrics>
 
 MessageWidget::MessageWidget(const QString &message,
+                             const QString &time,
                              const QString &priority,
                              QWidget *parent)
     : QWidget(parent),
     priorityIndicator(new QWidget(this)),
+    timeLabel(new QLabel(time, this)),
     iconLabel(new QLabel(this)),
     messageLabel(new QLabel(message, this)),
     deleteButton(new QPushButton(this)),
     layout(new QHBoxLayout(this))
 {
-    // 基本样式设置
-    setAttribute(Qt::WA_StyledBackground); // 启用样式表继承
-    setMinimumHeight(40);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    // ================= 基础设置 =================
+    setAttribute(Qt::WA_StyledBackground);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-    // 容器样式
+    // ================= 容器样式 =================
     setStyleSheet(R"(
         MessageWidget {
             background-color: #F9FAFB;
             border-radius: 8px;
-            padding: 8px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+        }
+        MessageWidget > QWidget {
+            background-color: transparent;
         }
     )");
 
-    // 添加阴影效果
+    // ================= 阴影效果 =================
     auto shadowEffect = new QGraphicsDropShadowEffect(this);
-    shadowEffect->setBlurRadius(8);
-    shadowEffect->setOffset(0, 2);
-    shadowEffect->setColor(QColor(0, 0, 0, 10));
+    shadowEffect->setBlurRadius(6);
+    shadowEffect->setOffset(0, 1);
+    shadowEffect->setColor(QColor(0, 0, 0, 0.08));
     setGraphicsEffect(shadowEffect);
 
-    // 优先级指示点
-    priorityIndicator->setFixedSize(10, 10);
-    priorityIndicator->setStyleSheet("border-radius: 5px;");
+    // ================= 组件初始化 =================
+    // 1. 优先级指示点（8px直径）
+    priorityIndicator->setFixedSize(8, 8);
+    priorityIndicator->setStyleSheet("border-radius: 4px;");
 
-    // 日历图标（需要资源文件支持）
-    iconLabel->setPixmap(QIcon(":/img/calendar.svg").pixmap(14, 16));
-    // iconLabel->setStyleSheet("color: #6B7280;");
+    // 2. 日历图标
+    iconLabel->setPixmap(QIcon(":/img/calendar.svg").pixmap(16, 16));
+    iconLabel->setStyleSheet(R"(
+        QLabel {
+            background: transparent;
+        }
+    )");
 
-    // 消息文本样式
+
+    // 3. 时间标签（16px灰色文字）
+    timeLabel->setStyleSheet(R"(
+        QLabel {
+            background: transparent;
+            color: #6B7280;
+            font-size: 14px;
+            min-width: 48px;
+            margin-left: 8px;
+        }
+    )");
+    timeLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+
+    // 4. 消息文本（16px主文字）
     messageLabel->setStyleSheet(R"(
         QLabel {
+            background: transparent;
             color: #374151;
-            font-size: 16px;
-            margin-left: 0px;
+            font-size: 14px;
+            margin-left: 12px;
+            line-height: 1.5;
         }
     )");
     messageLabel->setWordWrap(true);
+    messageLabel->setAlignment(Qt::AlignVCenter);
 
-    // 删除按钮样式
+    // 5. 删除按钮（悬停效果）
     deleteButton->setIcon(QIcon(":/img/trash.svg"));
-    deleteButton->setIconSize(QSize(14, 16));
+    deleteButton->setIconSize(QSize(16, 16));
     deleteButton->setStyleSheet(R"(
         QPushButton {
             background: transparent;
-            border: none;
-            padding: 4px;
-            min-width: 14px;
-            min-height: 24px;
-            border-radius: 1px;
-            color: #EF4444;
+
         }
         QPushButton:hover {
             background-color: #FEE2E2;
-            color: #DC2626;
+        }
+        QPushButton:pressed {
+            background-color: #FECACA;
         }
     )");
 
-    // 构建左侧内容布局
+    // ================= 布局系统 =================
+    // // 左侧内容布局（8px基准间距）
     QWidget* leftContainer = new QWidget(this);
     QHBoxLayout* leftLayout = new QHBoxLayout(leftContainer);
     leftLayout->setContentsMargins(0, 0, 0, 0);
-    leftLayout->setSpacing(12);
+    leftLayout->setSpacing(8);
+
+    // 组件顺序：红点 -> 图标 -> 时间 -> 消息
     leftLayout->addWidget(priorityIndicator);
     leftLayout->addWidget(iconLabel);
-    leftLayout->addWidget(messageLabel);
+    leftLayout->addWidget(timeLabel);
+    leftLayout->addWidget(messageLabel, 1); // 消息标签弹性扩展
     leftContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    // 主布局配置
+    // // 主布局（右侧删除按钮）
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(16);
+    layout->setSpacing(12);
     layout->addWidget(leftContainer);
     layout->addWidget(deleteButton, 0, Qt::AlignRight);
 
-    // 设置优先级颜色
+    // ================= 功能配置 =================
     setPriorityColor(priority);
-
-    // 连接信号槽
     connect(deleteButton, &QPushButton::clicked, this, &MessageWidget::onDeleteClicked);
+
+    // ================= 动态高度计算 =================
+    QFontMetrics metrics(messageLabel->font());
+    int availableWidth = 328 - 32; // 328总宽度 - 左右内边距(16*2)
+    QRect textRect = metrics.boundingRect(0, 0, availableWidth, 0,
+                                          Qt::TextWordWrap, message);
+    int lineHeight = metrics.lineSpacing();
+    int totalHeight = textRect.height() + 24; // 24=上下内边距(12*2)
+    setMinimumHeight(qMax(48, totalHeight));
 }
 
 void MessageWidget::setPriorityColor(const QString &priority)
 {
     QString colorCode;
     if (priority == "urgent") {
-        colorCode = "#EF4444";  // 红色
+        colorCode = "#EF4444";
     } else if (priority == "high") {
-        colorCode = "#EAB308";  // 黄色
-    } else {  // 默认非紧急
-        colorCode = "#22C55E";  // 绿色
+        colorCode = "#EAB308";
+    } else {
+        colorCode = "#22C55E";
     }
-
     priorityIndicator->setStyleSheet(
-        QString("background-color: %1; border-radius: 5px;").arg(colorCode)
+        QString("background-color: %1; border-radius: 4px;").arg(colorCode)
         );
 }
 
 void MessageWidget::onDeleteClicked()
 {
-    qDebug() << "请求删除项目:" << messageLabel->text();
-    emit deleteClicked(this);  // 传递自身指针
+    emit deleteClicked(this);
 }
 
 MessageWidget::~MessageWidget()
 {
-    // 自动释放子组件（Qt对象树机制）
+
 }

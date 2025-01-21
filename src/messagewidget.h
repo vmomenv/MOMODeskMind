@@ -1,4 +1,3 @@
-// MessageWidget.h
 #ifndef MESSAGEWIDGET_H
 #define MESSAGEWIDGET_H
 
@@ -12,12 +11,13 @@ class MessageWidget : public QWidget
     Q_OBJECT
 public:
     explicit MessageWidget(const QString &message,
+                           const QString &time,
                            const QString &priority,
                            QWidget *parent = nullptr);
     ~MessageWidget();
 
 signals:
-    void deleteClicked(MessageWidget* widget);  // 带对象指针的信号
+    void deleteClicked(MessageWidget* widget);
 
 private slots:
     void onDeleteClicked();
@@ -25,9 +25,10 @@ private slots:
 private:
     void setPriorityColor(const QString &priority);
 
-    // UI 组件
+    // UI组件
     QWidget *priorityIndicator;
-    QLabel *iconLabel;       // 新增日历图标标签
+    QLabel *timeLabel;
+    QLabel *iconLabel;
     QLabel *messageLabel;
     QPushButton *deleteButton;
     QHBoxLayout *layout;
