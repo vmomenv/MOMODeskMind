@@ -28,7 +28,7 @@ MessageWidget::MessageWidget(const QString &message,
         MessageWidget {
             background-color: #F9FAFB;
             border-radius: 8px;
-            padding: 12px 16px;
+            padding: 12px 5px;
             margin-bottom: 4px;
         }
         MessageWidget > QWidget {
@@ -46,7 +46,7 @@ MessageWidget::MessageWidget(const QString &message,
     // ================= 组件初始化 =================
     // 1. 优先级指示点（8px直径）
     priorityIndicator->setFixedSize(8, 8);
-    priorityIndicator->setStyleSheet("border-radius: 4px;");
+    priorityIndicator->setStyleSheet("border-radius: 8px;");
 
     // 2. 日历图标
     iconLabel->setPixmap(QIcon(":/img/calendar.svg").pixmap(16, 16));
@@ -57,7 +57,7 @@ MessageWidget::MessageWidget(const QString &message,
     )");
 
 
-    // 3. 时间标签（16px灰色文字）
+    // 3. 时间标签
     timeLabel->setStyleSheet(R"(
         QLabel {
             background: transparent;
@@ -69,7 +69,7 @@ MessageWidget::MessageWidget(const QString &message,
     )");
     timeLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
-    // 4. 消息文本（16px主文字）
+    // 4. 消息文本
     messageLabel->setStyleSheet(R"(
         QLabel {
             background: transparent;
@@ -77,6 +77,7 @@ MessageWidget::MessageWidget(const QString &message,
             font-size: 14px;
             margin-left: 12px;
             line-height: 1.5;
+            max-width: 200px;
         }
     )");
     messageLabel->setWordWrap(true);
@@ -88,6 +89,11 @@ MessageWidget::MessageWidget(const QString &message,
     deleteButton->setStyleSheet(R"(
         QPushButton {
             background: transparent;
+            border: none;
+            padding: 8px;
+            max-width: 5px;
+            max-height: 5px;
+            border-radius: 6px;
 
         }
         QPushButton:hover {
