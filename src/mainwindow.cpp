@@ -134,6 +134,7 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
             qDebug()<<message<<time<<priority;
         }
     }
+    ui->countLabel->setText(QString("%1项待办").arg(jsonArray.size()));
 }
 void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
 {
