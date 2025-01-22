@@ -11,6 +11,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QFormLayout>
+#include <QDateTimeEdit>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -175,10 +177,64 @@ void MainWindow::updateWeatherDisplay(const QString &location, double tempC, con
                               .arg(condition);
     ui->weatherLabel->setText(weatherText);
 }
-void MainWindow::onAddReminderButtonClicked()
+void MainWindow::on_addReminderButton_clicked()
 {
+    // 创建对话框
+    QDialog dialog(this);
+    dialog.setWindowTitle("添加新提醒");
 
+    // 表单控件
+    QComboBox priorityCombo;
+    QDateTimeEdit timeEdit;
+    QLineEdit messageEdit;
+
+    // 初始化控件
+    priorityCombo.addItems({"紧急 (urgent)", "高 (high)", "普通 (normal)"});
+    timeEdit.setDateTime(QDateTime::currentDateTime());
+    timeEdit.setDisplayFormat("yyyy-MM-dd HH:mm");
+    messageEdit.setPlaceholderText("输入提醒内容...");
+
+    // 表单布局
+    QFormLayout formLayout;
+    formLayout.addRow("优先级:", &priorityCombo);
+    formLayout.addRow("时间:", &timeEdit);
+    formLayout.addRow("内容:", &messageEdit);
+
+    // 按钮组
+    QDialogButtonBox buttons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(&buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    connect(&buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+
+    // 主布局
+    QVBoxLayout mainLayout;
+    mainLayout.addLayout(&formLayout);
+    mainLayout.addWidget(&buttons);
+    dialog.setLayout(&mainLayout);
+
+    // 显示对话框并等待响应
+    if (dialog.exec() == QDialog::Accepted) {
+        // 获取输入值
+        QString priority;
+        switch (priorityCombo.currentIndex()) {
+        case 0: priority = "urgent"; break;
+        case 1: priority = "high"; break;
+        default: priority = "normal";
+        }
+
+        QString time = timeEdit.dateTime().toString("hh:mm");
+        QString message = messageEdit.text().trimmed();
+
+        // 验证输入
+        if (message.isEmpty()) {
+            QMessageBox::warning(this, "错误", "提醒内容不能为空");
+            return;
+        }
+
+        // 创建并添加消息部件
+        // addNewMessage(message, time, priority);
+    }
 }
+
 
 
 
@@ -246,3 +302,5 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+

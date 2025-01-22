@@ -40,13 +40,14 @@ protected:
 private slots:
     void onAskButtonClicked();
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
-    void onAddReminderButtonClicked();
     void onReminderTriggered(const QString &content);
     void openSettingsDialog();
     // void onChangeAvatarButtonClicked();
 
     // void onMessageWidgetDeleted(MessageWidget *widget);
     // void onNewMessageAdded(const QString &message, const QString &priority);
+
+    void on_addReminderButton_clicked();
 
 private:
 
