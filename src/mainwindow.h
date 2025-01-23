@@ -33,6 +33,7 @@ private:
     QVBoxLayout *reminderWidgetLayout;
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
+    void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
@@ -49,7 +50,7 @@ private slots:
 
     void on_addReminderButton_clicked();
 
-private:
+
 
 };
 #endif // MAINWINDOW_H

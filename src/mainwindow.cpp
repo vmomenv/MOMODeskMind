@@ -182,6 +182,7 @@ void MainWindow::on_addReminderButton_clicked()
     // 创建对话框
     QDialog dialog(this);
     dialog.setWindowTitle("添加新提醒");
+    dialog.setFixedSize(300, 200);
 
     // 表单控件
     QComboBox priorityCombo;
@@ -195,25 +196,23 @@ void MainWindow::on_addReminderButton_clicked()
     messageEdit.setPlaceholderText("输入提醒内容...");
 
     // 表单布局
-    QFormLayout formLayout;
-    formLayout.addRow("优先级:", &priorityCombo);
-    formLayout.addRow("时间:", &timeEdit);
-    formLayout.addRow("内容:", &messageEdit);
+    QFormLayout *formLayout = new QFormLayout();
+    formLayout->addRow("优先级:", &priorityCombo);
+    formLayout->addRow("时间:", &timeEdit);
+    formLayout->addRow("内容:", &messageEdit);
 
     // 按钮组
-    QDialogButtonBox buttons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(&buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-    connect(&buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
     // 主布局
-    QVBoxLayout mainLayout;
-    mainLayout.addLayout(&formLayout);
-    mainLayout.addWidget(&buttons);
-    dialog.setLayout(&mainLayout);
+    QVBoxLayout *mainLayout = new QVBoxLayout(&dialog);
+    mainLayout->addLayout(formLayout);
+    mainLayout->addWidget(buttons);
 
-    // 显示对话框并等待响应
     if (dialog.exec() == QDialog::Accepted) {
-        // 获取输入值
+        // 解析输入数据
         QString priority;
         switch (priorityCombo.currentIndex()) {
         case 0: priority = "urgent"; break;
@@ -230,12 +229,42 @@ void MainWindow::on_addReminderButton_clicked()
             return;
         }
 
-        // 创建并添加消息部件
-        // addNewMessage(message, time, priority);
+        // 添加提醒到界面
+        displayMessage(message, time, priority);
+
+        // 保存到JSON文件
+        saveReminderToJson(message, time, priority);
+
+        // 更新待办计数
+        ui->countLabel->setText(QString("%1项待办").arg(reminderWidgetLayout->count()));
     }
 }
 
+void MainWindow::saveReminderToJson(const QString &message, const QString &time, const QString &priority)
+{
+    QFile file("reminderdata.json");
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qWarning() << "Failed to open file for saving!";
+        return;
+    }
 
+    // 读取现有数据
+    QByteArray data = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonArray jsonArray = doc.isArray() ? doc.array() : QJsonArray();
+
+    // 创建新条目
+    QJsonObject newEntry;
+    newEntry["message"] = message;
+    newEntry["time"] = time;
+    newEntry["priority"] = priority;
+    jsonArray.append(newEntry);
+
+    // 写回文件
+    file.resize(0);
+    file.write(QJsonDocument(jsonArray).toJson());
+    file.close();
+}
 
 
 void MainWindow::onReminderTriggered(const QString &content)
