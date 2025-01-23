@@ -136,7 +136,7 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
             qDebug()<<message<<time<<priority;
         }
     }
-    ui->countLabel->setText(QString("%1项待办").arg(jsonArray.size()));
+    updateReminderCount();
 }
 void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
 {
@@ -158,16 +158,57 @@ void MainWindow::displayMessage(const QString &message, const QString &time,cons
         // 强制刷新布局
         reminderWidget->adjustSize();
         ui->reminderScrollArea->updateGeometry();
+        removeReminderFromJson(widget->getMessage(), widget->getTime(), widget->getPriority());
+        updateReminderCount();
+        adjustScrollContent();
     });
 }
+void MainWindow::removeReminderFromJson(const QString &message, const QString &time, const QString &priority)
+{
+    QFile file("reminderdata.json");
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qWarning() << "Failed to open file for deletion!";
+        return;
+    }
 
+    // 读取现有数据
+    QByteArray data = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonArray jsonArray = doc.isArray() ? doc.array() : QJsonArray();
 
+    // 查找并删除匹配项
+    for(int i = 0; i < jsonArray.size();) {
+        QJsonObject obj = jsonArray[i].toObject();
+        if(obj["message"] == message &&
+            obj["time"] == time &&
+            obj["priority"] == priority) {
+            jsonArray.removeAt(i);
+        } else {
+            ++i;
+        }
+    }
+
+    // 写回文件
+    file.resize(0);
+    file.write(QJsonDocument(jsonArray).toJson());
+    file.close();
+}
+void MainWindow::updateReminderCount()
+{
+    int count = reminderWidgetLayout->count();
+    ui->countLabel->setText(QString("%1项待办").arg(count));
+}
 void MainWindow::onAskButtonClicked(){
     QString userQuestion = ui->questionInput->text();
     QString response = petAI->getResponse(userQuestion);
     ui->answerLabel->setText(response);
 }
-
+void MainWindow::adjustScrollContent()
+{
+    int contentHeight = reminderWidgetLayout->count() * 34;
+    reminderWidget->setMinimumHeight(contentHeight);
+    reminderWidget->adjustSize();
+}
 void MainWindow::updateWeatherDisplay(const QString &location, double tempC, const QString &condition)
 {
     // 更新 QLabel 显示天气信息

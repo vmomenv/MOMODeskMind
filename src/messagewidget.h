@@ -14,6 +14,16 @@ public:
                            const QString &time,
                            const QString &priority,
                            QWidget *parent = nullptr);
+    QString getMessage() const { return messageLabel->text(); }
+    QString getTime() const { return timeLabel->text(); }
+    QString getPriority() const
+    {
+        QString style = priorityIndicator->styleSheet();
+        if(style.contains("#EF4444")) return "urgent";
+        if(style.contains("#EAB308")) return "high";
+        return "normal";
+    }
+
     ~MessageWidget();
 
 signals:

@@ -34,6 +34,9 @@ private:
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
+    void removeReminderFromJson(const QString &message, const QString &time, const QString &priority);
+    void updateReminderCount();
+    void adjustScrollContent();
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
