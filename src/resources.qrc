@@ -5,5 +5,11 @@
         <file>img/calendar.svg</file>
         <file>img/settings.svg</file>
         <file>img/trash.svg</file>
+        <file>img/ClipBoard.svg</file>
+        <file>img/Code.svg</file>
+        <file>img/NetWork.svg</file>
+        <file>img/Translate.svg</file>
+        <file>img/Trash_black.svg</file>
+        <file>img/Send.svg</file>
     </qresource>
 </RCC>

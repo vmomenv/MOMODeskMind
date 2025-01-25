@@ -266,22 +266,6 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QComboBox" name="comboBox_2">
-         <property name="minimumSize">
-          <size>
-           <width>160</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="currentText">
-          <string>选择知识库</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QComboBox" name="comboBox">
          <property name="minimumSize">
           <size>
@@ -325,13 +309,13 @@
         <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>75</number>
+        <number>60</number>
        </property>
        <property name="topMargin">
         <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>75</number>
+        <number>60</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>
@@ -375,7 +359,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="pushButton_3">
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -394,7 +378,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="pushButton_6">
          <property name="minimumSize">
           <size>
            <width>32</width>
