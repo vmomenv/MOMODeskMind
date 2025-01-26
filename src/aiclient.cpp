@@ -60,3 +60,93 @@ void AIClient::cancelRequest()
     m_buffer.clear();
     m_timeoutTimer->stop();
 }
+void AIClient::setServerUrl(const QString &url)
+{
+    m_baseUrl = url;
+    if (m_baseUrl.endsWith("/")) {
+        m_baseUrl.chop(1);
+    }
+}
+
+void AIClient::clearContext()
+{
+    m_context = QJsonArray();
+}
+//模型响应
+void AIClient::handleModelsResponse()
+{
+    auto *reply = qobject_cast<QNetworkReply*>(sender());
+    if (!reply) return;
+
+    const QByteArray data = reply->readAll();
+    if (reply->error() != QNetworkReply::NoError) {
+        emit errorOccurred(reply->errorString());
+        reply->deleteLater();
+        return;
+    }
+
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        emit errorOccurred("JSON解析错误: " + parseError.errorString());
+        reply->deleteLater();
+        return;
+    }
+
+    QJsonArray models = doc.object()["models"].toArray();
+    QStringList modelList;
+    for (const auto &modelValue : models) {
+        QJsonObject modelObj = modelValue.toObject();
+        modelList << modelObj["name"].toString();
+    }
+
+    emit modelsReceived(modelList);
+    reply->deleteLater();
+}
+
+//数据流数据
+void AIClient::handleStreamData()
+{
+    while (m_currentReply->bytesAvailable()) {
+        m_buffer += m_currentReply->readLine();
+
+        // 检查是否收到完整JSON对象
+        while (m_buffer.contains('\n')) {
+            int newlinePos = m_buffer.indexOf('\n');
+            QString chunk = m_buffer.left(newlinePos).trimmed();
+            m_buffer = m_buffer.mid(newlinePos + 1);
+
+            if (!chunk.isEmpty()) {
+                QJsonParseError parseError;
+                QJsonDocument doc = QJsonDocument::fromJson(chunk.toUtf8(), &parseError);
+                if (parseError.error == QJsonParseError::NoError) {
+                    QJsonObject obj = doc.object();
+                    if (obj.contains("response")) {
+                        emit responseReceived(obj["response"].toString());
+                    }
+                    if (obj.contains("context")) {
+                        m_context = obj["context"].toArray(); // 更新上下文
+                    }
+                } else {
+                    emit errorOccurred("流数据解析错误: " + parseError.errorString());
+                }
+            }
+        }
+    }
+}
+void AIClient::handleGenerateResponse()
+{
+    auto *reply = qobject_cast<QNetworkReply*>(sender());
+    if (!reply) return;
+
+    if (reply->error() != QNetworkReply::NoError &&
+        reply->error() != QNetworkReply::OperationCanceledError) {
+        emit errorOccurred(reply->errorString());
+    }
+
+    reply->deleteLater();
+    m_currentReply = nullptr;
+    m_buffer.clear();
+    m_timeoutTimer->stop();
+    emit responseComplete();
+}

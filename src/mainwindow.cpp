@@ -114,6 +114,23 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化ai模块
     aiClient = new AIClient(this); // 修改初始化
 
+    aiClient->setServerUrl("http://127.0.0.1:11434");
+
+    // 连接信号
+    connect(aiClient, &AIClient::modelsReceived, [](const QStringList &models){
+        qDebug() << "Available models:" << models;
+    });
+
+    connect(aiClient, &AIClient::responseReceived, [](const QString &response){
+        qDebug() << "Received chunk:" << response;
+    });
+
+    // 获取模型列表
+    aiClient->listModels();
+
+
+    // 发送请求
+    aiClient->generateResponse("deepseek-r1:1.5b", "解释量子计算的基本原理");
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
@@ -373,6 +390,8 @@ void MainWindow::openSettingsDialog() {
     connect(settingsDialog,&Settings::avatarUpdated,this,&MainWindow::loadAvatar);
     settingsDialog->exec();  // 使用 exec() 打开模态对话框
 }
+
+
 MainWindow::~MainWindow()
 {
     delete ui;

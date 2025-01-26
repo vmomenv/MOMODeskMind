@@ -48,11 +48,6 @@ private slots:
     void onReminderTriggered(const QString &content);
     void openSettingsDialog();
 
-    void onModelsReceived(const QStringList& models);
-    void onResponseReceived(const QString& response);
-    void onSendButtonClicked();
-    void onErrorOccurred(const QString& error);
-
     // void onChangeAvatarButtonClicked();
 
     // void onMessageWidgetDeleted(MessageWidget *widget);
