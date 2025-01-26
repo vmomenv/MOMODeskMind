@@ -7,6 +7,7 @@
 #include "petai.h"
 #include "weatherapi.h"
 #include "MessageWidget.h"
+#include "aiclient.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -28,7 +29,7 @@ private:
     void loadAvatar();
     QString avatarFilePath;
     QPoint offset;  // 鼠标按下时的偏移量，用于拖动窗口
-
+    AIClient *aiClient;
     QWidget *reminderWidget;
     QVBoxLayout *reminderWidgetLayout;
     void reminderLoadJsonData(const QString &filePath);
@@ -46,6 +47,12 @@ private slots:
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
     void onReminderTriggered(const QString &content);
     void openSettingsDialog();
+
+    void onModelsReceived(const QStringList& models);
+    void onResponseReceived(const QString& response);
+    void onSendButtonClicked();
+    void onErrorOccurred(const QString& error);
+
     // void onChangeAvatarButtonClicked();
 
     // void onMessageWidgetDeleted(MessageWidget *widget);
@@ -55,5 +62,6 @@ private slots:
 
 
 
+    void on_askButton_clicked();
 };
 #endif // MAINWINDOW_H

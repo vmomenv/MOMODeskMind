@@ -109,6 +109,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     reminderLoadJsonData("reminderdata.json");
+
+
+    //初始化ai模块
+    aiClient = new AIClient(this); // 修改初始化
+
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
@@ -373,4 +378,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+
+void MainWindow::on_askButton_clicked()
+{
+}
 
