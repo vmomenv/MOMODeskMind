@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
         "background-color: #ffffff;"
         "border-radius: 8px;"
         );
-    ui->answerLabel->setText(petAI->getPetGreeting());
+    ui->answerTextEdit->setText(petAI->getPetGreeting());
 
     // 初始化天气API并请求天气数据
     ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
@@ -126,11 +126,24 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     // 获取模型列表
+    // MainWindow 构造函数中
+    connect(aiClient, &AIClient::modelsReceived, this, &MainWindow::handleModelsReceived);
+    connect(aiClient, &AIClient::responseReceived, this, &MainWindow::handleResponseReceived);
+    connect(aiClient, &AIClient::errorOccurred, this, &MainWindow::handleErrorOccurred);
+    connect(aiClient, &AIClient::responseComplete, this, &MainWindow::handleResponseComplete);
+
+
+    // 初始化UI状态
+    ui->sendButton->setEnabled(false); // 等待模型加载完成
+    ui->answerTextEdit->setReadOnly(true); // 设置输出框只读
+
+    // 连接发送按钮和回车键
+    connect(ui->sendButton, &QPushButton::clicked,
+            this, &MainWindow::sendRequest);
+    connect(ui->inputEdit, &QLineEdit::returnPressed,
+            this, &MainWindow::sendRequest);
+
     aiClient->listModels();
-
-
-    // 发送请求
-    aiClient->generateResponse("deepseek-r1:1.5b", "解释量子计算的基本原理");
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
@@ -219,11 +232,6 @@ void MainWindow::updateReminderCount()
 {
     int count = reminderWidgetLayout->count();
     ui->countLabel->setText(QString("%1项待办").arg(count));
-}
-void MainWindow::onAskButtonClicked(){
-    QString userQuestion = ui->questionInput->text();
-    QString response = petAI->getResponse(userQuestion);
-    ui->answerLabel->setText(response);
 }
 void MainWindow::adjustScrollContent()
 {
@@ -391,15 +399,78 @@ void MainWindow::openSettingsDialog() {
     settingsDialog->exec();  // 使用 exec() 打开模态对话框
 }
 
+void MainWindow::handleModelsReceived(const QStringList &models)
+{
+    // 更新模型下拉框
+    ui->modelComboBox->clear();
+    ui->modelComboBox->addItems(models);
 
+    // 启用发送按钮（如果有可用模型）
+    ui->sendButton->setEnabled(!models.isEmpty());
+
+    if(models.isEmpty()) {
+        QMessageBox::warning(this, "模型加载失败", "未找到可用模型，请检查Ollama服务");
+    }
+}
+
+void MainWindow::handleResponseReceived(const QString &response)
+{
+    // 追加响应内容并自动滚动
+    QTextCursor cursor = ui->answerTextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText(response);
+
+    // 自动滚动到底部
+    QScrollBar *answerScrollbar = ui->answerTextEdit->verticalScrollBar();
+    answerScrollbar->setValue(answerScrollbar->maximum());
+}
+
+void MainWindow::handleErrorOccurred(const QString &error)
+{
+    // 显示错误信息
+    QMessageBox::critical(this, "请求错误", error);
+
+    // 在输出框追加错误信息
+    ui->answerTextEdit->append("\n[系统错误] " + error);
+}
+
+void MainWindow::handleResponseComplete()
+{
+    // 完成响应后添加换行
+    ui->answerTextEdit->append("\n");
+
+    // 恢复UI状态
+    ui->sendButton->setEnabled(true);
+    ui->answerTextEdit->setFocus();
+}
+
+void MainWindow::sendRequest()
+{
+    // 获取输入内容
+    const QString input = ui->inputEdit->text().trimmed();
+    if(input.isEmpty()) {
+        QMessageBox::warning(this, "输入为空", "请输入对话内容");
+        return;
+    }
+
+    // 获取当前模型
+    const QString model = ui->modelComboBox->currentText();
+    if(model.isEmpty()) {
+        QMessageBox::warning(this, "模型未选择", "请先选择对话模型");
+        return;
+    }
+
+    // 更新UI状态
+    ui->sendButton->setEnabled(false);
+    ui->inputEdit->clear();
+
+    // 在输出框显示用户输入
+    ui->answerTextEdit->append("You: " + input + "\nAI: ");
+
+    // 发送请求
+    aiClient->generateResponse(model, input);
+}
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
-
-void MainWindow::on_askButton_clicked()
-{
-}
-

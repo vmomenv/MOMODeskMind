@@ -206,28 +206,6 @@
        <height>256</height>
       </rect>
      </property>
-     <widget class="QTextEdit" name="answerLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>80</y>
-        <width>328</width>
-        <height>56</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>328</width>
-        <height>56</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>328</width>
-        <height>56</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
@@ -266,7 +244,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QComboBox" name="comboBox">
+        <widget class="QComboBox" name="modelComboBox">
          <property name="minimumSize">
           <size>
            <width>160</width>
@@ -417,7 +395,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -431,7 +409,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QLineEdit" name="questionInput">
+        <widget class="QLineEdit" name="inputEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -456,7 +434,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="askButton">
+        <widget class="QPushButton" name="sendButton">
          <property name="minimumSize">
           <size>
            <width>48</width>
@@ -475,6 +453,16 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QTextEdit" name="answerTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>331</width>
+        <height>71</height>
+       </rect>
+      </property>
      </widget>
     </widget>
    </widget>

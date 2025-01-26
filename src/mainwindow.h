@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QVBoxLayout>
 #include <QMouseEvent>
+#include <QScrollBar>
 #include "petai.h"
 #include "weatherapi.h"
 #include "MessageWidget.h"
@@ -32,22 +33,28 @@ private:
     AIClient *aiClient;
     QWidget *reminderWidget;
     QVBoxLayout *reminderWidgetLayout;
+    QScrollBar *answerScrollbar;
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
     void removeReminderFromJson(const QString &message, const QString &time, const QString &priority);
     void updateReminderCount();
     void adjustScrollContent();
+
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 private slots:
-    void onAskButtonClicked();
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
     void onReminderTriggered(const QString &content);
     void openSettingsDialog();
 
+    void handleModelsReceived(const QStringList& models);
+    void handleResponseReceived(const QString& response);
+    void handleErrorOccurred(const QString& error);
+    void handleResponseComplete();
+    void sendRequest();
     // void onChangeAvatarButtonClicked();
 
     // void onMessageWidgetDeleted(MessageWidget *widget);
@@ -55,8 +62,5 @@ private slots:
 
     void on_addReminderButton_clicked();
 
-
-
-    void on_askButton_clicked();
 };
 #endif // MAINWINDOW_H
