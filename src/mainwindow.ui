@@ -299,7 +299,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="clearButton">
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -318,7 +318,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="networkSearchButton">
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -337,7 +337,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="pasteButton">
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -356,7 +356,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="explainCodeButton">
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -375,7 +375,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="translateButton">
          <property name="minimumSize">
           <size>
            <width>32</width>
