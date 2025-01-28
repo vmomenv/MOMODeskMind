@@ -142,6 +142,13 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::sendRequest);
 
     aiClient->listModels();
+    //初始化对话按钮图片
+    ui->clearButton->setIcon(QIcon(":/img/Trash_black.svg"));
+    ui->explainCodeButton->setIcon(QIcon(":/img/Code.svg"));
+    ui->networkSearchButton->setIcon(QIcon(":/img/NetWork.svg"));
+    ui->pasteButton->setIcon(QIcon(":/img/ClipBoard.svg"));
+    ui->translateButton->setIcon(QIcon(":/img/Translate.svg"));
+
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
