@@ -5,13 +5,13 @@ AIClient::AIClient(QObject *parent)
     m_networkManager(new QNetworkAccessManager(this)),
     m_timeoutTimer(new QTimer(this))
 {
-    m_timeoutTimer->setInterval(30000);
-    connect(m_timeoutTimer, &QTimer::timeout, this, [this]() {
-        if (m_currentReply) {
-            cancelRequest();
-            emit errorOccurred(tr("请求超时，请检查网络连接"));
-        }
-    });
+    // m_timeoutTimer->setInterval(30000);
+    // connect(m_timeoutTimer, &QTimer::timeout, this, [this]() {
+    //     if (m_currentReply) {
+    //         cancelRequest();
+    //         emit errorOccurred(tr("请求超时，请检查网络连接"));
+    //     }
+    // });
 }
 void AIClient::listModels(){
     if(m_currentReply){
@@ -47,7 +47,7 @@ void AIClient::generateResponse(const QString &model,const QString &prompt){
     connect(m_currentReply, &QNetworkReply::finished,this, &AIClient::handleGenerateResponse);
 
     // 启动超时检测
-    m_timeoutTimer->start();
+    // m_timeoutTimer->start();
 
 }
 void AIClient::cancelRequest()
@@ -147,6 +147,6 @@ void AIClient::handleGenerateResponse()
     reply->deleteLater();
     m_currentReply = nullptr;
     m_buffer.clear();
-    m_timeoutTimer->stop();
+    // m_timeoutTimer->stop();
     emit responseComplete();
 }
