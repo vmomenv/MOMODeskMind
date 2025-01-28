@@ -144,10 +144,71 @@ MainWindow::MainWindow(QWidget *parent)
     aiClient->listModels();
     //初始化对话按钮图片
     ui->clearButton->setIcon(QIcon(":/img/Trash_black.svg"));
+    ui->clearButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #F3F4F6;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
     ui->explainCodeButton->setIcon(QIcon(":/img/Code.svg"));
+    ui->explainCodeButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #F3F4F6;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
     ui->networkSearchButton->setIcon(QIcon(":/img/NetWork.svg"));
+    ui->networkSearchButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #F3F4F6;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
     ui->pasteButton->setIcon(QIcon(":/img/ClipBoard.svg"));
+    ui->pasteButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #F3F4F6;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
     ui->translateButton->setIcon(QIcon(":/img/Translate.svg"));
+    ui->translateButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #F3F4F6;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
+    ui->sendButton->setIcon(QIcon(":/img/Send.svg"));
+    ui->sendButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #000000;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
 
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
