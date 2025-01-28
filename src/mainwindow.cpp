@@ -138,8 +138,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->answerTextEdit->setReadOnly(true); // 设置输出框只读
 
     // 连接发送按钮和回车键
-    connect(ui->sendButton, &QPushButton::clicked,
-            this, &MainWindow::sendRequest);
     connect(ui->inputEdit, &QLineEdit::returnPressed,
             this, &MainWindow::sendRequest);
 
@@ -474,3 +472,9 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_sendButton_clicked()
+{
+    sendRequest();
+}
+

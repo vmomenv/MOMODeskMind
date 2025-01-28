@@ -28,7 +28,7 @@ void AIClient::listModels(){
 }
 //请求响应
 void AIClient::generateResponse(const QString &model,const QString &prompt){
-    cancelRequest();
+    // cancelRequest();
 
     QUrl url(m_baseUrl + "/api/generate");
     QJsonObject body;
