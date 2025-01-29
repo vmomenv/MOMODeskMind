@@ -136,7 +136,7 @@ MainWindow::MainWindow(QWidget *parent)
     // 初始化UI状态
     ui->sendButton->setEnabled(false); // 等待模型加载完成
     ui->answerTextEdit->setReadOnly(true); // 设置输出框只读
-
+    ui->inputEdit->setPlaceholderText("和我聊聊天吧...");
     // 连接发送按钮和回车键
     connect(ui->inputEdit, &QLineEdit::returnPressed,
             this, &MainWindow::sendRequest);
