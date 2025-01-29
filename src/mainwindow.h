@@ -34,6 +34,10 @@ private:
     QWidget *reminderWidget;
     QVBoxLayout *reminderWidgetLayout;
     QScrollBar *answerScrollbar;
+
+    //AI对话dialogueWidget框大小状态标识
+    bool m_isExpanded = false;  // 添加状态标识
+    QSize m_originalSize;       // 保存原始尺寸
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);

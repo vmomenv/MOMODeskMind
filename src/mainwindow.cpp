@@ -13,6 +13,7 @@
 #include <QJsonDocument>
 #include <QFormLayout>
 #include <QDateTimeEdit>
+#include <QPropertyAnimation>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -209,7 +210,7 @@ MainWindow::MainWindow(QWidget *parent)
         "   background-color: #CDD1D9;"
         "}"
         );
-
+    m_originalSize = ui->dialogueWidget->size(); // 保存初始尺寸
 }
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
@@ -543,6 +544,26 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_sendButton_clicked()
 {
-    sendRequest();
+    // // 切换尺寸状态
+    // if(m_isExpanded) {
+    //     // 恢复到原始尺寸
+    //     ui->dialogueWidget->setFixedSize(m_originalSize);
+    // } else {
+    //     // 设置为展开尺寸
+    //     ui->dialogueWidget->setFixedSize(352, 750);
+    // }
+    ui->dialogueWidget->setFixedSize(352, 750);
+    m_isExpanded = !m_isExpanded;  // 切换状态
+    ui->dialogueWidget->move(16,16);
+    ui->answerTextEdit->setFixedSize(352,300);
+    ui->sendWidget->move(16,500);
+    sendRequest();  // 原有发送逻辑
+
+    // 添加动画效果（可选）
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->dialogueWidget, "size");
+    animation->setDuration(300);
+    animation->setStartValue(ui->dialogueWidget->size());
+    animation->setEndValue(m_isExpanded ? QSize(384, 750) : m_originalSize);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
