@@ -531,10 +531,7 @@ void MainWindow::sendRequest()
     // 发送请求
     aiClient->generateResponse(model, input);
 }
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+
 
 void MainWindow::on_sendButton_clicked()
 {
@@ -572,3 +569,31 @@ void MainWindow::on_clearButton_clicked()
     ui->answerTextEdit->clear();
 }
 
+
+void MainWindow::on_networkSearchButton_clicked()
+{
+
+}
+
+
+void MainWindow::on_pasteButton_clicked()
+{
+
+}
+
+
+void MainWindow::on_explainCodeButton_clicked()
+{
+
+}
+
+
+void MainWindow::on_translateButton_clicked()
+{
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}

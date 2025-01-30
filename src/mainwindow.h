@@ -77,5 +77,9 @@ private slots:
 
     void on_sendButton_clicked();
     void on_clearButton_clicked();
+    void on_networkSearchButton_clicked();
+    void on_pasteButton_clicked();
+    void on_explainCodeButton_clicked();
+    void on_translateButton_clicked();
 };
 #endif // MAINWINDOW_H
