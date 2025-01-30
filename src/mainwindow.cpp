@@ -620,8 +620,6 @@ void MainWindow::on_pasteButton_clicked()
     if(!isMonitoring){
         connect(clipboard,&QClipboard::dataChanged,this,&MainWindow::handleClipboardChange,Qt::UniqueConnection);//Qt::UniqueConnection防止重复连接的场景
         // 立即获取当前剪切板内容
-        handleClipboardChange();
-
         isMonitoring = true;
         qDebug() << "Clipboard monitoring started";
     }else{
@@ -658,8 +656,6 @@ void MainWindow::handleClipboardChange()
     if (!text.isEmpty()) {
         qDebug() << "Clipboard Updated:" << text;
         ui->inputEdit->setText(inputEditEext+text);
-        setExpandDialogueWidget();
-        sendRequest();
     } else {
         qDebug() << "Clipboard Updated: [Non-text data]";
     }
