@@ -621,6 +621,16 @@ void MainWindow::on_pasteButton_clicked()
         connect(clipboard,&QClipboard::dataChanged,this,&MainWindow::handleClipboardChange,Qt::UniqueConnection);//Qt::UniqueConnection防止重复连接的场景
         // 立即获取当前剪切板内容
         isMonitoring = true;
+        ui->pasteButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #CDD1D9;"
+            "   border: 1px solid #FFFFFF;"
+            "   border-radius: 4px;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: #F3F4F6;"
+            "}"
+            );
         qDebug() << "Clipboard monitoring started";
     }else{
         // 断开监控（可选）
@@ -628,6 +638,16 @@ void MainWindow::on_pasteButton_clicked()
                    this, &MainWindow::handleClipboardChange);
 
         isMonitoring = false;
+        ui->pasteButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #F3F4F6;"
+            "   border: 1px solid #FFFFFF;"
+            "   border-radius: 4px;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: #CDD1D9;"
+            "}"
+            );
         qDebug() << "Clipboard monitoring stopped";
     }
 
