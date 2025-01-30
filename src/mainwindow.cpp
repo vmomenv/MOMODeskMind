@@ -618,7 +618,7 @@ void MainWindow::on_networkSearchButton_clicked()
 void MainWindow::on_pasteButton_clicked()
 {
     if(!isMonitoring){
-        connect(clipboard,&QClipboard::dataChanged,this,&MainWindow::handleClipboardChange);
+        connect(clipboard,&QClipboard::dataChanged,this,&MainWindow::handleClipboardChange,Qt::UniqueConnection);//Qt::UniqueConnection防止重复连接的场景
         // 立即获取当前剪切板内容
         handleClipboardChange();
 
