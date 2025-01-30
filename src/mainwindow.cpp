@@ -140,7 +140,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->inputEdit->setPlaceholderText("和我聊聊天吧...");
     // 连接发送按钮和回车键
     connect(ui->inputEdit, &QLineEdit::returnPressed,
-            this, &MainWindow::setExpandDialogueWidget);
+            this, [=]{
+        setExpandDialogueWidget();
+        sendRequest();  // 原有发送逻辑
+    });
 
     aiClient->listModels();
     //初始化对话按钮图片
@@ -536,6 +539,7 @@ void MainWindow::sendRequest()
 void MainWindow::on_sendButton_clicked()
 {
     setExpandDialogueWidget();
+    sendRequest();  // 原有发送逻辑
 
 }
 void MainWindow::setExpandDialogueWidget(){
@@ -552,7 +556,7 @@ void MainWindow::setExpandDialogueWidget(){
     animation->setStartValue(ui->dialogueWidget->size());
     animation->setEndValue(m_isExpanded ? QSize(384, 750) : m_originalSize);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-    sendRequest();  // 原有发送逻辑
+
 }
 
 void MainWindow::setCollapseDialogueWidget()
