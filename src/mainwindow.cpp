@@ -568,6 +568,15 @@ void MainWindow::setCollapseDialogueWidget()
     ui->sendWidget->move(0,140);
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        // 获取鼠标按下的位置
+        offset = event->globalPos() - frameGeometry().topLeft();
+    }
+    setCollapseDialogueWidget();
+}
+
 void MainWindow::on_clearButton_clicked()
 {
     ui->answerTextEdit->clear();

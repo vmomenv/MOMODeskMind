@@ -49,14 +49,7 @@ private:
     void setCollapseDialogueWidget();
 protected:
     // 鼠标事件
-    void mousePressEvent(QMouseEvent *event) override
-    {
-        if (event->button() == Qt::LeftButton) {
-            // 获取鼠标按下的位置
-            offset = event->globalPos() - frameGeometry().topLeft();
-        }
-        setCollapseDialogueWidget();
-    }
+    void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 private slots:
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
