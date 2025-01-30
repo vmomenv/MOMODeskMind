@@ -40,7 +40,9 @@ private:
     QSize m_originalSize;       // 保存原始尺寸
     QClipboard *clipboard;               // 剪切板对象指针
     QLabel *a;
-    bool isMonitoring = false;           // 监控状态标志
+    bool isPasteMonitoring = false;           // 监控剪切板按钮状态
+    bool isCodeMonitoring = false;            //监控解释代码按钮状态
+    bool isTranslateMonitoring = false;       //监控翻译代码按钮状态
 
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
