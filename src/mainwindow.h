@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include<QClipboard>
 #include "petai.h"
 #include "weatherapi.h"
 #include "MessageWidget.h"
@@ -34,10 +35,13 @@ private:
     QWidget *reminderWidget;
     QVBoxLayout *reminderWidgetLayout;
     QScrollBar *answerScrollbar;
-
     //AI对话dialogueWidget框大小状态标识
     bool m_isExpanded = false;  // 添加状态标识
     QSize m_originalSize;       // 保存原始尺寸
+    QClipboard *clipboard;               // 剪切板对象指针
+    QLabel *a;
+    bool isMonitoring = false;           // 监控状态标志
+
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
@@ -47,6 +51,7 @@ private:
 
     void setExpandDialogueWidget();
     void setCollapseDialogueWidget();
+
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
@@ -74,5 +79,7 @@ private slots:
     void on_pasteButton_clicked();
     void on_explainCodeButton_clicked();
     void on_translateButton_clicked();
+
+    void handleClipboardChange();        // 自定义剪切板变化处理
 };
 #endif // MAINWINDOW_H

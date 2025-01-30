@@ -215,6 +215,11 @@ MainWindow::MainWindow(QWidget *parent)
         );
     m_originalSize = ui->dialogueWidget->size(); // 保存初始尺寸
     ui->dialogueWidget->installEventFilter(this);
+
+    // 初始化剪切板对象
+    clipboard = QApplication::clipboard();
+    // 初始不激活监控
+    isMonitoring = false;
 }
 
 
@@ -612,7 +617,21 @@ void MainWindow::on_networkSearchButton_clicked()
 
 void MainWindow::on_pasteButton_clicked()
 {
+    if(!isMonitoring){
+        connect(clipboard,&QClipboard::dataChanged,this,&MainWindow::handleClipboardChange);
+        // 立即获取当前剪切板内容
+        handleClipboardChange();
 
+        isMonitoring = true;
+        qDebug() << "Clipboard monitoring started";
+    }else{
+        // 断开监控（可选）
+        disconnect(clipboard, &QClipboard::dataChanged,
+                   this, &MainWindow::handleClipboardChange);
+
+        isMonitoring = false;
+        qDebug() << "Clipboard monitoring stopped";
+    }
 }
 
 
@@ -625,6 +644,21 @@ void MainWindow::on_explainCodeButton_clicked()
 void MainWindow::on_translateButton_clicked()
 {
 
+}
+
+void MainWindow::handleClipboardChange()
+{
+    // 获取文本内容
+    const QString text = clipboard->text();
+
+    // 获取图像内容（可选）
+    // const QPixmap pixmap = clipboard->pixmap();
+
+    if (!text.isEmpty()) {
+        qDebug() << "Clipboard Updated:" << text;
+    } else {
+        qDebug() << "Clipboard Updated: [Non-text data]";
+    }
 }
 
 MainWindow::~MainWindow()
