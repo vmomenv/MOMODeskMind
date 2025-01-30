@@ -45,6 +45,7 @@ private:
     void updateReminderCount();
     void adjustScrollContent();
 
+    void setdialogueWidget();
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;

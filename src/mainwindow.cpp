@@ -140,7 +140,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->inputEdit->setPlaceholderText("和我聊聊天吧...");
     // 连接发送按钮和回车键
     connect(ui->inputEdit, &QLineEdit::returnPressed,
-            this, &MainWindow::sendRequest);
+            this, &MainWindow::setdialogueWidget);
 
     aiClient->listModels();
     //初始化对话按钮图片
@@ -544,20 +544,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_sendButton_clicked()
 {
-    // // 切换尺寸状态
-    // if(m_isExpanded) {
-    //     // 恢复到原始尺寸
-    //     ui->dialogueWidget->setFixedSize(m_originalSize);
-    // } else {
-    //     // 设置为展开尺寸
-    //     ui->dialogueWidget->setFixedSize(352, 750);
-    // }
-    ui->dialogueWidget->setFixedSize(352, 750);
+    setdialogueWidget();
+
+}
+void MainWindow::setdialogueWidget(){
+    ui->dialogueWidget->setFixedSize(352, 748);
     m_isExpanded = !m_isExpanded;  // 切换状态
     ui->dialogueWidget->move(16,16);
-    ui->answerTextEdit->setFixedSize(352,300);
-    ui->sendWidget->move(16,500);
-    sendRequest();  // 原有发送逻辑
+    ui->answerTextEdit->setFixedSize(352,549);
+    ui->sendWidget->move(0,632);
+
 
     // 添加动画效果（可选）
     QPropertyAnimation *animation = new QPropertyAnimation(ui->dialogueWidget, "size");
@@ -565,8 +561,8 @@ void MainWindow::on_sendButton_clicked()
     animation->setStartValue(ui->dialogueWidget->size());
     animation->setEndValue(m_isExpanded ? QSize(384, 750) : m_originalSize);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
+    sendRequest();  // 原有发送逻辑
 }
-
 
 void MainWindow::on_clearButton_clicked()
 {
