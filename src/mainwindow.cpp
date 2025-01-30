@@ -140,7 +140,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->inputEdit->setPlaceholderText("和我聊聊天吧...");
     // 连接发送按钮和回车键
     connect(ui->inputEdit, &QLineEdit::returnPressed,
-            this, &MainWindow::setdialogueWidget);
+            this, &MainWindow::setExpandDialogueWidget);
 
     aiClient->listModels();
     //初始化对话按钮图片
@@ -409,13 +409,7 @@ void MainWindow::onReminderTriggered(const QString &content)
 {
     QMessageBox::information(this, "提醒", content);
 }
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        // 获取鼠标按下的位置
-        offset = event->globalPos() - frameGeometry().topLeft();
-    }
-}
+
 
 // 处理鼠标移动事件
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
@@ -544,10 +538,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_sendButton_clicked()
 {
-    setdialogueWidget();
+    setExpandDialogueWidget();
 
 }
-void MainWindow::setdialogueWidget(){
+void MainWindow::setExpandDialogueWidget(){
     ui->dialogueWidget->setFixedSize(352, 748);
     m_isExpanded = !m_isExpanded;  // 切换状态
     ui->dialogueWidget->move(16,16);
@@ -562,6 +556,15 @@ void MainWindow::setdialogueWidget(){
     animation->setEndValue(m_isExpanded ? QSize(384, 750) : m_originalSize);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
     sendRequest();  // 原有发送逻辑
+}
+
+void MainWindow::setCollapseDialogueWidget()
+{
+    ui->dialogueWidget->setFixedSize(352, 256);
+    m_isExpanded = !m_isExpanded;  // 切换状态
+    ui->dialogueWidget->move(16,508);
+    ui->answerTextEdit->setFixedSize(328,56);
+    ui->sendWidget->move(0,140);
 }
 
 void MainWindow::on_clearButton_clicked()
