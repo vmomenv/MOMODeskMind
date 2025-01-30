@@ -632,6 +632,7 @@ void MainWindow::on_pasteButton_clicked()
         isMonitoring = false;
         qDebug() << "Clipboard monitoring stopped";
     }
+
 }
 
 
@@ -650,12 +651,15 @@ void MainWindow::handleClipboardChange()
 {
     // 获取文本内容
     const QString text = clipboard->text();
-
+    const QString inputEditEext = ui->inputEdit->text();
     // 获取图像内容（可选）
     // const QPixmap pixmap = clipboard->pixmap();
 
     if (!text.isEmpty()) {
         qDebug() << "Clipboard Updated:" << text;
+        ui->inputEdit->setText(inputEditEext+text);
+        setExpandDialogueWidget();
+        sendRequest();
     } else {
         qDebug() << "Clipboard Updated: [Non-text data]";
     }
