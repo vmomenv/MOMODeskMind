@@ -67,5 +67,6 @@ private slots:
     void on_addReminderButton_clicked();
 
     void on_sendButton_clicked();
+    void on_clearButton_clicked();
 };
 #endif // MAINWINDOW_H

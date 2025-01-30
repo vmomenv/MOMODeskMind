@@ -567,3 +567,9 @@ void MainWindow::on_sendButton_clicked()
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
+
+void MainWindow::on_clearButton_clicked()
+{
+    ui->answerTextEdit->clear();
+}
+
