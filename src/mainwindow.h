@@ -65,7 +65,7 @@ private slots:
 
     // void onMessageWidgetDeleted(MessageWidget *widget);
     // void onNewMessageAdded(const QString &message, const QString &priority);
-
+    bool eventFilter(QObject* watched, QEvent* event) override;
     void on_addReminderButton_clicked();
 
     void on_sendButton_clicked();

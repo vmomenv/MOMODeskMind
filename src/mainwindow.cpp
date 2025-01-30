@@ -214,7 +214,13 @@ MainWindow::MainWindow(QWidget *parent)
         "}"
         );
     m_originalSize = ui->dialogueWidget->size(); // 保存初始尺寸
+    ui->dialogueWidget->installEventFilter(this);
 }
+
+
+
+
+
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
     if(!file.open(QIODevice::ReadOnly)){
@@ -533,6 +539,21 @@ void MainWindow::sendRequest()
 
     // 发送请求
     aiClient->generateResponse(model, input);
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched ==ui->dialogueWidget && event->type() ==QEvent::MouseButtonPress){
+        QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+
+        // 检测是否点击在空白区域
+        if (!ui->dialogueWidget->childAt(mouseEvent->pos()))
+        {
+            setExpandDialogueWidget(); // 触发展开函数
+            return true; // 拦截事件
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
 }
 
 
