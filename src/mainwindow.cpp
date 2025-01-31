@@ -656,9 +656,8 @@ void MainWindow::on_pasteButton_clicked()
 
 void MainWindow::on_explainCodeButton_clicked()
 {
-    const QString inputEditEext = ui->inputEdit->text();
-    QString prompt = QString("请阅读下面的代码并用中文进行解释。首先，识别这段代码使用的编程语言，然后提供代码的功能描述。"
-                             "解释代码的结构、重要函数、变量，以及任何可能需要注意的部分。如果有必要，提供简单的示例或改进建议。\n%1").arg(inputEditEext);
+    ui->inputEdit->setText("请阅读下面的代码并用中文进行解释。首先，识别这段代码使用的编程语言，然后提供代码的功能描述。解释代码的结构、重要函数、变量，以及任何可能需要注意的部分。如果有必要，提供简单的示例或改进建议。");
+
     if(!isexplainCodeMonitoring){
         if(isTranslateMonitoring){ //如果翻译按钮开启则关闭
             on_translateButton_clicked();
