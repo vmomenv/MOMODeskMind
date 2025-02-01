@@ -113,6 +113,27 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //初始化ai模块
+    ui->modelComboBox->setStyleSheet(
+        "QComboBox {"
+        "   border-radius: 8px;"              // 设置圆角
+        "   background-color: #F3F4F6;"       // 设置底色
+        "   padding: 5px;"                    // 设置内边距
+        "   min-width: 100px;"                 // 设置最小宽度
+        "}"
+        "QComboBox::down-arrow {"
+        "   image: url(:/img/down_arrow.svg);" // 使用自定义箭头图标
+        "   width: 16px;"                       // 设置箭头宽度
+        "   height: 16px;"                      // 设置箭头高度
+        "   border: none;"                     // 去掉按钮边框
+        "   background: none;"                 // 去掉按钮背景
+        "}"
+        "QComboBox::drop-down {"
+        "   border: none;"                     // 去掉下拉框的边框
+        "   background: none;"                 // 去掉下拉框的背景
+        "   padding: 0px;"                     // 去掉内边距
+        "}"
+        );
+
     aiClient = new AIClient(this); // 修改初始化
 
     aiClient->setServerUrl("http://127.0.0.1:11434");

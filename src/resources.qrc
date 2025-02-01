@@ -11,5 +11,6 @@
         <file>img/Translate.svg</file>
         <file>img/Trash_black.svg</file>
         <file>img/Send.svg</file>
+        <file>img/down_arrow.svg</file>
     </qresource>
 </RCC>
