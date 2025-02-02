@@ -18,48 +18,120 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>961</width>
-     <height>561</height>
+     <width>421</width>
+     <height>401</height>
     </rect>
    </property>
    <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab">
+   <widget class="QWidget" name="widget_2">
     <attribute name="title">
-     <string>Tab 1</string>
+     <string>Settings</string>
     </attribute>
-    <widget class="QPushButton" name="changeAvatarButton">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>60</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>更改头像</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="avatarLabel">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>90</y>
-       <width>128</width>
-       <height>128</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>头像设置</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="widget" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="avatarLabel">
+          <property name="minimumSize">
+           <size>
+            <width>128</width>
+            <height>128</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>128</width>
+            <height>128</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>头像</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="changeAvatarButton">
+          <property name="text">
+           <string>更改头像</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>天气设置</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>代办事项设置</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>模型设置</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>Tab 2</string>
+     <string>About</string>
     </attribute>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>20</y>
+       <width>291</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>momodesk-mind</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Based On Qt 6.8.1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>momodesk-mind是一个免费的桌面助手。</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
  </widget>
