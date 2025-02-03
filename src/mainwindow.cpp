@@ -765,6 +765,8 @@ void MainWindow::handleClipboardChange()
     } else {
         qDebug() << "Clipboard Updated: [Non-text data]";
     }
+    this->activateWindow();
+    this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
     if(isexplainCodeMonitoring || isTranslateMonitoring){//如果相关按钮开启则自动发送请求
         sendRequest();
         setExpandDialogueWidget();
