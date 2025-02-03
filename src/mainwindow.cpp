@@ -593,7 +593,7 @@ void MainWindow::setExpandDialogueWidget(){
     ui->dialogueWidget->setFixedSize(352, 748);
     m_isExpanded = !m_isExpanded;  // 切换状态
     ui->dialogueWidget->move(16,16);
-    ui->answerTextEdit->setFixedSize(352,549);
+    ui->answerTextEdit->setFixedSize(331,549);
     ui->sendWidget->move(0,632);
 
 
