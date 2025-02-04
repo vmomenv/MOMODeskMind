@@ -53,12 +53,18 @@ void AIClient::generateResponse(const QString &model,const QString &prompt){
 void AIClient::cancelRequest()
 {
     if (m_currentReply) {
+
+
+        // 中止请求
         m_currentReply->abort();
-        m_currentReply->deleteLater();
         m_currentReply = nullptr;
+
+        // 清空缓冲区
+        m_buffer.clear();
+
+        // 发送中断信号（需要在头文件中添加信号声明）
+        emit responseInterrupted();
     }
-    m_buffer.clear();
-    m_timeoutTimer->stop();
 }
 void AIClient::setServerUrl(const QString &url)
 {

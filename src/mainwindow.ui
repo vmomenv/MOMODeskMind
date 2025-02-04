@@ -383,6 +383,13 @@
          <number>0</number>
         </property>
         <item>
+         <widget class="QPushButton" name="stopButton">
+          <property name="text">
+           <string>中断</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="clearButton">
           <property name="minimumSize">
            <size>

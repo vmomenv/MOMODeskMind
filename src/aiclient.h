@@ -32,7 +32,7 @@ signals:
     void responseReceived(const QString &response);  // 收到流式响应片段
     void responseComplete();  // 响应完成
     void errorOccurred(const QString &error);  // 发生错误
-
+    void responseInterrupted();
 private slots:
     // 网络响应处理
     void handleModelsResponse();

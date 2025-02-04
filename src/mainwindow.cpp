@@ -241,6 +241,13 @@ MainWindow::MainWindow(QWidget *parent)
     clipboard = QApplication::clipboard();
     // 初始不激活监控
     isPasteMonitoring = false;
+
+    // 连接中断按钮点击信号
+    connect(ui->stopButton, &QPushButton::clicked, aiClient, &AIClient::cancelRequest);
+    // 处理中断信号
+    connect(aiClient, &AIClient::responseInterrupted, this, [=](){
+        qDebug()<<"中断";
+    });
 }
 
 
