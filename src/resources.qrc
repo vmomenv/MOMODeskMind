@@ -12,5 +12,6 @@
         <file>img/Trash_black.svg</file>
         <file>img/Send.svg</file>
         <file>img/down_arrow.svg</file>
+        <file>img/cancel.svg</file>
     </qresource>
 </RCC>

@@ -234,6 +234,17 @@ MainWindow::MainWindow(QWidget *parent)
         "   background-color: #CDD1D9;"
         "}"
         );
+    ui->cancelButton->setIcon(QIcon(":/img/cancel.svg"));
+    ui->cancelButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #F3F4F6;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #FEE2E2;"
+        "}"
+        );
     m_originalSize = ui->dialogueWidget->size(); // 保存初始尺寸
     ui->dialogueWidget->installEventFilter(this);
 
@@ -243,7 +254,7 @@ MainWindow::MainWindow(QWidget *parent)
     isPasteMonitoring = false;
 
     // 连接中断按钮点击信号
-    connect(ui->stopButton, &QPushButton::clicked, aiClient, &AIClient::cancelRequest);
+    connect(ui->cancelButton, &QPushButton::clicked, aiClient, &AIClient::cancelRequest);
     // 处理中断信号
     connect(aiClient, &AIClient::responseInterrupted, this, [=](){
         qDebug()<<"中断";
