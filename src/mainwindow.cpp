@@ -177,6 +177,28 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     aiClient->listModels();
+    ui->pinnedButton->setIcon(QIcon(":/img/pin.svg"));
+    ui->pinnedButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #000000;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
+    ui->settingsButton->setIcon(QIcon(":/img/settings.svg"));
+    ui->settingsButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #000000;"
+        "   border: 1px solid #FFFFFF;"
+        "   border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #CDD1D9;"
+        "}"
+        );
     //初始化对话按钮图片
     ui->clearButton->setIcon(QIcon(":/img/Trash_black.svg"));
     ui->clearButton->setStyleSheet(

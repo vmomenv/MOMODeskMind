@@ -13,5 +13,6 @@
         <file>img/Send.svg</file>
         <file>img/down_arrow.svg</file>
         <file>img/cancel.svg</file>
+        <file>img/pin.svg</file>
     </qresource>
 </RCC>
