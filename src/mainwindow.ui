@@ -84,8 +84,17 @@
        <height>76</height>
       </size>
      </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::NoFrame</enum>
+     </property>
      <property name="text">
       <string>天气控件</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+     <property name="margin">
+      <number>9</number>
      </property>
     </widget>
     <widget class="QWidget" name="reminderWidget" native="true">
@@ -139,8 +148,16 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>待办事项</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::TextFormat::PlainText</enum>
          </property>
         </widget>
        </item>

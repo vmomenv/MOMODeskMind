@@ -389,12 +389,17 @@ void MainWindow::adjustScrollContent()
 }
 void MainWindow::updateWeatherDisplay(const QString &location, double tempC, const QString &condition)
 {
-    // 更新 QLabel 显示天气信息
-    QString weatherText = QString("Location: %1\nTemperature: %2 °C\nCondition: %3")
+    // 使用HTML标签设置不同部分的文本样式
+    QString weatherText = QString("<div style='font-size:14pt;'>%1</div>" // 城市，14号字体
+                                  "<div><span style='font-size:20pt; font-weight:bold;'>%2℃</span>&nbsp;&nbsp;" // 温度，20号加粗，后跟两个空格
+                                  "<span style='font-size:14pt;'>%3</span></div>") // 气象，14号字体
                               .arg(location)
                               .arg(tempC)
                               .arg(condition);
+
+    // 设置QLabel的文本并启用HTML格式
     ui->weatherLabel->setText(weatherText);
+    ui->weatherLabel->setTextFormat(Qt::RichText);
 }
 void MainWindow::on_addReminderButton_clicked()
 {
