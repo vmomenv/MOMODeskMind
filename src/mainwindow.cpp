@@ -181,8 +181,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pinnedButton->setStyleSheet(
         "QPushButton {"
         "   background-color: #000000;"
-        "   border: 1px solid #FFFFFF;"
-        "   border-radius: 4px;"
         "}"
         "QPushButton:hover {"
         "   background-color: #CDD1D9;"
@@ -192,8 +190,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->settingsButton->setStyleSheet(
         "QPushButton {"
         "   background-color: #000000;"
-        "   border: 1px solid #FFFFFF;"
-        "   border-radius: 4px;"
         "}"
         "QPushButton:hover {"
         "   background-color: #CDD1D9;"
