@@ -25,6 +25,7 @@ public:
 
     // 上下文管理
     void clearContext();  // 清空对话上下文
+    bool initializeConnection();
 
 signals:
     // 状态通知信号

@@ -123,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //初始化ai模块
+
     ui->modelComboBox->setStyleSheet(
         "QComboBox {"
         "   border-radius: 8px;"              // 设置圆角
@@ -145,9 +146,8 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     aiClient = new AIClient(this); // 修改初始化
-
+    qDebug()<<aiClient->initializeConnection();//初始化连接
     aiClient->setServerUrl("http://127.0.0.1:11434");
-
     // 连接信号
     connect(aiClient, &AIClient::modelsReceived, [](const QStringList &models){
         qDebug() << "Available models:" << models;
@@ -593,6 +593,7 @@ void MainWindow::handleResponseComplete()
 
 void MainWindow::sendRequest()
 {
+    // aiClient->cancelRequest();
     // 获取输入内容
     const QString input = ui->inputEdit->text().trimmed();
     if(input.isEmpty()) {
@@ -768,7 +769,7 @@ void MainWindow::on_explainCodeButton_clicked()
 
 void MainWindow::on_translateButton_clicked()
 {
-    ui->inputEdit->setText("I want you to act as an Chinese translator, spelling corrector and improver. I will speak to you in any language and you will detect the language, translate it and answer in the corrected and improved version of my text, in Chinese. I want you to replace my simplified A0-level words and sentences with more beautiful and elegant, upper level Chinese words and sentences. Keep the meaning same, but make them more literary. I want you to only reply the correction, the improvements and nothing else, do not write explanations. My first sentence is :");
+    ui->inputEdit->setText("I want you to act as an Chinese translator, spelling corrector and improver. I will speak to you in any language and you will detect the language, translate it and answer in the corrected and improved version of my text, in Chinese. I want you to replace my simplified A0-level words and buences with more beautiful and elegant, upper level Chinese words and sentences. Keep the meaning same, but make them more literary. I want you to only reply the correction, the improvements and nothing else, do not write explanations. My first sentence is :");
     if(isexplainCodeMonitoring){ //如果翻译按钮开启则关闭
         on_explainCodeButton_clicked();
     }

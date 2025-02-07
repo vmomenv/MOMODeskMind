@@ -13,6 +13,28 @@ AIClient::AIClient(QObject *parent)
     //     }
     // });
 }
+bool AIClient::initializeConnection()
+{
+    // 创建一个网络请求
+    QNetworkRequest request;
+    request.setUrl(QUrl(m_baseUrl));
+
+    // 发送一个简单的GET请求来测试连接
+    m_currentReply = m_networkManager->get(request);
+
+    // 检查响应状态
+    if (m_currentReply->error() == QNetworkReply::NoError) {
+        // 连接成功
+        m_currentReply->deleteLater();
+        m_currentReply = nullptr;
+        return true;
+    } else {
+        // 连接失败
+        m_currentReply->deleteLater();
+        m_currentReply = nullptr;
+        return false;
+    }
+}
 void AIClient::listModels(){
     if(m_currentReply){
         m_currentReply->abort();
@@ -52,19 +74,30 @@ void AIClient::generateResponse(const QString &model,const QString &prompt){
 }
 void AIClient::cancelRequest()
 {
-    if (m_currentReply) {
+    if (m_currentReply->error() == QNetworkReply::NoError) {
+            // 中止请求
+            m_currentReply->abort();
+            m_currentReply = nullptr;
 
+            // 清空缓冲区
+            m_buffer.clear();
 
-        // 中止请求
-        m_currentReply->abort();
-        m_currentReply = nullptr;
-
-        // 清空缓冲区
-        m_buffer.clear();
-
-        // 发送中断信号（需要在头文件中添加信号声明）
-        emit responseInterrupted();
+            // 发送中断信号（需要在头文件中添加信号声明）
+            emit responseInterrupted();
     }
+    // if (m_currentReply) {
+
+
+    //     // 中止请求
+    //     m_currentReply->abort();
+    //     m_currentReply = nullptr;
+
+    //     // 清空缓冲区
+    //     m_buffer.clear();
+
+    //     // 发送中断信号（需要在头文件中添加信号声明）
+    //     emit responseInterrupted();
+    // }
 }
 void AIClient::setServerUrl(const QString &url)
 {
