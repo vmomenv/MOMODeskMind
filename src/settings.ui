@@ -220,7 +220,7 @@
             <item>
              <widget class="QLabel" name="label_11">
               <property name="text">
-               <string>WEATHER API key</string>
+               <string>WEATHER API key-www.weatherapi.com</string>
               </property>
              </widget>
             </item>
