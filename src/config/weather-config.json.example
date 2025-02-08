@@ -1,10 +1,10 @@
 {
   "weather": {
-    "WEATHER_API_KEY": "",
+    "API_KEY": "",
     "API_URL": "https://api.weatherapi.com/v1/current.json",
     "REGION": ""
   },
   "language_model": {
-    "ollama_address": "http://127.0.0.1:11434",
+    "OLLAMA_ADDRESS": "http://127.0.0.1:11434"
   }
 }
