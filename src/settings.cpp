@@ -15,7 +15,9 @@ Settings::Settings(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->changeAvatarButton, &QPushButton::clicked, this, &Settings::onChangeAvatarButtonClicked);
-
+    ui->RegionLineEdit->setPlaceholderText("精确到市或县，如太原市则填taiyuan");
+    ui->keyLineEdit->setPlaceholderText("设置密钥，为空则使用默认密钥");
+    ui->serverAddressLineEdit->setPlaceholderText("为空则默认http://127.0.0.1:11434");
     // 在初始化时加载头像
     loadAvatar();
 }

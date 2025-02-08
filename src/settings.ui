@@ -215,17 +215,17 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="RegionLineEdit"/>
             </item>
             <item>
              <widget class="QLabel" name="label_11">
               <property name="text">
-               <string>api地址</string>
+               <string>WEATHER API key</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QLineEdit" name="keyLineEdit"/>
             </item>
            </layout>
           </widget>
@@ -287,7 +287,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit">
+                <widget class="QLineEdit" name="serverAddressLineEdit">
                  <property name="autoFillBackground">
                   <bool>false</bool>
                  </property>
@@ -315,7 +315,7 @@
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton">
+                   <widget class="QPushButton" name="connectTestButton">
                     <property name="minimumSize">
                      <size>
                       <width>98</width>
@@ -334,7 +334,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_8">
+                   <widget class="QLabel" name="connectStatusLabel">
                     <property name="text">
                      <string>连接中</string>
                     </property>
@@ -350,6 +350,19 @@
           </widget>
          </item>
         </layout>
+       </widget>
+       <widget class="QPushButton" name="saveButton">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>510</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>保存</string>
+        </property>
        </widget>
       </widget>
      </item>
