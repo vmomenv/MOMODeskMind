@@ -43,7 +43,7 @@ private:
     bool isPasteMonitoring = false;           // 监控剪切板按钮状态
     bool isexplainCodeMonitoring = false;            //监控解释代码按钮状态
     bool isTranslateMonitoring = false;       //监控翻译代码按钮状态
-
+    bool isTopping =false;
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
@@ -83,5 +83,6 @@ private slots:
     void on_translateButton_clicked();
 
     void handleClipboardChange();        // 自定义剪切板变化处理
+    void on_pinnedButton_clicked();
 };
 #endif // MAINWINDOW_H

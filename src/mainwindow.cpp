@@ -829,3 +829,35 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_pinnedButton_clicked()
+{
+    if (isTopping) {
+        // 如果当前是置顶状态，取消置顶
+        this->setWindowFlag(Qt::WindowStaysOnTopHint, false);
+        isTopping = false;  // 更新状态
+        ui->pinnedButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #000000;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: ##EF4444;"
+            "}"
+            );
+    } else {
+        // 如果当前不是置顶状态，置顶
+        this->setWindowFlag(Qt::WindowStaysOnTopHint, true);
+        isTopping = true;  // 更新状态
+        ui->pinnedButton->setStyleSheet(
+            "QPushButton {"
+            "   background-color: #EF4444;"
+            "}"
+            "QPushButton:hover {"
+            "   background-color: #000000;"
+            "}"
+            );
+    }
+
+    this->show();  // 刷新窗口
+}
+
