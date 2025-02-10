@@ -12,7 +12,7 @@ WeatherAPI::WeatherAPI(QObject *parent)
     : QObject{parent}, networkManager(new QNetworkAccessManager(this))
 {
     apiKey = readApiKeyFromConfig();
-    apiUrl = "https://api.weatherapi.com/v1/current.json";
+    qDebug()<<"apikey"<<apiKey;
     connect(networkManager, &QNetworkAccessManager::finished, this, &WeatherAPI::parseWeatherResponse);
 }
 
@@ -23,9 +23,11 @@ WeatherAPI::~WeatherAPI()
 
 QString WeatherAPI::readApiKeyFromConfig()
 {
-    QFile configFile(":/config/weather-config.json");
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString settingsPath = appDir + "/settings.json";
+    QFile configFile(settingsPath);
     if (!configFile.open(QIODevice::ReadOnly)) {
-        qWarning() << "Unable to open config file:" << configFile.errorString();
+        qWarning() << "打开配置失败" << configFile.errorString();
         qWarning() << "无法打开天气配置文件";
         return QString();
     }
@@ -33,8 +35,10 @@ QString WeatherAPI::readApiKeyFromConfig()
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
     QJsonObject jsonObj = jsonDoc.object();
 
-    return jsonObj["WEATHER_API_KEY"].toString();  // 获取API Key
+
+    return QString();
 }
+
 
 QString WeatherAPI::buildApiUrl(const QString &location)
 {
