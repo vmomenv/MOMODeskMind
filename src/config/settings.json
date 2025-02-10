@@ -1,1 +1,13 @@
-w
+{
+    "weather": {
+      "API_KEY": "", // 天气API的密钥
+      "API_URL": "https://api.weatherapi.com/v1/current.json", // 天气API的URL
+      "REGION": "" // 地区设置
+    },
+    "language_model": {
+      "OLLAMA_ADDRESS": "http://127.0.0.1:11434" // Ollama服务的地址
+    },
+    "avatar": {
+      "IMAGE_PATH": "" // 用户头像的图片地址
+    }
+  }
