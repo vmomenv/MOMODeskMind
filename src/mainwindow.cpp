@@ -14,6 +14,7 @@
 #include <QFormLayout>
 #include <QDateTimeEdit>
 #include <QPropertyAnimation>
+#include <QStandardPaths>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
         "background-color: #F3F4F6;"
         "border-radius: 8px;"
         );
-
+    checkAndCopySettings();
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
     ui->weatherLabel->setStyleSheet(
@@ -537,6 +538,29 @@ void MainWindow::loadAvatar()
     circularAvatar.setMask(mask);
     ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
     ui->avatarLabel->move(128, 16);  // 设置头像的位置
+}
+
+void MainWindow::checkAndCopySettings()
+{
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString settingsPath = appDir + "/settings.json";
+    QString defaultSettings = ":/config/settings.json";
+
+    QFile settingsFile(settingsPath);
+    if(!settingsFile.exists()){
+        qDebug()<<"settings.json不可见，复制默认配置..";
+        QFile defaultFile(defaultSettings);
+        if (defaultFile.exists()) {
+            if (defaultFile.copy(settingsPath)) {
+                qDebug() << "默认配置初始化成功";
+            } else {
+                qDebug() << "默认配置复制失败.";
+            }
+        } else {
+            qDebug() << "找不到默认配置";
+        }
+    }
+
 }
 
 void MainWindow::openSettingsDialog() {

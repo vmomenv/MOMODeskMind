@@ -44,6 +44,7 @@ private:
     bool isexplainCodeMonitoring = false;            //监控解释代码按钮状态
     bool isTranslateMonitoring = false;       //监控翻译代码按钮状态
     bool isTopping =false;
+    void checkAndCopySettings(); //检测同级目录是否存在settings.json
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
