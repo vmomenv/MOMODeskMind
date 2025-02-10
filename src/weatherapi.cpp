@@ -21,22 +21,50 @@ WeatherAPI::~WeatherAPI()
     delete networkManager;
 }
 
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QDebug>
+
 QString WeatherAPI::readApiKeyFromConfig()
 {
-    QString appDir = QCoreApplication::applicationDirPath();
-    QString settingsPath = appDir + "/settings.json";
-    QFile configFile(settingsPath);
-    if (!configFile.open(QIODevice::ReadOnly)) {
-        qWarning() << "打开配置失败" << configFile.errorString();
-        qWarning() << "无法打开天气配置文件";
+    // 打开同目录下的 settings.json 文件
+    QFile file("settings.json");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "无法打开 settings.json 文件";
         return QString();
     }
-    QByteArray data = configFile.readAll();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
-    QJsonObject jsonObj = jsonDoc.object();
 
+    // 读取文件内容
+    QByteArray jsonData = file.readAll();
+    file.close();
 
-    return QString();
+    // 解析 JSON 数据
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
+    if (jsonDoc.isNull()) {
+        qWarning() << "解析 JSON 数据失败";
+        return QString();
+    }
+
+    // 获取根对象
+    QJsonObject rootObject = jsonDoc.object();
+
+    // 获取 "weather" 对象
+    QJsonObject weatherObject = rootObject.value("weather").toObject();
+    if (weatherObject.isEmpty()) {
+        qWarning() << "未找到 weather 对象";
+        return QString();
+    }
+
+    // 获取 "API_KEY" 值
+    QString apiKey = weatherObject.value("API_KEY").toString();
+    if (apiKey.isEmpty()) {
+        qWarning() << "未找到 API_KEY";
+        return QString();
+    }
+
+    return apiKey;
 }
 
 
