@@ -12,7 +12,6 @@ WeatherAPI::WeatherAPI(QObject *parent)
     : QObject{parent}, networkManager(new QNetworkAccessManager(this))
 {
     apiKey = readApiKeyFromConfig();
-    qDebug()<<"apikey"<<apiKey;
     connect(networkManager, &QNetworkAccessManager::finished, this, &WeatherAPI::parseWeatherResponse);
 }
 
@@ -21,11 +20,6 @@ WeatherAPI::~WeatherAPI()
     delete networkManager;
 }
 
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QDebug>
 
 QString WeatherAPI::readApiKeyFromConfig()
 {
