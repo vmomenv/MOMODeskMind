@@ -2,16 +2,9 @@
 
 AIClient::AIClient(QObject *parent)
     : QObject{parent},
-    m_networkManager(new QNetworkAccessManager(this)),
-    m_timeoutTimer(new QTimer(this))
+    m_networkManager(new QNetworkAccessManager(this))
 {
-    // m_timeoutTimer->setInterval(30000);
-    // connect(m_timeoutTimer, &QTimer::timeout, this, [this]() {
-    //     if (m_currentReply) {
-    //         cancelRequest();
-    //         emit errorOccurred(tr("请求超时，请检查网络连接"));
-    //     }
-    // });
+
 }
 bool AIClient::initializeConnection()
 {
