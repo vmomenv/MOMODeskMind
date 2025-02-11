@@ -64,7 +64,7 @@ QString WeatherAPI::readApiKeyFromConfig()
 
 QString WeatherAPI::buildApiUrl(const QString &location)
 {
-    return QString("%1?key=%2&q=%3").arg(apiUrl, apiKey, location);
+    return QString("https://api.weatherapi.com/v1/current.json?key=%1&q=%2").arg(apiKey, location);
 }
 
 void WeatherAPI::parseWeatherResponse(QNetworkReply* reply)
