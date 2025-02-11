@@ -11,7 +11,7 @@
 WeatherAPI::WeatherAPI(QObject *parent)
     : QObject{parent}, networkManager(new QNetworkAccessManager(this))
 {
-    apiKey = readApiKeyFromConfig();
+    readConfig();
     connect(networkManager, &QNetworkAccessManager::finished, this, &WeatherAPI::parseWeatherResponse);
 }
 
@@ -21,13 +21,12 @@ WeatherAPI::~WeatherAPI()
 }
 
 
-QString WeatherAPI::readApiKeyFromConfig()
+void WeatherAPI::readConfig()
 {
     // 打开同目录下的 settings.json 文件
     QFile file("settings.json");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "无法打开 settings.json 文件";
-        return QString();
     }
 
     // 读取文件内容
@@ -38,7 +37,6 @@ QString WeatherAPI::readApiKeyFromConfig()
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
     if (jsonDoc.isNull()) {
         qWarning() << "解析 JSON 数据失败";
-        return QString();
     }
 
     // 获取根对象
@@ -48,17 +46,17 @@ QString WeatherAPI::readApiKeyFromConfig()
     QJsonObject weatherObject = rootObject.value("weather").toObject();
     if (weatherObject.isEmpty()) {
         qWarning() << "未找到 weather 对象";
-        return QString();
     }
 
     // 获取 "API_KEY" 值
-    QString apiKey = weatherObject.value("API_KEY").toString();
+    apiKey = weatherObject.value("API_KEY").toString();
     if (apiKey.isEmpty()) {
         qWarning() << "未找到 API_KEY";
-        return QString();
     }
-
-    return apiKey;
+    region = weatherObject.value("REGION").toString();
+    if (region.isEmpty()) {
+        qWarning() << "未找到 region";
+    }
 }
 
 
@@ -93,8 +91,13 @@ void WeatherAPI::parseWeatherResponse(QNetworkReply* reply)
 
 QString WeatherAPI::getCurrentWeather()
 {
+    QString location;
+    if(region.isEmpty()){
+        location = "auto:ip";
+    }else{
+        location = region;
+    }
 
-    QString location = "auto:ip";
 
     QNetworkRequest request(QUrl(buildApiUrl(location)));
     networkManager->get(request);
