@@ -14,6 +14,9 @@ Settings::Settings(QWidget *parent)
     :ui(new Ui::Settings)
 {
     ui->setupUi(this);
+    loadSettings();
+    // 连接保存按钮的点击信号到槽函数
+    connect(ui->saveButton, &QPushButton::clicked, this, &Settings::saveSettings);
     connect(ui->changeAvatarButton, &QPushButton::clicked, this, &Settings::onChangeAvatarButtonClicked);
     ui->RegionLineEdit->setPlaceholderText("精确到市或县，如太原市则填taiyuan");
     ui->keyLineEdit->setPlaceholderText("设置密钥，为空则使用默认密钥");
@@ -59,6 +62,15 @@ void Settings::onChangeAvatarButtonClicked()
 
 }
 
+void Settings::loadSettings()
+{
+
+}
+
+void Settings::saveSettings()
+{
+
+}
 void Settings::loadAvatar()
 {
     // 获取头像路径

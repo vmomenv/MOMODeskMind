@@ -20,8 +20,11 @@ signals:
     void avatarUpdated();
 
 
+
 private:
     Ui::Settings *ui;  // UI 对象
+    void loadSettings();
+    void saveSettings();
 };
 
 #endif // SETTINGS_H
