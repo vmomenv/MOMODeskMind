@@ -215,7 +215,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="RegionLineEdit"/>
+             <widget class="QLineEdit" name="weatherRegionLineEdit"/>
             </item>
             <item>
              <widget class="QLabel" name="label_11">
@@ -225,7 +225,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="keyLineEdit"/>
+             <widget class="QLineEdit" name="weatherAPIKeyLineEdit"/>
             </item>
            </layout>
           </widget>
@@ -287,7 +287,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="serverAddressLineEdit">
+                <widget class="QLineEdit" name="ollamaAddressLineEdit">
                  <property name="autoFillBackground">
                   <bool>false</bool>
                  </property>

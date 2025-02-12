@@ -18,9 +18,9 @@ Settings::Settings(QWidget *parent)
     // 连接保存按钮的点击信号到槽函数
     connect(ui->saveButton, &QPushButton::clicked, this, &Settings::saveSettings);
     connect(ui->changeAvatarButton, &QPushButton::clicked, this, &Settings::onChangeAvatarButtonClicked);
-    ui->RegionLineEdit->setPlaceholderText("精确到市或县，如太原市则填taiyuan");
-    ui->keyLineEdit->setPlaceholderText("设置密钥，为空则使用默认密钥");
-    ui->serverAddressLineEdit->setPlaceholderText("为空则默认http://127.0.0.1:11434");
+    ui->weatherRegionLineEdit->setPlaceholderText("精确到市或县，如太原市则填taiyuan");
+    ui->weatherAPIKeyLineEdit->setPlaceholderText("设置密钥，为空则使用默认密钥");
+    ui->ollamaAddressLineEdit->setPlaceholderText("为空则默认http://127.0.0.1:11434");
     // 在初始化时加载头像
     loadAvatar();
 }
@@ -64,7 +64,22 @@ void Settings::onChangeAvatarButtonClicked()
 
 void Settings::loadSettings()
 {
+    QFile file("settings.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning("无法打开 settings.json 文件");
+        return;
+    }
 
+    QByteArray data = file.readAll();
+    QJsonDocument doc(QJsonDocument::fromJson(data));
+    QJsonObject json = doc.object();
+    qDebug()<<json["weather"].toObject()["API_KEY"].toString()<<"1";
+    // 填充QLineEdit
+    ui->weatherAPIKeyLineEdit->setText(json["weather"].toObject()["API_KEY"].toString());
+    ui->weatherRegionLineEdit->setText(json["weather"].toObject()["REGION"].toString());
+    ui->ollamaAddressLineEdit->setText(json["language_model"].toObject()["OLLAMA_ADDRESS"].toString());
+
+    file.close();
 }
 
 void Settings::saveSettings()
