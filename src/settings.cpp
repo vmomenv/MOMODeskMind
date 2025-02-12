@@ -84,8 +84,32 @@ void Settings::loadSettings()
 
 void Settings::saveSettings()
 {
+    QJsonObject jsons;
+    QJsonObject weatherObject;
+    QJsonObject languageModelObject;
+    QJsonObject avatarObject;
 
+    // 从QLineEdit获取数据
+    weatherObject["API_KEY"] = ui->weatherAPIKeyLineEdit->text();
+    weatherObject["REGION"] = ui->weatherRegionLineEdit->text();
+    languageModelObject["OLLAMA_ADDRESS"] = ui->ollamaAddressLineEdit->text();
+
+    // 构建JSON对象
+    jsons["weather"] = weatherObject;
+    jsons["language_model"] = languageModelObject;
+    jsons["avatar"] = avatarObject;
+
+    // 写入文件
+    QFile file("settings.json");
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open setting.json for writing.");
+        return;
+    }
+    qDebug()<<"保存设置";
+    file.write(QJsonDocument(jsons).toJson());
+    file.close();
 }
+
 void Settings::loadAvatar()
 {
     // 获取头像路径
