@@ -92,3 +92,26 @@ void Settings::loadAvatar()
     ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
     ui->avatarLabel->move(128, 16);  // 设置头像的位置
 }
+
+void Settings::checkAndCopySettings()
+{
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString settingsPath = appDir + "/settings.json";
+    QString defaultSettings = ":/config/settings.json";
+
+    QFile settingsFile(settingsPath);
+    if(!settingsFile.exists()){
+        qDebug()<<"settings.json不可见，复制默认配置..";
+        QFile defaultFile(defaultSettings);
+        if (defaultFile.exists()) {
+            if (defaultFile.copy(settingsPath)) {
+                qDebug() << "默认配置初始化成功";
+            } else {
+                qDebug() << "默认配置复制失败.";
+            }
+        } else {
+            qDebug() << "找不到默认配置";
+        }
+    }
+
+}

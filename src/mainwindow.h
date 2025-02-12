@@ -10,6 +10,7 @@
 #include "weatherapi.h"
 #include "MessageWidget.h"
 #include "aiclient.h"
+#include "settings.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,7 @@ private:
     Ui::MainWindow *ui;
     PetAI *petAI;
     WeatherAPI *weatherAPI;
+    Settings *settings;
     void loadAvatar();
     QString avatarFilePath;
     QPoint offset;  // 鼠标按下时的偏移量，用于拖动窗口
@@ -44,7 +46,7 @@ private:
     bool isexplainCodeMonitoring = false;            //监控解释代码按钮状态
     bool isTranslateMonitoring = false;       //监控翻译代码按钮状态
     bool isTopping =false;
-    void checkAndCopySettings(); //检测同级目录是否存在settings.json
+
     void reminderLoadJsonData(const QString &filePath);
     void displayMessage(const QString &message, const QString &time,const QString &priority);
     void saveReminderToJson(const QString &message, const QString &time, const QString &priority);
