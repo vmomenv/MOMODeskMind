@@ -334,9 +334,9 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="connectStatusLabel">
+                   <widget class="QLabel" name="connectionStatusLabel">
                     <property name="text">
-                     <string>连接中</string>
+                     <string>未测试</string>
                     </property>
                    </widget>
                   </item>

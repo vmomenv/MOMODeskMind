@@ -9,7 +9,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
-
+#include <QMessageBox>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 Settings::Settings(QWidget *parent)
     :ui(new Ui::Settings)
 {
@@ -23,6 +26,7 @@ Settings::Settings(QWidget *parent)
     ui->ollamaAddressLineEdit->setPlaceholderText("为空则默认http://127.0.0.1:11434");
     // 在初始化时加载头像
     loadAvatar();
+
 }
 
 Settings::~Settings()
@@ -166,3 +170,32 @@ void Settings::checkAndCopySettings()
     }
 
 }
+
+void Settings::on_connectTestButton_clicked()
+{
+    QString ollamaAddress = ui->ollamaAddressLineEdit->text();
+
+    if (ollamaAddress.isEmpty()) {
+        QMessageBox::warning(this, "Error", "OLLAMA_ADDRESS is empty!");
+        return;
+    }
+
+    // 发送一个简单的 GET 请求测试连接
+    QNetworkRequest request;
+    request.setUrl(QUrl(ollamaAddress));
+    qDebug() << QUrl(ollamaAddress);
+
+    QNetworkAccessManager *m_networkManager = new QNetworkAccessManager(this);
+    m_currentReply = m_networkManager->get(request);
+
+    // 连接请求完成的信号到槽函数
+    connect(m_currentReply, &QNetworkReply::finished, this, [this]() {
+        if (m_currentReply->error() == QNetworkReply::NoError) {
+            ui->connectionStatusLabel->setText("连接成功");
+        } else {
+            ui->connectionStatusLabel->setText("连接错误");
+        }
+        m_currentReply->deleteLater();
+    });
+}
+
