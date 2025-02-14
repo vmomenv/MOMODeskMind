@@ -11,6 +11,7 @@
 #include "MessageWidget.h"
 #include "aiclient.h"
 #include "settings.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -84,6 +85,7 @@ private slots:
     void on_pasteButton_clicked();
     void on_explainCodeButton_clicked();
     void on_translateButton_clicked();
+    void onSettingsUpdated();
 
     void handleClipboardChange();        // 自定义剪切板变化处理
     void on_pinnedButton_clicked();

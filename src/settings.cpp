@@ -111,7 +111,9 @@ void Settings::saveSettings()
     }
     qDebug()<<"保存设置";
     file.write(QJsonDocument(jsons).toJson());
+
     file.close();
+
 }
 
 void Settings::loadAvatar()
@@ -198,4 +200,45 @@ void Settings::on_connectTestButton_clicked()
         m_currentReply->deleteLater();
     });
 }
+QMap<QString, QString> Settings::getWeatherSettings() {
+    QMap<QString, QString> weatherSettings;
 
+    QFile file("setting.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open setting.json.");
+        return weatherSettings;
+    }
+
+    QByteArray data = file.readAll();
+    QJsonDocument doc(QJsonDocument::fromJson(data));
+    QJsonObject json = doc.object();
+
+    // 获取天气相关的值
+    QJsonObject weatherObject = json["weather"].toObject();
+    weatherSettings["API_KEY"] = weatherObject["API_KEY"].toString();
+    weatherSettings["API_URL"] = weatherObject["API_URL"].toString();
+    weatherSettings["REGION"] = weatherObject["REGION"].toString();
+
+    file.close();
+    return weatherSettings;
+}
+QMap<QString, QString> Settings::getLanguageModelSettings() {
+    QMap<QString, QString> languageModelSettings;
+
+    QFile file("setting.json");
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open setting.json.");
+        return languageModelSettings;
+    }
+
+    QByteArray data = file.readAll();
+    QJsonDocument doc(QJsonDocument::fromJson(data));
+    QJsonObject json = doc.object();
+
+    // 获取大语言模型相关的值
+    QJsonObject languageModelObject = json["language_model"].toObject();
+    languageModelSettings["OLLAMA_ADDRESS"] = languageModelObject["OLLAMA_ADDRESS"].toString();
+
+    file.close();
+    return languageModelSettings;
+}
