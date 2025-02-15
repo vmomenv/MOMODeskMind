@@ -5,7 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QString>
-
+#include "settings.h"
 class WeatherAPI : public QObject
 {
     Q_OBJECT

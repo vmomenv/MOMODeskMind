@@ -16,14 +16,16 @@ public:
 
     void loadAvatar();
     void checkAndCopySettings(); //检测同级目录是否存在settings.json
+    QMap<QString, QString> getWeatherSettings();
+    QMap<QString, QString> getLanguageModelSettings();
 private slots:
     void onChangeAvatarButtonClicked();
     void on_connectTestButton_clicked();
 
+
 signals:
     void avatarUpdated();
-
-
+    void settingsUpdated();
 
 private:
     Ui::Settings *ui;  // UI 对象
@@ -31,6 +33,7 @@ private:
     void saveSettings();
     QNetworkReply *m_currentReply = nullptr;
     QNetworkAccessManager *m_networkManager;
+
 };
 
 #endif // SETTINGS_H

@@ -4,7 +4,6 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <QImage>
-#include "settings.h"
 #include <QSettings>
 #include <QFile>
 #include <QStyle>
@@ -30,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化设置
     settings = new Settings(this);
     settings->checkAndCopySettings();
+
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
     ui->weatherLabel->setStyleSheet(
@@ -291,10 +291,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(aiClient, &AIClient::responseInterrupted, this, [=](){
         qDebug()<<"中断";
     });
+
 }
 
 
-
+void MainWindow::onSettingsUpdated() {
+    qDebug() << "更新设置";
+    ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
+}
 
 
 void MainWindow::reminderLoadJsonData(const QString &filePath){
