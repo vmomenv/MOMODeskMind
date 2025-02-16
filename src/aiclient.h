@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QCache>
 #include <QJsonArray>
+#include <QString>
 class AIClient : public QObject
 {
     Q_OBJECT
@@ -46,7 +47,7 @@ private:
     QNetworkReply *m_currentReply = nullptr;
 
     // 配置参数
-    QString m_baseUrl = "http://localhost:11434";
+    QString m_baseUrl;
     QString m_buffer;  // 流式数据缓冲区
 
     // 上下文管理

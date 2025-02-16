@@ -203,7 +203,7 @@ void Settings::on_connectTestButton_clicked()
 QMap<QString, QString> Settings::getWeatherSettings() {
     QMap<QString, QString> weatherSettings;
 
-    QFile file("setting.json");
+    QFile file("settings.json");
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open setting.json.");
         return weatherSettings;
@@ -225,7 +225,7 @@ QMap<QString, QString> Settings::getWeatherSettings() {
 QMap<QString, QString> Settings::getLanguageModelSettings() {
     QMap<QString, QString> languageModelSettings;
 
-    QFile file("setting.json");
+    QFile file("settings.json");
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning("Couldn't open setting.json.");
         return languageModelSettings;

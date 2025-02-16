@@ -151,7 +151,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     aiClient = new AIClient(this); // 修改初始化
     qDebug()<<aiClient->initializeConnection();//初始化连接
-    aiClient->setServerUrl("http://127.0.0.1:11434");
+    QMap<QString, QString> languageModelSettings = settings->getLanguageModelSettings();
+    QString ollamaAddress = languageModelSettings["OLLAMA_ADDRESS"];
+    qDebug() << "OLLAMA_ADDRESS:" << ollamaAddress;
+    aiClient->setServerUrl(ollamaAddress);
     // 连接信号
     connect(aiClient, &AIClient::modelsReceived, [](const QStringList &models){
         qDebug() << "Available models:" << models;

@@ -5,6 +5,7 @@ AIClient::AIClient(QObject *parent)
     m_networkManager(new QNetworkAccessManager(this))
 {
 
+
 }
 bool AIClient::initializeConnection()
 {
