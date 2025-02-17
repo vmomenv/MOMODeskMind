@@ -1,9 +1,18 @@
 <RCC>
     <qresource prefix="/">
-        <file>config/weather-config.json</file>
         <file>img/momen.jpg</file>
         <file>img/calendar.svg</file>
         <file>img/settings.svg</file>
         <file>img/trash.svg</file>
+        <file>img/ClipBoard.svg</file>
+        <file>img/Code.svg</file>
+        <file>img/NetWork.svg</file>
+        <file>img/Translate.svg</file>
+        <file>img/Trash_black.svg</file>
+        <file>img/Send.svg</file>
+        <file>img/down_arrow.svg</file>
+        <file>img/cancel.svg</file>
+        <file>img/pin.svg</file>
+        <file>config/settings.json</file>
     </qresource>
 </RCC>

@@ -11,8 +11,7 @@
 WeatherAPI::WeatherAPI(QObject *parent)
     : QObject{parent}, networkManager(new QNetworkAccessManager(this))
 {
-    apiKey = readApiKeyFromConfig();
-    apiUrl = "https://api.weatherapi.com/v1/current.json";
+    readConfig();
     connect(networkManager, &QNetworkAccessManager::finished, this, &WeatherAPI::parseWeatherResponse);
 }
 
@@ -21,24 +20,49 @@ WeatherAPI::~WeatherAPI()
     delete networkManager;
 }
 
-QString WeatherAPI::readApiKeyFromConfig()
-{
-    QFile configFile(":/config/weather-config.json");
-    if (!configFile.open(QIODevice::ReadOnly)) {
-        qWarning() << "Unable to open config file:" << configFile.errorString();
-        qWarning() << "无法打开天气配置文件";
-        return QString();
-    }
-    QByteArray data = configFile.readAll();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
-    QJsonObject jsonObj = jsonDoc.object();
 
-    return jsonObj["WEATHER_API_KEY"].toString();  // 获取API Key
+void WeatherAPI::readConfig()
+{
+    // 打开同目录下的 settings.json 文件
+    QFile file("settings.json");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "无法打开 settings.json 文件";
+    }
+
+    // 读取文件内容
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    // 解析 JSON 数据
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
+    if (jsonDoc.isNull()) {
+        qWarning() << "解析 JSON 数据失败";
+    }
+
+    // 获取根对象
+    QJsonObject rootObject = jsonDoc.object();
+
+    // 获取 "weather" 对象
+    QJsonObject weatherObject = rootObject.value("weather").toObject();
+    if (weatherObject.isEmpty()) {
+        qWarning() << "未找到 weather 对象";
+    }
+
+    // 获取 "API_KEY" 值
+    apiKey = weatherObject.value("API_KEY").toString();
+    if (apiKey.isEmpty()) {
+        qWarning() << "未找到 API_KEY";
+    }
+    region = weatherObject.value("REGION").toString();
+    if (region.isEmpty()) {
+        qWarning() << "未找到 region";
+    }
 }
+
 
 QString WeatherAPI::buildApiUrl(const QString &location)
 {
-    return QString("%1?key=%2&q=%3").arg(apiUrl, apiKey, location);
+    return QString("https://api.weatherapi.com/v1/current.json?key=%1&q=%2").arg(apiKey, location);
 }
 
 void WeatherAPI::parseWeatherResponse(QNetworkReply* reply)
@@ -67,8 +91,13 @@ void WeatherAPI::parseWeatherResponse(QNetworkReply* reply)
 
 QString WeatherAPI::getCurrentWeather()
 {
+    QString location;
+    if(region.isEmpty()){
+        location = "auto:ip";
+    }else{
+        location = region;
+    }
 
-    QString location = "auto:ip";
 
     QNetworkRequest request(QUrl(buildApiUrl(location)));
     networkManager->get(request);

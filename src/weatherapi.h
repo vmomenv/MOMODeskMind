@@ -5,7 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QString>
-
+#include "settings.h"
 class WeatherAPI : public QObject
 {
     Q_OBJECT
@@ -20,9 +20,10 @@ public:
 private:
     QString apiKey;   // 存储API Key
     QString apiUrl;   // 存储API URL
+    QString region;     //存储地区
     QNetworkAccessManager *networkManager;  // 用于发起网络请求
 
-    QString readApiKeyFromConfig();  // 从配置文件读取API Key
+    void readConfig();  // 从配置文件读取天气配置
     QString buildApiUrl(const QString &location);  // 构建API请求URL
 private slots:
     void parseWeatherResponse(QNetworkReply* reply); // 处理网络请求的响应
