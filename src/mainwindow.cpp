@@ -605,7 +605,6 @@ void MainWindow::handleResponseComplete()
 
 void MainWindow::sendRequest()
 {
-    // aiClient->cancelRequest();
     // 获取输入内容
     const QString input = ui->inputEdit->text().trimmed();
     if(input.isEmpty()) {
@@ -621,7 +620,7 @@ void MainWindow::sendRequest()
     }
 
     // 更新UI状态
-    ui->sendButton->setEnabled(false);
+    // ui->sendButton->setEnabled(false);
     ui->inputEdit->clear();
 
     // 在输出框显示用户输入

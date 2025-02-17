@@ -60,7 +60,7 @@ void AIClient::generateResponse(const QString &model,const QString &prompt){
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     m_currentReply = m_networkManager->post(request, QJsonDocument(body).toJson());
     connect(m_currentReply, &QNetworkReply::readyRead,this, &AIClient::handleStreamData);
-    connect(m_currentReply, &QNetworkReply::finished,this, &AIClient::handleGenerateResponse);
+    // connect(m_currentReply, &QNetworkReply::finished,this, &AIClient::handleGenerateResponse);
 
     // 启动超时检测
     // m_timeoutTimer->start();
