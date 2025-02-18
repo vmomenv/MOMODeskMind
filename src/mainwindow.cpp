@@ -25,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
         "background-color: #F3F4F6;"
         "border-radius: 8px;"
         );
-
+    // 将窗口移动到右下角
+    moveToBottomRight();
     //初始化设置
     settings = new Settings(this);
     settings->checkAndCopySettings();
@@ -676,6 +677,21 @@ void MainWindow::setCollapseDialogueWidget()
     ui->dialogueWidget->move(16,508);
     ui->answerTextEdit->setFixedSize(328,56);
     ui->sendWidget->move(0,140);
+}
+
+void MainWindow::moveToBottomRight()
+{
+    QScreen* screen=QGuiApplication::primaryScreen();
+    QRect availableGeometry = screen->availableGeometry();
+    // 获取窗口的大小
+    QSize windowSize = size();
+
+    // 计算窗口右下角的坐标
+    int x = availableGeometry.right() - windowSize.width();
+    int y = availableGeometry.bottom() - windowSize.height();
+
+    // 移动窗口到右下角
+    move(x, y);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
