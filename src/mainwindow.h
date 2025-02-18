@@ -58,7 +58,7 @@ private:
     void setExpandDialogueWidget();
     void setCollapseDialogueWidget();
     void moveToBottomRight();
-protected:
+    void checkSnapToEdge();
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;

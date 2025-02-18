@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
         );
     // 将窗口移动到右下角
     moveToBottomRight();
+    //设置窗口贴边吸附
+    setMouseTracking(true);
     //初始化设置
     settings = new Settings(this);
     settings->checkAndCopySettings();
@@ -513,9 +515,11 @@ void MainWindow::onReminderTriggered(const QString &content)
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
+        // checkSnapToEdge();
         // 根据鼠标的移动更新窗口的位置
         move(event->globalPos() - offset);
     }
+    QMainWindow::mouseMoveEvent(event);
 }
 void MainWindow::loadAvatar()
 {
@@ -692,6 +696,36 @@ void MainWindow::moveToBottomRight()
 
     // 移动窗口到右下角
     move(x, y);
+}
+
+void MainWindow::checkSnapToEdge()
+{
+    // 获取当前屏幕的可用几何区域（除去任务栏）
+    QScreen* screen = QGuiApplication::primaryScreen();
+    QRect availableGeometry = screen->availableGeometry();
+
+    // 获取窗口的几何区域
+    QRect windowGeometry = geometry();
+
+    // 吸附距离阈值（像素）
+    const int snapDistance = 20;
+
+    // 检查是否靠近左边缘
+    if (qAbs(windowGeometry.left() - availableGeometry.left()) < snapDistance) {
+        move(availableGeometry.left(), windowGeometry.top());
+    }
+    // 检查是否靠近右边缘
+    else if (qAbs(windowGeometry.right() - availableGeometry.right()) < snapDistance) {
+        move(availableGeometry.right() - windowGeometry.width(), windowGeometry.top());
+    }
+    // 检查是否靠近上边缘
+    if (qAbs(windowGeometry.top() - availableGeometry.top()) < snapDistance) {
+        move(windowGeometry.left(), availableGeometry.top());
+    }
+    // 检查是否靠近下边缘
+    else if (qAbs(windowGeometry.bottom() - availableGeometry.bottom()) < snapDistance) {
+        move(windowGeometry.left(), availableGeometry.bottom() - windowGeometry.height());
+    }
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
