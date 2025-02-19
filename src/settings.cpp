@@ -147,7 +147,7 @@ void Settings::loadAvatar()
     // 使用遮罩将头像裁剪成圆形
     circularAvatar.setMask(mask);
     ui->avatarLabel->setPixmap(circularAvatar); // 设置头像
-    ui->avatarLabel->move(128, 16);  // 设置头像的位置
+    ui->avatarLabel->move(9,9);  // 设置头像的位置
 }
 
 void Settings::checkAndCopySettings()
