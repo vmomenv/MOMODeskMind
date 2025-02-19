@@ -7,6 +7,9 @@
 #include <QScrollBar>
 #include<QClipboard>
 #include <QFocusEvent>
+#include <QCursor>
+#include <QTimer>
+#include <QScreen>
 #include "petai.h"
 #include "weatherapi.h"
 #include "MessageWidget.h"

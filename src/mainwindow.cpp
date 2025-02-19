@@ -648,7 +648,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         if (QApplication::activeWindow() != this)
         {
             if(isTopping==false){
-                this->close();
+                this->hide();
             }
         }
     }
