@@ -511,16 +511,7 @@ void MainWindow::onReminderTriggered(const QString &content)
 }
 
 
-// 处理鼠标移动事件
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::LeftButton) {
-        // checkSnapToEdge();
-        // 根据鼠标的移动更新窗口的位置
-        move(event->globalPos() - offset);
-    }
-    QMainWindow::mouseMoveEvent(event);
-}
+
 void MainWindow::loadAvatar()
 {
     // 获取配置文件中的头像路径
@@ -650,6 +641,24 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
     return QMainWindow::eventFilter(watched, event);
 }
 
+// 处理鼠标移动事件
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton) {
+        // checkSnapToEdge();
+        // 根据鼠标的移动更新窗口的位置
+        move(event->globalPos() - offset);
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        // 获取鼠标按下的位置
+        offset = event->globalPos() - frameGeometry().topLeft();
+    }
+    setCollapseDialogueWidget();
+}
 
 void MainWindow::on_sendButton_clicked()
 {
@@ -728,14 +737,6 @@ void MainWindow::checkSnapToEdge()
     }
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        // 获取鼠标按下的位置
-        offset = event->globalPos() - frameGeometry().topLeft();
-    }
-    setCollapseDialogueWidget();
-}
 
 void MainWindow::on_clearButton_clicked()
 {
