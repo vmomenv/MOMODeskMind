@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化设置
     settings = new Settings(this);
     settings->checkAndCopySettings();
-
+    installEventFilter(this);
     // 创建天气API对象
     weatherAPI = new WeatherAPI(this);
     ui->weatherLabel->setStyleSheet(
@@ -511,16 +511,7 @@ void MainWindow::onReminderTriggered(const QString &content)
 }
 
 
-// 处理鼠标移动事件
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::LeftButton) {
-        // checkSnapToEdge();
-        // 根据鼠标的移动更新窗口的位置
-        move(event->globalPos() - offset);
-    }
-    QMainWindow::mouseMoveEvent(event);
-}
+
 void MainWindow::loadAvatar()
 {
     // 获取配置文件中的头像路径
@@ -647,7 +638,41 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             return true; // 拦截事件
         }
     }
+    if (Q_NULLPTR == watched)
+    {
+        return false;
+    }
+    if (QEvent::ActivationChange == event->type())
+    {
+        qDebug()<<"活动窗口变化";
+        if (QApplication::activeWindow() != this)
+        {
+            if(isTopping==false){
+                this->hide();
+            }
+        }
+    }
     return QMainWindow::eventFilter(watched, event);
+}
+
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        // 获取鼠标按下的位置
+        offset = event->globalPos() - frameGeometry().topLeft();
+    }
+    setCollapseDialogueWidget();
+}
+// 处理鼠标移动事件
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton) {
+        // checkSnapToEdge();
+        // 根据鼠标的移动更新窗口的位置
+        move(event->globalPos() - offset);
+    }
 }
 
 
@@ -728,14 +753,6 @@ void MainWindow::checkSnapToEdge()
     }
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton) {
-        // 获取鼠标按下的位置
-        offset = event->globalPos() - frameGeometry().topLeft();
-    }
-    setCollapseDialogueWidget();
-}
 
 void MainWindow::on_clearButton_clicked()
 {

@@ -6,6 +6,10 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 #include<QClipboard>
+#include <QFocusEvent>
+#include <QCursor>
+#include <QTimer>
+#include <QScreen>
 #include "petai.h"
 #include "weatherapi.h"
 #include "MessageWidget.h"
@@ -59,9 +63,11 @@ private:
     void setCollapseDialogueWidget();
     void moveToBottomRight();
     void checkSnapToEdge();
+protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+
 private slots:
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
     void onReminderTriggered(const QString &content);
