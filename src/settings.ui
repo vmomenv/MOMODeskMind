@@ -23,11 +23,11 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="widget_2">
     <attribute name="title">
-     <string>Settings</string>
+     <string>设置</string>
     </attribute>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
@@ -370,7 +370,7 @@
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>About</string>
+     <string>关于</string>
     </attribute>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
