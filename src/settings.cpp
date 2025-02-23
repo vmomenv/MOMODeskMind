@@ -24,6 +24,7 @@ Settings::Settings(QWidget *parent)
     ui->weatherRegionLineEdit->setPlaceholderText("精确到市或县，如太原市则填taiyuan");
     ui->weatherAPIKeyLineEdit->setPlaceholderText("设置密钥，为空则使用默认密钥");
     ui->ollamaAddressLineEdit->setPlaceholderText("为空则默认http://127.0.0.1:11434");
+    setWindowTitle("设置");
     // 在初始化时加载头像
     loadAvatar();
 
