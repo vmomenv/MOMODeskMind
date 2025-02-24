@@ -9,6 +9,7 @@
 #include <QFocusEvent>
 #include <QCursor>
 #include <QTimer>
+#include <QSystemTrayIcon>
 #include <QScreen>
 #include "petai.h"
 #include "weatherapi.h"
@@ -42,6 +43,8 @@ private:
     QWidget *reminderWidget;
     QVBoxLayout *reminderWidgetLayout;
     QScrollBar *answerScrollbar;
+    QSystemTrayIcon *trayIcon;
+    QMenu *trayMenu;
     //AI对话dialogueWidget框大小状态标识
     bool m_isExpanded = false;  // 添加状态标识
     QSize m_originalSize;       // 保存原始尺寸
@@ -63,6 +66,9 @@ private:
     void setCollapseDialogueWidget();
     void moveToBottomRight();
     void checkSnapToEdge();
+    void showTrayIcon();
+    void onRestoreAction();
+    void onQuitAction();
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;

@@ -14,6 +14,7 @@
 #include <QDateTimeEdit>
 #include <QPropertyAnimation>
 #include <QStandardPaths>
+#include <QMenu>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
         "background-color: #F3F4F6;"
         "border-radius: 8px;"
         );
+    showTrayIcon();
     // 将窗口移动到右下角
     moveToBottomRight();
     //设置窗口贴边吸附
@@ -334,6 +336,43 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
         }
     }
     updateReminderCount();
+}
+void MainWindow::showTrayIcon()
+{
+    // 创建托盘图标
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(QIcon(":/img/momen.jpg")); // 设置图标路径
+
+    // 创建托盘菜单
+    trayMenu = new QMenu(this);
+
+    // 添加“恢复”菜单项
+    QAction *restoreAction = new QAction("恢复", this);
+    connect(restoreAction, &QAction::triggered, this, &MainWindow::onRestoreAction);
+
+    // 添加“退出”菜单项
+    QAction *quitAction = new QAction("退出", this);
+    connect(quitAction, &QAction::triggered, this, &MainWindow::onQuitAction);
+
+    // 将菜单项添加到托盘菜单
+    trayMenu->addAction(restoreAction);
+    trayMenu->addAction(quitAction);
+
+    // 设置托盘图标的上下文菜单
+    trayIcon->setContextMenu(trayMenu);
+
+    // 显示托盘图标
+    trayIcon->show();
+}
+void MainWindow::onRestoreAction()
+{
+    show(); // 显示主窗口
+}
+
+// 退出应用的槽函数
+void MainWindow::onQuitAction()
+{
+    qApp->quit(); // 退出应用程序
 }
 void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
 {
