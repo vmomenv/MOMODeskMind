@@ -360,9 +360,16 @@ void MainWindow::showTrayIcon()
 
     // 设置托盘图标的上下文菜单
     trayIcon->setContextMenu(trayMenu);
-
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::onTrayIconActivated);
     // 显示托盘图标
     trayIcon->show();
+}
+void MainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::Trigger) {
+        // 左键单击时执行恢复操作
+        onRestoreAction();
+    }
 }
 void MainWindow::onRestoreAction()
 {

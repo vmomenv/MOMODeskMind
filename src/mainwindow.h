@@ -78,7 +78,7 @@ private slots:
     void updateWeatherDisplay(const QString &location, double tempC, const QString &condition);
     void onReminderTriggered(const QString &content);
     void openSettingsDialog();
-
+    void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void handleModelsReceived(const QStringList& models);
     void handleResponseReceived(const QString& response);
     void handleErrorOccurred(const QString& error);
