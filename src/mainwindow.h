@@ -69,6 +69,7 @@ private:
     void showTrayIcon();
     void onRestoreAction();
     void onQuitAction();
+    void singleAppCheck();//检测同时只有一个程序运行
 protected:
     // 鼠标事件
     void mousePressEvent(QMouseEvent *event) override;
