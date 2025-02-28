@@ -107,7 +107,7 @@ void Settings::saveSettings()
     // 写入文件
     QFile file("settings.json");
     if (!file.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open setting.json for writing.");
+        qWarning("Couldn't open settings.json for writing.");
         return;
     }
     qDebug()<<"保存设置";
@@ -206,7 +206,7 @@ QMap<QString, QString> Settings::getWeatherSettings() {
 
     QFile file("settings.json");
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open setting.json.");
+        qWarning("Couldn't open settings.json.");
         return weatherSettings;
     }
 
@@ -228,7 +228,7 @@ QMap<QString, QString> Settings::getLanguageModelSettings() {
 
     QFile file("settings.json");
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open setting.json.");
+        qWarning("Couldn't open settings.json.");
         return languageModelSettings;
     }
 
