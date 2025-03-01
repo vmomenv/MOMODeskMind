@@ -381,6 +381,11 @@ void MainWindow::onQuitAction()
 {
     qApp->quit(); // 退出应用程序
 }
+
+void MainWindow::singleAppCheck()
+{
+
+}
 void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
 {
     MessageWidget *widget = new MessageWidget(message, time,priority);
