@@ -15,11 +15,14 @@
 #include <QPropertyAnimation>
 #include <QStandardPaths>
 #include <QMenu>
+#include <QLocalSocket>
+#include <QLocalServer>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    singleAppCheck();
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(Qt::FramelessWindowHint); // 移除边框
     this->setStyleSheet(
@@ -384,7 +387,22 @@ void MainWindow::onQuitAction()
 
 void MainWindow::singleAppCheck()
 {
-
+    const QString SERVER_NAME = "momodeskmind";
+    QLocalSocket socket;
+    qDebug()<<"jiance";
+    socket.connectToServer(SERVER_NAME);
+    if (socket.waitForConnected(500)) {
+        qDebug()<<"出现重复进程";
+        QCoreApplication::quit();
+    }
+    QLocalServer *server = new QLocalServer();
+    if (!server->listen(SERVER_NAME)) {
+#ifdef Q_OS_UNIX
+        // Linux 可能会遗留 socket 文件，需手动删除
+        QFile::remove("/tmp/" + SERVER_NAME);
+        server->listen(SERVER_NAME);
+#endif
+    }
 }
 void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
 {
