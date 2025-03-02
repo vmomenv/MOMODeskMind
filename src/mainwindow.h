@@ -13,7 +13,7 @@
 #include <QScreen>
 #include "petai.h"
 #include "weatherapi.h"
-#include "MessageWidget.h"
+#include "messagewidget.h"
 #include "aiclient.h"
 #include "settings.h"
 

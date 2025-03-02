@@ -48,6 +48,14 @@ else()
     else()
         add_executable(src
             ${PROJECT_SOURCES}
+
+            petai.h petai.cpp
+            weatherapi.h weatherapi.cpp
+            resources.qrc
+            settings.h settings.cpp settings.ui
+            messagewidget.h messagewidget.cpp
+            aiclient.h aiclient.cpp
+
         )
     endif()
 endif()

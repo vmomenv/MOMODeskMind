@@ -1,5 +1,5 @@
 // MessageWidget.cpp
-#include "MessageWidget.h"
+#include "messagewidget.h"
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QPushButton>
