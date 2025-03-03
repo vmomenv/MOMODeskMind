@@ -164,6 +164,11 @@ void Settings::checkAndCopySettings()
         if (defaultFile.exists()) {
             if (defaultFile.copy(settingsPath)) {
                 qDebug() << "默认配置初始化成功";
+                if (!QFile::setPermissions(settingsPath, QFile::ReadOwner | QFile::WriteOwner | QFile::ReadUser | QFile::WriteUser)) {
+                    qDebug() << "无法设置文件权限：" << settingsPath;
+                } else {
+                    qDebug() << "文件权限设置成功：" << settingsPath;
+                }
             } else {
                 qDebug() << "默认配置复制失败.";
             }
