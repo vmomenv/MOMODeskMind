@@ -27,7 +27,6 @@ Settings::Settings(QWidget *parent)
     setWindowTitle("设置");
     // 在初始化时加载头像
     loadAvatar();
-
 }
 
 Settings::~Settings()

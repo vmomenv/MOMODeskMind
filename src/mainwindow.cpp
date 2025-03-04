@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
         "background-color: #F3F4F6;"
         "border-radius: 8px;"
         );
+    QApplication::setQuitOnLastWindowClosed(false);
+
     showTrayIcon();
     // 将窗口移动到右下角
     moveToBottomRight();
