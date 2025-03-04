@@ -243,3 +243,9 @@ QMap<QString, QString> Settings::getLanguageModelSettings() {
     file.close();
     return languageModelSettings;
 }
+
+void Settings::on_saveButton_clicked()
+{
+    this->close();
+}
+

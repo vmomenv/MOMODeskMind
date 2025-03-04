@@ -23,6 +23,8 @@ private slots:
     void on_connectTestButton_clicked();
 
 
+    void on_saveButton_clicked();
+
 signals:
     void avatarUpdated();
     void settingsUpdated();
