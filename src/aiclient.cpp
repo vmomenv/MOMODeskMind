@@ -33,14 +33,13 @@ void AIClient::listModels(){
     if(m_currentReply){
         m_currentReply->abort();
     }
-    QUrl url(m_baseUrl + "/api/tags");
+    QUrl url(m_baseUrl + "/api/tags"); // 设置请求的 URL 为 /api/tags
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     //发送请求并保存QNetworkReply对象
-    m_currentReply=m_networkManager->get(request);
+    m_currentReply = m_networkManager->get(request);
 
-    connect(m_currentReply, &QNetworkReply::finished, this, &AIClient::handleModelsResponse);
-
+    connect(m_currentReply, &QNetworkReply::finished, this, &AIClient::handleModelsResponse); // 连接请求完成信号到 handleModelsResponse 方法
 }
 //请求响应
 void AIClient::generateResponse(const QString &model,const QString &prompt){
@@ -108,33 +107,33 @@ void AIClient::clearContext()
 //模型响应
 void AIClient::handleModelsResponse()
 {
-    auto *reply = qobject_cast<QNetworkReply*>(sender());
+    auto *reply = qobject_cast<QNetworkReply*>(sender()); // 获取发送信号的 QNetworkReply 对象
     if (!reply) return;
 
-    const QByteArray data = reply->readAll();
-    if (reply->error() != QNetworkReply::NoError) {
-        emit errorOccurred(reply->errorString());
+    const QByteArray data = reply->readAll(); // 读取所有响应数据
+    if (reply->error() != QNetworkReply::NoError) { // 检查是否有错误
+        emit errorOccurred(reply->errorString()); // 发送错误信号
         reply->deleteLater();
         return;
     }
 
     QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
-    if (parseError.error != QJsonParseError::NoError) {
-        emit errorOccurred("JSON解析错误: " + parseError.errorString());
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError); // 解析 JSON 数据
+    if (parseError.error != QJsonParseError::NoError) { // 检查解析是否有错误
+        emit errorOccurred("JSON解析错误: " + parseError.errorString()); // 发送解析错误信号
         reply->deleteLater();
         return;
     }
 
-    QJsonArray models = doc.object()["models"].toArray();
+    QJsonArray models = doc.object()["models"].toArray(); // 获取 "models" 数组
     QStringList modelList;
-    for (const auto &modelValue : models) {
+    for (const auto &modelValue : models) { // 遍历数组中的每个模型
         QJsonObject modelObj = modelValue.toObject();
-        modelList << modelObj["name"].toString();
+        modelList << modelObj["name"].toString(); // 将模型名称添加到列表中
     }
 
-    emit modelsReceived(modelList);
-    reply->deleteLater();
+    emit modelsReceived(modelList); // 发送模型接收信号
+    reply->deleteLater(); // 删除 reply 对象
 }
 
 //数据流数据
