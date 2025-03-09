@@ -3,3 +3,4 @@ build
 .cache
 build-src-unknown-Debug
 build-src-Desktop_Qt_6_8_1_MinGW_64_bit-Debug
+CMakeLists.txt.user
