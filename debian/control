@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: momen <vmomenv@gmail.com>
 Build-Depends: debhelper (>= 9), qtbase5-dev
 Standards-Version: 3.9.6
-Homepage: https://github.com/your-repo/momodesk-mind
+Homepage: https://github.com/vmomenv/MOMODeskMind
 
 Package: momodesk-mind
 Architecture: any
