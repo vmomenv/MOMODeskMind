@@ -393,11 +393,12 @@ void MainWindow::singleAppCheck()
 {
     const QString SERVER_NAME = "momodeskmind";
     QLocalSocket socket;
-    qDebug()<<"jiance";
+    qDebug() << "jiance";
     socket.connectToServer(SERVER_NAME);
     if (socket.waitForConnected(500)) {
-        qDebug()<<"出现重复进程";
-        QCoreApplication::quit();
+        qDebug() << "出现重复进程";
+        QTimer::singleShot(0, qApp, &QCoreApplication::quit); // 延迟退出当前进程
+        return;
     }
     QLocalServer *server = new QLocalServer();
     if (!server->listen(SERVER_NAME)) {
