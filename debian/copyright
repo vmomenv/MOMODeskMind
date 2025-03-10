@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: momodesk-mind
+Source: https://github.com/your-repo/momodesk-mind
+
+Files: *
+Copyright: 2025, momen <vmomenv@gmail.com>
+License: GPL-3.0+
