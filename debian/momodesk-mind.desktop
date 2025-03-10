@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Momodesk Mind
+Comment=A Qt-based application for managing tasks and reminders
+Exec=/usr/bin/momodesk-mind
+Icon=/usr/share/momodesk-mind/img/momen.jpg
+Terminal=false
+Type=Application
+Categories=Utility;

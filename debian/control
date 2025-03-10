@@ -1,12 +1,12 @@
 Source: momodesk-mind
-Maintainer: momen <vmomenv@gmail.com>
 Section: utils
 Priority: optional
-Standards-Version: 4.5.0
-Build-Depends: debhelper-compat (= 12), cmake, qtbase5-dev
+Maintainer: momen <vmomenv@gmail.com>
+Build-Depends: debhelper (>= 9), qtbase5-dev
+Standards-Version: 3.9.6
+Homepage: https://github.com/your-repo/momodesk-mind
 
 Package: momodesk-mind
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtbase5-dev
-Description: Momodesk Mind 桌面助手
-  这是一个基于 Qt6 的桌面助手应用，提供备忘记录、天气查询，AI对话等功能。
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A Qt-based application for managing tasks and reminders.

@@ -1,1 +1,16 @@
-build/src/momodesk-mind usr/bin/
+build/momodesk-mind /usr/bin
+debian/momodesk-mind.desktop /usr/share/applications
+src/img/momen.jpg /usr/share/momodesk-mind/img
+src/img/calendar.svg /usr/share/momodesk-mind/img
+src/img/settings.svg /usr/share/momodesk-mind/img
+src/img/trash.svg /usr/share/momodesk-mind/img
+src/img/ClipBoard.svg /usr/share/momodesk-mind/img
+src/img/Code.svg /usr/share/momodesk-mind/img
+src/img/NetWork.svg /usr/share/momodesk-mind/img
+src/img/Translate.svg /usr/share/momodesk-mind/img
+src/img/Trash_black.svg /usr/share/momodesk-mind/img
+src/img/Send.svg /usr/share/momodesk-mind/img
+src/img/down_arrow.svg /usr/share/momodesk-mind/img
+src/img/cancel.svg /usr/share/momodesk-mind/img
+src/img/pin.svg /usr/share/momodesk-mind/img
+src/config/settings.json /usr/share/momodesk-mind/config

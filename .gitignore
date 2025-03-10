@@ -4,3 +4,6 @@ build
 build-src-unknown-Debug
 build-src-Desktop_Qt_6_8_1_MinGW_64_bit-Debug
 CMakeLists.txt.user
+debian/.debhelper
+debian/momodesk-mind
+obj-x86_64-linux-gnu
