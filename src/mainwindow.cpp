@@ -19,6 +19,8 @@
 #include <QLocalServer>
 #include <QDialogButtonBox>
 #include <QBitmap>
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
