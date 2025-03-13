@@ -15,8 +15,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network Sql)
 
-add_subdirectory(src/third_party/qmarkdowntextedit)
-include_directories(src/third_party/qmarkdowntextedit/src)
 
 # 定义源文件和头文件
 set(PROJECT_SOURCES
@@ -55,8 +53,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(momodesk-mind PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Sql qmarkdowntextedit)
-
+target_link_libraries(momodesk-mind PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Sql)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
