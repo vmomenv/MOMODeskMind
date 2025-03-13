@@ -11,9 +11,13 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 没这行vscode会报错
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON) 
+
 # 查找 Qt6 组件
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network Sql)
+# 加入qmarkdowntextedit
 add_subdirectory(src/qmarkdowntextedit)
 
 # 定义源文件和头文件
