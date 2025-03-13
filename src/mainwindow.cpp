@@ -19,6 +19,8 @@
 #include <QLocalServer>
 #include <QDialogButtonBox>
 #include <QBitmap>
+#include "qmarkdowntextedit.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent)
