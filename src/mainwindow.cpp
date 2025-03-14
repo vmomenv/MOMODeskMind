@@ -20,8 +20,7 @@
 #include <QDialogButtonBox>
 #include <QBitmap>
 #include "qmarkdowntextedit.h"
-
-
+#include <QWebEngineView>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
