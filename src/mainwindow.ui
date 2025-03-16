@@ -38,9 +38,6 @@
     <property name="text">
      <string>头像</string>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
-    </property>
    </widget>
    <widget class="QWidget" name="componentWidget" native="true">
     <property name="geometry">
@@ -85,13 +82,10 @@
       </size>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::NoFrame</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="text">
       <string>天气控件</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
      <property name="margin">
       <number>9</number>
@@ -150,6 +144,7 @@
         <widget class="QLabel" name="label">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -157,7 +152,7 @@
           <string>待办事项</string>
          </property>
          <property name="textFormat">
-          <enum>Qt::TextFormat::PlainText</enum>
+          <enum>Qt::PlainText</enum>
          </property>
         </widget>
        </item>
@@ -199,6 +194,21 @@
         </rect>
        </property>
       </widget>
+     </widget>
+     <widget class="QWebEngineView" name="answerWebEngineView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>240</y>
+        <width>271</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="url">
+       <url>
+        <string>about:blank</string>
+       </url>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="dialogueWidget" native="true">

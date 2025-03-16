@@ -19,7 +19,7 @@
 
 ### 4. 安装与运行
 #### 4.1 环境准备
-- **操作系统支持**：现支持windows/linux平台
+- **操作系统支持**：现支持windows/linux平台，linux可在星火应用商店搜索下载。
 - **开发工具**：Qt Creator，windows平台请使用msvc2022，linux平台请使用gcc/g++
 
 #### 4.2 安装步骤
