@@ -503,6 +503,21 @@
        </layout>
       </widget>
      </widget>
+     <widget class="QWebEngineView" name="answerWebView">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>50</y>
+        <width>162</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="url">
+       <url>
+        <string>about:blank</string>
+       </url>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
@@ -557,6 +572,13 @@
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
