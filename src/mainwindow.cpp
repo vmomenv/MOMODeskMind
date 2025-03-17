@@ -21,6 +21,8 @@
 #include <QBitmap>
 #include "qmarkdowntextedit.h"
 #include <QWebEngineView>
+#include <QTextDocument>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -54,21 +56,22 @@ MainWindow::MainWindow(QWidget *parent)
     loadAvatar();
     // connect(ui->changeAvatarButton, &QPushButton::clicked, this, &MainWindow::onChangeAvatarButtonClicked);
 
-    // 连接天气API的信号到updateWeatherDisplay槽函数
+    // 连接天气 API 的信号到 updateWeatherDisplay 槽函数
     connect(weatherAPI, &WeatherAPI::weatherDataUpdated, this, &MainWindow::updateWeatherDisplay);
     connect(ui->settingsButton, &QPushButton::clicked, this, &MainWindow::openSettingsDialog);
 
-    // 创建宠物AI对象
+    // 创建宠物 AI 对象
     petAI = new PetAI(this);
     ui->dialogueWidget->setStyleSheet(
         "background-color: #ffffff;"
         "border-radius: 8px;"
         );
-    ui->answerTextEdit->setText(petAI->getPetGreeting());
+    // 使用 answerWebEngineView 渲染 Markdown，初始化内容为宠物问候语
+    m_markdownContent = petAI->getPetGreeting();
+    updateMarkdownView();
 
-    // 初始化天气API并请求天气数据
+    // 初始化天气 API 并请求天气数据
     ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
-
 
     // 初始化日程提醒
     ui->reminderWidget->setStyleSheet(
@@ -92,8 +95,6 @@ MainWindow::MainWindow(QWidget *parent)
                                   );
     ui->countLabel->setFixedSize(68,28);
     ui->countLabel->setAlignment(Qt::AlignCenter);
-
-
 
     // 设置日程提醒滚动区域
     ui->reminderScrollArea->setFixedSize(328, 144);
@@ -123,26 +124,14 @@ MainWindow::MainWindow(QWidget *parent)
         border-radius: 3px;
     }
 )");
-    ui->answerTextEdit->setStyleSheet(R"(
-    QScrollArea { border: none; }
-    QScrollBar:vertical {
-        width: 6px;
-        background: #F3F4F6;
-    }
-    QScrollBar::handle:vertical {
-        background: #D1D5DB;
-        border-radius: 3px;
-    }
-)");
+    // 原 answerTextEdit 样式已移除，使用 answerWebEngineView，不需要额外滚动条样式
+    // ui->answerTextEdit->setStyleSheet(...);
     // 必须显式设置widget
     ui->reminderScrollArea->setWidget(reminderWidget);
 
-
     reminderLoadJsonData("reminderdata.json");
 
-
-    //初始化ai模块
-
+    //初始化 AI 模块
     ui->modelComboBox->setStyleSheet(
         "QComboBox {"
         "   border-radius: 8px;"              // 设置圆角
@@ -165,7 +154,7 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     aiClient = new AIClient(this); // 修改初始化
-    qDebug()<<aiClient->initializeConnection();//初始化连接
+    qDebug() << aiClient->initializeConnection(); // 初始化连接
     QMap<QString, QString> languageModelSettings = settings->getLanguageModelSettings();
     QString ollamaAddress = languageModelSettings["OLLAMA_ADDRESS"];
     qDebug() << "OLLAMA_ADDRESS:" << ollamaAddress;
@@ -180,16 +169,15 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     // 获取模型列表
-    // MainWindow 构造函数中
     connect(aiClient, &AIClient::modelsReceived, this, &MainWindow::handleModelsReceived);
     connect(aiClient, &AIClient::responseReceived, this, &MainWindow::handleResponseReceived);
     connect(aiClient, &AIClient::errorOccurred, this, &MainWindow::handleErrorOccurred);
     connect(aiClient, &AIClient::responseComplete, this, &MainWindow::handleResponseComplete);
 
-
-    // 初始化UI状态
+    // 初始化 UI 状态
     ui->sendButton->setEnabled(false); // 等待模型加载完成
-    ui->answerTextEdit->setReadOnly(true); // 设置输出框只读
+    // 将 answerTextEdit 改为 answerWebEngineView，不允许用户编辑
+    // ui->answerTextEdit->setReadOnly(true);
     ui->inputEdit->setPlaceholderText("和我聊聊天吧...");
     // 连接发送按钮和回车键
     connect(ui->inputEdit, &QLineEdit::returnPressed,
@@ -217,7 +205,7 @@ MainWindow::MainWindow(QWidget *parent)
         "   background-color: #CDD1D9;"
         "}"
         );
-    //初始化对话按钮图片
+    // 初始化对话按钮图片
     ui->clearButton->setIcon(QIcon(":/img/Trash_black.svg"));
     ui->clearButton->setStyleSheet(
         "QPushButton {"
@@ -307,17 +295,24 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->cancelButton, &QPushButton::clicked, aiClient, &AIClient::cancelRequest);
     // 处理中断信号
     connect(aiClient, &AIClient::responseInterrupted, this, [=](){
-        qDebug()<<"中断";
+        qDebug() << "中断";
     });
-
 }
 
+void MainWindow::updateMarkdownView()
+{
+    // 利用 QTextDocument 将 Markdown 转换为 HTML，再加载到 QWebEngineView 中
+    QTextDocument doc;
+    doc.setMarkdown(m_markdownContent);
+    ui->answerWebEngineView->setHtml(doc.toHtml());
+    // 自动滚动到底部（使用 JavaScript）
+    ui->answerWebEngineView->page()->runJavaScript("window.scrollTo(0, document.body.scrollHeight);");
+}
 
 void MainWindow::onSettingsUpdated() {
     qDebug() << "更新设置";
     ui->weatherLabel->setText(weatherAPI->getCurrentWeather());
 }
-
 
 void MainWindow::reminderLoadJsonData(const QString &filePath){
     QFile file(filePath);
@@ -325,7 +320,7 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
         qWarning() << "Failed to open file!";
         return;
     }
-    // 读取文件内容并解析JSON
+    // 读取文件内容并解析 JSON
     QByteArray jsonData = file.readAll();
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     if (doc.isNull()) {
@@ -333,20 +328,21 @@ void MainWindow::reminderLoadJsonData(const QString &filePath){
         return;
     }
 
-    // 获取JSON数组并展示每一条消息
+    // 获取 JSON 数组并展示每一条消息
     QJsonArray jsonArray = doc.array();
     for (const QJsonValue &value : jsonArray) {
         if (value.isObject()) {
             QJsonObject jsonObj = value.toObject();
-            QString message = jsonObj["message"].toString();  // 假设每条信息的键为 "message"
-            QString time = jsonObj["time"].toString();  // 假设每条信息的键为 "message"
-            QString priority = jsonObj["priority"].toString();  // 紧急程度（urgent、high、non-urgent）
-            displayMessage(message,time, priority);
-            qDebug()<<message<<time<<priority;
+            QString message = jsonObj["message"].toString();
+            QString time = jsonObj["time"].toString();
+            QString priority = jsonObj["priority"].toString();
+            displayMessage(message, time, priority);
+            qDebug() << message << time << priority;
         }
     }
     updateReminderCount();
 }
+
 void MainWindow::showTrayIcon()
 {
     // 创建托盘图标
@@ -374,6 +370,7 @@ void MainWindow::showTrayIcon()
     // 显示托盘图标
     trayIcon->show();
 }
+
 void MainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger) {
@@ -381,6 +378,7 @@ void MainWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
         onRestoreAction();
     }
 }
+
 void MainWindow::onRestoreAction()
 {
     show(); // 显示主窗口
@@ -412,9 +410,10 @@ void MainWindow::singleAppCheck()
 #endif
     }
 }
-void MainWindow::displayMessage(const QString &message, const QString &time,const QString &priority)
+
+void MainWindow::displayMessage(const QString &message, const QString &time, const QString &priority)
 {
-    MessageWidget *widget = new MessageWidget(message, time,priority);
+    MessageWidget *widget = new MessageWidget(message, time, priority);
     widget->setFixedHeight(30); // 确保每个条目固定高度
     reminderWidgetLayout->addWidget(widget);
 
@@ -437,6 +436,7 @@ void MainWindow::displayMessage(const QString &message, const QString &time,cons
         adjustScrollContent();
     });
 }
+
 void MainWindow::removeReminderFromJson(const QString &message, const QString &time, const QString &priority)
 {
     QFile file("reminderdata.json");
@@ -451,9 +451,9 @@ void MainWindow::removeReminderFromJson(const QString &message, const QString &t
     QJsonArray jsonArray = doc.isArray() ? doc.array() : QJsonArray();
 
     // 查找并删除匹配项
-    for(int i = 0; i < jsonArray.size();) {
+    for (int i = 0; i < jsonArray.size();) {
         QJsonObject obj = jsonArray[i].toObject();
-        if(obj["message"] == message &&
+        if (obj["message"] == message &&
             obj["time"] == time &&
             obj["priority"] == priority) {
             jsonArray.removeAt(i);
@@ -467,20 +467,23 @@ void MainWindow::removeReminderFromJson(const QString &message, const QString &t
     file.write(QJsonDocument(jsonArray).toJson());
     file.close();
 }
+
 void MainWindow::updateReminderCount()
 {
     int count = reminderWidgetLayout->count();
     ui->countLabel->setText(QString("%1项待办").arg(count));
 }
+
 void MainWindow::adjustScrollContent()
 {
     int contentHeight = reminderWidgetLayout->count() * 34;
     reminderWidget->setMinimumHeight(contentHeight);
     reminderWidget->adjustSize();
 }
+
 void MainWindow::updateWeatherDisplay(const QString &location, double tempC, const QString &condition)
 {
-    // 使用HTML标签设置不同部分的文本样式
+    // 使用 HTML 标签设置不同部分的文本样式
     QString weatherText = QString("<div style='font-size:14pt;'>%1</div>" // 城市，14号字体
                                   "<div><span style='font-size:15pt; font-weight:bold;'>%2℃</span>&nbsp;&nbsp;" // 温度，20号加粗，后跟两个空格
                                   "<span style='font-size:14pt;'>%3</span></div>") // 气象，14号字体
@@ -488,10 +491,11 @@ void MainWindow::updateWeatherDisplay(const QString &location, double tempC, con
                               .arg(tempC)
                               .arg(condition);
 
-    // 设置QLabel的文本并启用HTML格式
+    // 设置 QLabel 的文本并启用 HTML 格式
     ui->weatherLabel->setText(weatherText);
     ui->weatherLabel->setTextFormat(Qt::RichText);
 }
+
 void MainWindow::on_addReminderButton_clicked()
 {
     // 创建对话框
@@ -547,7 +551,7 @@ void MainWindow::on_addReminderButton_clicked()
         // 添加提醒到界面
         displayMessage(message, time, priority);
 
-        // 保存到JSON文件
+        // 保存到 JSON 文件
         saveReminderToJson(message, time, priority);
 
         // 更新待办计数
@@ -581,13 +585,10 @@ void MainWindow::saveReminderToJson(const QString &message, const QString &time,
     file.close();
 }
 
-
 void MainWindow::onReminderTriggered(const QString &content)
 {
     QMessageBox::information(this, "提醒", content);
 }
-
-
 
 void MainWindow::loadAvatar()
 {
@@ -623,11 +624,10 @@ void MainWindow::loadAvatar()
     ui->avatarLabel->move(128, 16);  // 设置头像的位置
 }
 
-
 void MainWindow::openSettingsDialog() {
     // 创建 Settings 对话框并显示
     Settings *settingsDialog = new Settings(this);
-    connect(settingsDialog,&Settings::avatarUpdated,this,&MainWindow::loadAvatar);
+    connect(settingsDialog, &Settings::avatarUpdated, this, &MainWindow::loadAvatar);
     settingsDialog->exec();  // 使用 exec() 打开模态对话框
 }
 
@@ -647,14 +647,9 @@ void MainWindow::handleModelsReceived(const QStringList &models)
 
 void MainWindow::handleResponseReceived(const QString &response)
 {
-    // 追加响应内容并自动滚动
-    QTextCursor cursor = ui->answerTextEdit->textCursor();
-    cursor.movePosition(QTextCursor::End);
-    cursor.insertText(response);
-
-    // 自动滚动到底部
-    QScrollBar *answerScrollbar = ui->answerTextEdit->verticalScrollBar();
-    answerScrollbar->setValue(answerScrollbar->maximum());
+    // 将收到的响应追加到 Markdown 内容中，然后更新显示
+    m_markdownContent.append(response);
+    updateMarkdownView();
 }
 
 void MainWindow::handleErrorOccurred(const QString &error)
@@ -662,18 +657,20 @@ void MainWindow::handleErrorOccurred(const QString &error)
     // 显示错误信息
     QMessageBox::critical(this, "请求错误", error);
 
-    // 在输出框追加错误信息
-    ui->answerTextEdit->append("\n[系统错误] " + error);
+    // 追加错误信息到 Markdown 内容
+    m_markdownContent.append("\n[系统错误] " + error);
+    updateMarkdownView();
 }
 
 void MainWindow::handleResponseComplete()
 {
     // 完成响应后添加换行
-    ui->answerTextEdit->append("\n");
+    m_markdownContent.append("\n");
+    updateMarkdownView();
 
-    // 恢复UI状态
+    // 恢复 UI 状态
     ui->sendButton->setEnabled(true);
-    ui->answerTextEdit->setFocus();
+    ui->answerWebEngineView->setFocus();
 }
 
 void MainWindow::sendRequest()
@@ -692,12 +689,12 @@ void MainWindow::sendRequest()
         return;
     }
 
-    // 更新UI状态
-    // ui->sendButton->setEnabled(false);
+    // 更新 UI 状态
     ui->inputEdit->clear();
 
-    // 在输出框显示用户输入
-    ui->answerTextEdit->append("You: " + input + "\nAI: ");
+    // 将用户输入及 AI 提示追加到 Markdown 内容中
+    m_markdownContent.append("You: " + input + "\nAI: ");
+    updateMarkdownView();
 
     // 发送请求
     aiClient->generateResponse(model, input);
@@ -705,9 +702,8 @@ void MainWindow::sendRequest()
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if(watched ==ui->dialogueWidget && event->type() ==QEvent::MouseButtonPress){
+    if(watched == ui->dialogueWidget && event->type() == QEvent::MouseButtonPress){
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
-
         // 检测是否点击在空白区域
         if (!ui->dialogueWidget->childAt(mouseEvent->pos()))
         {
@@ -715,24 +711,22 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             return true; // 拦截事件
         }
     }
-    if (Q_NULLPTR == watched)
+    if (watched == Q_NULLPTR)
     {
         return false;
     }
     if (QEvent::ActivationChange == event->type())
     {
-        qDebug()<<"活动窗口变化";
+        qDebug() << "活动窗口变化";
         if (QApplication::activeWindow() != this)
         {
-            if(isTopping==false){
+            if(isTopping == false){
                 this->hide();
             }
         }
     }
     return QMainWindow::eventFilter(watched, event);
 }
-
-
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
@@ -742,30 +736,28 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
     setCollapseDialogueWidget();
 }
-// 处理鼠标移动事件
+
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
-        // checkSnapToEdge();
         // 根据鼠标的移动更新窗口的位置
         move(event->globalPos() - offset);
     }
 }
 
-
 void MainWindow::on_sendButton_clicked()
 {
     setExpandDialogueWidget();
     sendRequest();  // 原有发送逻辑
-
 }
+
 void MainWindow::setExpandDialogueWidget(){
     ui->dialogueWidget->setFixedSize(352, 748);
     m_isExpanded = !m_isExpanded;  // 切换状态
-    ui->dialogueWidget->move(16,16);
-    ui->answerTextEdit->setFixedSize(331,549);
-    ui->sendWidget->move(0,632);
-
+    ui->dialogueWidget->move(16, 16);
+    // 修改：将 answerTextEdit 改为 answerWebEngineView
+    ui->answerWebEngineView->setFixedSize(331, 549);
+    ui->sendWidget->move(0, 632);
 
     // 添加动画效果（可选）
     QPropertyAnimation *animation = new QPropertyAnimation(ui->dialogueWidget, "size");
@@ -773,21 +765,21 @@ void MainWindow::setExpandDialogueWidget(){
     animation->setStartValue(ui->dialogueWidget->size());
     animation->setEndValue(m_isExpanded ? QSize(384, 750) : m_originalSize);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-
 }
 
 void MainWindow::setCollapseDialogueWidget()
 {
     ui->dialogueWidget->setFixedSize(352, 256);
     m_isExpanded = !m_isExpanded;  // 切换状态
-    ui->dialogueWidget->move(16,508);
-    ui->answerTextEdit->setFixedSize(328,56);
-    ui->sendWidget->move(0,140);
+    ui->dialogueWidget->move(16, 508);
+    // 修改：将 answerTextEdit 改为 answerWebEngineView
+    ui->answerWebEngineView->setFixedSize(328, 56);
+    ui->sendWidget->move(0, 140);
 }
 
 void MainWindow::moveToBottomRight()
 {
-    QScreen* screen=QGuiApplication::primaryScreen();
+    QScreen* screen = QGuiApplication::primaryScreen();
     QRect availableGeometry = screen->availableGeometry();
     // 获取窗口的大小
     QSize windowSize = size();
@@ -830,23 +822,22 @@ void MainWindow::checkSnapToEdge()
     }
 }
 
-
 void MainWindow::on_clearButton_clicked()
 {
-    ui->answerTextEdit->clear();
+    // 清空 Markdown 内容并更新视图
+    m_markdownContent.clear();
+    updateMarkdownView();
 }
-
 
 void MainWindow::on_networkSearchButton_clicked()
 {
-
+    // 此处代码保持不变，可根据需要添加网络搜索逻辑
 }
-
 
 void MainWindow::on_pasteButton_clicked()
 {
     if(!isPasteMonitoring){
-        connect(clipboard,&QClipboard::dataChanged,this,&MainWindow::handleClipboardChange,Qt::UniqueConnection);//Qt::UniqueConnection防止重复连接的场景
+        connect(clipboard, &QClipboard::dataChanged, this, &MainWindow::handleClipboardChange, Qt::UniqueConnection);
         // 立即获取当前剪切板内容
         isPasteMonitoring = true;
         ui->pasteButton->setStyleSheet(
@@ -860,11 +851,8 @@ void MainWindow::on_pasteButton_clicked()
             "}"
             );
         qDebug() << "Clipboard monitoring started";
-    }else{
-        // 断开监控（可选）
-        disconnect(clipboard, &QClipboard::dataChanged,
-                   this, &MainWindow::handleClipboardChange);
-
+    } else {
+        disconnect(clipboard, &QClipboard::dataChanged, this, &MainWindow::handleClipboardChange);
         isPasteMonitoring = false;
         ui->pasteButton->setStyleSheet(
             "QPushButton {"
@@ -878,9 +866,7 @@ void MainWindow::on_pasteButton_clicked()
             );
         qDebug() << "Clipboard monitoring stopped";
     }
-
 }
-
 
 void MainWindow::on_explainCodeButton_clicked()
 {
@@ -890,7 +876,6 @@ void MainWindow::on_explainCodeButton_clicked()
         if(isTranslateMonitoring){ //如果翻译按钮开启则关闭
             on_translateButton_clicked();
         }
-
         isexplainCodeMonitoring = true;
         ui->explainCodeButton->setStyleSheet(
             "QPushButton {"
@@ -902,10 +887,7 @@ void MainWindow::on_explainCodeButton_clicked()
             "   background-color: #F3F4F6;"
             "}"
             );
-
-    }else{
-
-
+    } else {
         isexplainCodeMonitoring = false;
         ui->explainCodeButton->setStyleSheet(
             "QPushButton {"
@@ -917,10 +899,8 @@ void MainWindow::on_explainCodeButton_clicked()
             "   background-color: #CDD1D9;"
             "}"
             );
-
     }
 }
-
 
 void MainWindow::on_translateButton_clicked()
 {
@@ -941,9 +921,8 @@ void MainWindow::on_translateButton_clicked()
             "   background-color: #F3F4F6;"
             "}"
             );
-        qDebug() << "Clipboard monitoring started";
-    }else{
-
+        qDebug() << "Translate monitoring started";
+    } else {
         isTranslateMonitoring = false;
         ui->translateButton->setStyleSheet(
             "QPushButton {"
@@ -963,18 +942,16 @@ void MainWindow::handleClipboardChange()
     // 获取文本内容
     const QString text = clipboard->text();
     const QString inputEditEext = ui->inputEdit->text();
-    // 获取图像内容（可选）
-    // const QPixmap pixmap = clipboard->pixmap();
 
     if (!text.isEmpty()) {
         qDebug() << "Clipboard Updated:" << text;
-        ui->inputEdit->setText(inputEditEext+text);
+        ui->inputEdit->setText(inputEditEext + text);
     } else {
         qDebug() << "Clipboard Updated: [Non-text data]";
     }
     this->activateWindow();
     this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
-    if(isexplainCodeMonitoring || isTranslateMonitoring){//如果相关按钮开启则自动发送请求
+    if(isexplainCodeMonitoring || isTranslateMonitoring){ //如果相关按钮开启则自动发送请求
         sendRequest();
         setExpandDialogueWidget();
     }
@@ -996,7 +973,7 @@ void MainWindow::on_pinnedButton_clicked()
             "   background-color: #000000;"
             "}"
             "QPushButton:hover {"
-            "   background-color: ##EF4444;"
+            "   background-color: #EF4444;"
             "}"
             );
     } else {
@@ -1012,7 +989,5 @@ void MainWindow::on_pinnedButton_clicked()
             "}"
             );
     }
-
     this->show();  // 刷新窗口
 }
-
