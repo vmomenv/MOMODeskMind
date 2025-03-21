@@ -693,7 +693,7 @@ void MainWindow::sendRequest()
     ui->inputEdit->clear();
 
     // 将用户输入及 AI 提示追加到 Markdown 内容中
-    m_markdownContent.append("You: " + input + "\nAI: ");
+    m_markdownContent.append("\n\nYou: " + input + "\n\nAI: ");
     updateMarkdownView();
 
     // 发送请求
