@@ -113,19 +113,30 @@ MainWindow::MainWindow(QWidget *parent)
     reminderWidgetLayout->setContentsMargins(0, 0, 10, 0);
     reminderWidgetLayout->setSpacing(4);
 
-    ui->reminderScrollArea->setStyleSheet(R"(
+    ui->answerWebEngineView->setStyleSheet(R"(
     QScrollArea { border: none; }
     QScrollBar:vertical {
-        width: 6px;
+        width: 8px;
         background: #F3F4F6;
+        border-radius: 4px;
     }
     QScrollBar::handle:vertical {
-        background: #D1D5DB;
-        border-radius: 3px;
+        background: #A0AEC0;
+        border-radius: 4px;
+        min-height: 20px;
+    }
+    QScrollBar::handle:vertical:hover {
+        background: #718096;
+    }
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        background: none;
+        border: none;
+    }
+    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+        background: none;
     }
 )");
-    // 原 answerTextEdit 样式已移除，使用 answerWebEngineView，不需要额外滚动条样式
-    // ui->answerTextEdit->setStyleSheet(...);
+
     // 必须显式设置widget
     ui->reminderScrollArea->setWidget(reminderWidget);
 
