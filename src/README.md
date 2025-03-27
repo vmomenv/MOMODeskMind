@@ -12,6 +12,8 @@ MOMODeskMind/
 │   ├── weatherapi.h         # 天气API调用类头文件
 │   ├── reminder.cpp         # 日程提醒功能实现
 │   ├── reminder.h           # 日程提醒功能头文件
+│   ├── messagewidget.cpp    # 待办事项功能实现
+│   ├── messagewidget.h      # 待办事项头文件
 │   └── settings.cpp         # 设置管理功能
 │
 ├── ui/                      # UI资源文件目录
@@ -23,7 +25,6 @@ MOMODeskMind/
 │   └── sounds/              # 宠物的声音资源
 │
 ├── CMakeLists.txt           # CMake构建文件
-├── PetAIProject.pro         # Qt项目文件
 └── README.md                # 项目说明文件
 ```
 ### 项目说明
