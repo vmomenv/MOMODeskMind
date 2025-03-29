@@ -14,6 +14,9 @@ MOMODeskMind/
 │   ├── reminder.h           # 日程提醒功能头文件
 │   ├── messagewidget.cpp    # 待办事项功能实现
 │   ├── messagewidget.h      # 待办事项头文件
+│   ├── aiclient.cpp         # 与本地模型交互功能实现
+│   ├── aiclient.h           # 与本地模型交互头文件
+│   ├── settings.h           # 设置功能头文件
 │   └── settings.cpp         # 设置管理功能
 │
 ├── ui/                      # UI资源文件目录
