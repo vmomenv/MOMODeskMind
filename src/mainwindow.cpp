@@ -317,7 +317,7 @@ void MainWindow::updateMarkdownView()
     doc.setMarkdown(m_markdownContent);
     ui->answerWebEngineView->setHtml(doc.toHtml());
     // 自动滚动到底部（使用 JavaScript）
-    ui->answerWebEngineView->page()->runJavaScript("window.scrollTo(0, document.body.scrollHeight);");
+    // ui->answerWebEngineView->page()->runJavaScript("window.scrollTo(0, document.body.scrollHeight);");
 }
 
 void MainWindow::onSettingsUpdated() {
