@@ -34,14 +34,15 @@ MOMODeskMind/
 
 #### 编译与运行
 
-1. **请选择 Qt 6.8 版本** 来进行编译与运行，以确保项目的兼容性,linux可以采用GCC12.2.0x86_64-linux-gnu编译。
+1. **请选择 Qt 6.8.3 版本** 来进行编译与运行，以确保项目的兼容性,linux可以采用GCC12.2.0x86_64-linux-gnu编译。
+2. 请注意，无论你采用哪个系统进行编译，你都需要在Qt维护工具中下载Qt WebEngine组件，否则编译会出错。
 
-2. 在编译和运行之前，您需要**申请一个天气 API 接口**。可以通过以下步骤获取您的 API 密钥：
+3. 在编译和运行之前，您需要**申请一个天气 API 接口**。可以通过以下步骤获取您的 API 密钥：
 
    - 访问天气 API 提供商的网站（[weatherprovider](https://api.weatherprovider.com)）。
    - 注册并申请 API 密钥。
 
-3. 获取到您的 API 密钥后，您需要进行如下配置：
+4. 获取到您的 API 密钥后，您需要进行如下配置：
 
    - 打开文件 `~/momodesk-mind/src/config/weather-config.json`。
    - 在文件中修改 API 配置，填写您的 API 密钥。
